@@ -4,14 +4,28 @@
      パンくずまで一貫させる（着手指示書 8-2/8-3）。 */
 
 :root{
-  /* 濃さの方針：本文 --ink、補助情報 --usuzumi。
-     Windowsの游明朝・游ゴシックは太さ400だと極端に細く出るため、
-     文字色を濃くしたうえで下限の太さを500に上げている（body / .honbun）。
-     --usuzumi は当初 #6B7076 だったが、目次の条見出しが読めないため濃くした。 */
-  --paper:#FDFCF8; --ink:#1A1D22; --usuzumi:#4A5058;
+  /* 濃さの方針：本文 --ink、補助情報 --usuzumi。ほぼ黒まで濃くしてある。 */
+  --paper:#FDFCF8; --ink:#0E1116; --usuzumi:#383E45;
   --line:#E7E5DC; --shade:#F4F2EA;
-  --mincho:"Hiragino Mincho ProN","Yu Mincho",YuMincho,"Noto Serif JP","MS PMincho",serif;
-  --gothic:"Hiragino Kaku Gothic ProN","Yu Gothic",YuGothic,"Noto Sans JP","Meiryo",sans-serif;
+
+  /* 書体：游明朝／游ゴシックは太さ400だと極端に細く出るため、Windows標準の
+     BIZ UD書体（ユニバーサルデザイン＝可読性のために設計された書体）を優先する。
+     iPad/Mac には BIZ UD が無いので Hiragino に落ちる。 */
+  --mincho:"BIZ UDPMincho Medium","BIZ UDPMincho","Hiragino Mincho ProN",
+           "Noto Serif JP","Yu Mincho Demibold","Yu Mincho",YuMincho,serif;
+  --gothic:"BIZ UDPGothic","Hiragino Kaku Gothic ProN","Yu Gothic UI",
+           "Yu Gothic",YuGothic,"Noto Sans JP","Meiryo",sans-serif;
+
+  /* 括弧書きの階層色（指示書9-1の淡色パステルから変更。2026-07-15 発注者指示）。
+     旧配色は背景の彩度が9〜16%しかなく、色相は違っても「どれも白に近い淡い色」で
+     一目では見分けられなかった。彩度を30〜76%に上げ、色相を離した。
+     実データの入れ子は最大4階層なので、実際に目にするのは青・赤・緑・黄。
+     文字／背景のコントラストはすべて 5.2:1 以上（WCAG AA）。 */
+  --k1:#062E7A; --kb1:#B3D2FF;   /* 第1階層＝青 */
+  --k2:#9B0F06; --kb2:#FFB8AE;   /* 第2階層＝赤 */
+  --k3:#06541D; --kb3:#93E5A7;   /* 第3階層＝緑 */
+  --k4:#5E4300; --kb4:#FFDF3D;   /* 第4階層＝黄 */
+  --k5:#4E0E73; --kb5:#DFAAF7;   /* 第5階層＝紫（6階層目からは循環／実データでは未出現） */
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 /* ページ自体はスクロールさせず、目次(nav)と条文(main)だけが独立してスクロールする。
@@ -178,12 +192,14 @@ article{max-width:780px;margin:0 auto;padding:30px 34px 90px;}
 .honbun .tblTitle, .appdxBody .tblTitle{font-size:12.5px;color:var(--usuzumi);margin-bottom:4px;text-indent:0;}
 .honbun .tblNote, .appdxBody .tblNote{font-size:11.5px;color:var(--usuzumi);line-height:1.8;text-indent:0;margin-top:4px;}
 
-/* ── 括弧書きの色分け（関根「APカラーソフト」の自動化。指示書9）── */
-.honbun.mcolor .p1{color:#0D50C8;background:#E3EDFF;}   /* 第1階層＝青 */
-.honbun.mcolor .p2{color:#C21807;background:#FFE8E3;}   /* 第2階層＝赤 */
-.honbun.mcolor .p3{color:#0E7A2E;background:#DFF5E4;}   /* 第3階層＝緑 */
-.honbun.mcolor .p4{color:#7A1FA8;background:#F2E4FB;}   /* 第4階層＝紫 */
-.honbun.mcolor .p5{color:#B05A00;background:#FFEFD6;}   /* 第5階層＝褐（6階層目からは青に循環） */
+/* ── 括弧書きの色分け（関根「APカラーソフト」の自動化。指示書9）──
+   色の実体は :root の --k1..--k5／--kb1..--kb5。凡例（.srcNote .sw*）と
+   同じ変数を見るので、色を変えるときは :root の1か所だけ直せばよい。 */
+.honbun.mcolor .p1{color:var(--k1);background:var(--kb1);}   /* 第1階層＝青 */
+.honbun.mcolor .p2{color:var(--k2);background:var(--kb2);}   /* 第2階層＝赤 */
+.honbun.mcolor .p3{color:var(--k3);background:var(--kb3);}   /* 第3階層＝緑 */
+.honbun.mcolor .p4{color:var(--k4);background:var(--kb4);}   /* 第4階層＝黄 */
+.honbun.mcolor .p5{color:var(--k5);background:var(--kb5);}   /* 第5階層＝紫（6階層目からは循環） */
 .honbun.mcolor .p1,.honbun.mcolor .p2,.honbun.mcolor .p3,.honbun.mcolor .p4,.honbun.mcolor .p5{
   border-radius:3px;padding:0 1px;box-decoration-break:clone;-webkit-box-decoration-break:clone;
 }
@@ -211,7 +227,12 @@ a.refChip:hover{background:var(--shade);}
 .refChip.tsu{border-color:#C93B6E;color:#C93B6E;background:#FDF3F6;}
 .refChip.now{border-color:var(--c);color:var(--c);}
 .srcNote{margin-top:24px;font-size:11.5px;color:var(--usuzumi);line-height:1.85;}
-.srcNote .sw{border-radius:3px;padding:0 3px;}
+.srcNote .sw{border-radius:3px;padding:0 4px;font-weight:600;}
+.srcNote .sw1{color:var(--k1);background:var(--kb1);}
+.srcNote .sw2{color:var(--k2);background:var(--kb2);}
+.srcNote .sw3{color:var(--k3);background:var(--kb3);}
+.srcNote .sw4{color:var(--k4);background:var(--kb4);}
+.srcNote .sw5{color:var(--k5);background:var(--kb5);}
 .navi{display:flex;justify-content:space-between;gap:10px;margin-top:26px;}
 .navi button{border:1.5px solid var(--line);background:#fff;border-radius:20px;padding:8px 14px;font-size:12.5px;color:var(--ink);cursor:pointer;max-width:47%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .navi button:hover{background:var(--shade);}

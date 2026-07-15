@@ -433,8 +433,8 @@ async function renderArticle() {
         <button data-go="${next ? next.id : ''}" ${next ? '' : 'disabled'}>${next ? esc(joDisp(next.l)) : ''} ›</button>
       </div>
       <div class="srcNote">
-        カッコ色分け：${['#0D50C8|#E3EDFF|1', '#C21807|#FFE8E3|2', '#0E7A2E|#DFF5E4|3', '#7A1FA8|#F2E4FB|4', '#B05A00|#FFEFD6|5']
-      .map((s) => { const [c, b, n] = s.split('|'); return `<span class="sw" style="color:${c};background:${b}">第${n}階層</span>`; }).join('／')}（6階層目からは循環）。
+        カッコ色分け：${['青', '赤', '緑', '黄', '紫']
+      .map((nm, i) => `<span class="sw sw${i + 1}">第${i + 1}階層・${nm}</span>`).join('／')}（6階層目からは循環）。
         括弧の外＝条文の骨格は太字で表示します。「薄字」は括弧書きを淡色化して骨格だけを追う読み方用です。<br>
         出典：<a href="${egovUrl(key)}" target="_blank" rel="noopener">e-Gov法令検索（${esc(law.name)}）</a>を加工して作成。
         ${esc(law.law_num)}／施行日 ${esc(law.enforced || '－')}／データ取得 ${esc((INDEX.built_at || '').slice(0, 10))}。
