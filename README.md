@@ -12,12 +12,16 @@
 
 ## 現在の状況
 
-**Phase 1（法令ビューア）完了。** 24法令・本則7,169条を収録し、ビューアが動作する。
+**Phase 1（法令ビューア）完了・公開済み。** 24法令・本則7,169条を収録し、ビューアが動作する。
+
+### 公開URL → https://638669-ship-it.github.io/zeiho-viewer/
+
+iPad・PC のブラウザからそのまま開ける。ブックマーク推奨。
 
 | Phase | 内容 | 状態 |
 |---|---|---|
 | 0 | 法令ID確定・取得スクリプト・生データ取得 | 完了 |
-| 1 | パーサ＋ビューア公開（本丸） | 完了（公開設定のみ未実施） |
+| 1 | パーサ＋ビューア公開（本丸） | 完了・公開済み |
 | 2 | 通達の取り込み | 未着手 |
 | 3 | 横断全文検索・更新自動化 | 未着手 |
 
@@ -41,16 +45,21 @@ python -m http.server 8000 --directory docs
 `data/raw/` は再取得可能なため git 管理外。`docs/data/` は GitHub Pages が配信する
 実体なのでコミットする。
 
-### GitHub Pages で公開する（未実施）
+### GitHub Pages での公開（設定済み）
 
-リモートリポジトリが未作成のため、以下は発注者側での作業。
+公開先は https://638669-ship-it.github.io/zeiho-viewer/ 。
+`main` ブランチの `docs/` フォルダを配信する設定（Settings → Pages）。
+`docs/` 配下だけで完結しておりビルド不要なので、**`main` に push すれば約40秒で反映される**。
+
+データを更新したいとき：
 
 ```powershell
-gh repo create zeiho-viewer --public --source . --push
-# GitHub の Settings → Pages → Source: main ブランチ / docs フォルダ を選択
+python scripts/fetch_laws.py    # e-Gov から取り直す
+python scripts/parse_laws.py    # docs/data/ を作り直す
+git add docs/data ; git commit -m "法令データ更新" ; git push
 ```
 
-`docs/` 配下だけで完結しており、ビルド不要（静的ファイルのみ）。
+配信は gzip が効く（本則チャンク 339KB → 実測 **47.6KB**）。
 
 ## リポジトリ構成
 
