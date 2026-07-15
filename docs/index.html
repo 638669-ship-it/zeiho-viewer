@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="国税通則法・国税徴収法・所得税法・法人税法・相続税法・消費税法・租税特別措置法・地方税法と各施行令・施行規則の条文ビューア。出典：e-Gov法令検索（デジタル庁）">
+<meta name="format-detection" content="telephone=no">
+<meta name="mobile-web-app-capable" content="yes">
+<!-- iOS 15 以前の Safari はまだ apple- 付きしか解さないため両方入れる -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>税務六法 Web｜国税法令集</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div id="indexBar"></div>
+  <div class="hdrInner">
+    <button id="menuBtn" aria-label="目次を開く" aria-expanded="false">☰</button>
+    <h1>税務六法<small>国税法令集 Web</small></h1>
+    <div id="jumpWrap">
+      <input id="jump" placeholder="条番号ジャンプ：法法22 ／ 所法56" aria-label="条番号ジャンプ"
+             autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+      <button id="jumpBtn">直行</button>
+      <button id="homeBtnHdr">⌂ メニュー</button>
+    </div>
+  </div>
+</header>
+
+<div id="wrap">
+  <nav id="nav" aria-label="目次"></nav>
+  <div id="scrim" hidden></div>
+  <main id="main" tabindex="-1"></main>
+</div>
+
+<footer>
+  <span>出典：e-Gov法令検索（デジタル庁）｜政府標準利用規約2.0</span>
+  <span id="footBuild"></span>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

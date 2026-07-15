@@ -1,0 +1,264 @@
+/* 税務六法 Web
+   デザイン正本：税務六法Web_表示イメージ.html（v3カラフル版）
+   ─ 条文本文は明朝・UIはゴシック。法令色は帯・カード・目次・スタンプ・項番号・
+     パンくずまで一貫させる（着手指示書 8-2/8-3）。 */
+
+:root{
+  --paper:#FDFCF8; --ink:#23262B; --usuzumi:#6B7076;
+  --line:#E7E5DC; --shade:#F4F2EA;
+  --mincho:"Hiragino Mincho ProN","Yu Mincho",YuMincho,"Noto Serif JP","MS PMincho",serif;
+  --gothic:"Hiragino Kaku Gothic ProN","Yu Gothic",YuGothic,"Noto Sans JP","Meiryo",sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+/* ページ自体はスクロールさせず、目次(nav)と条文(main)だけが独立してスクロールする。
+   高さを calc(100vh - ヘッダ) で決め打ちするとフッタの分だけページがずれて
+   ヘッダ・目次の上端が隠れるため、flex で組む。dvh は iPad Safari の
+   アドレスバー伸縮に追従させるため。 */
+html,body{height:100%;}
+body{
+  font-family:var(--gothic);background:var(--paper);color:var(--ink);
+  -webkit-text-size-adjust:100%;   /* iPad Safari の自動文字拡大を止める */
+  overscroll-behavior-y:none;
+  display:flex;flex-direction:column;
+  height:100vh;height:100dvh;overflow:hidden;
+}
+button{font-family:inherit;}
+
+/* ── 上部バー：六法の小口インデックス風カラー帯 ── */
+header{background:#fff;flex:none;z-index:20;box-shadow:0 1px 6px rgba(40,40,60,.08);
+  padding-top:env(safe-area-inset-top);}
+#indexBar{display:flex;height:6px;}
+#indexBar span{flex:1;cursor:pointer;}
+.hdrInner{display:flex;align-items:center;gap:12px;padding:10px 16px;}
+#menuBtn{display:none;border:1px solid var(--line);background:#fff;border-radius:8px;width:38px;height:38px;font-size:18px;color:var(--ink);flex:none;}
+h1{font-family:var(--mincho);font-size:19px;font-weight:600;letter-spacing:.14em;
+   background:linear-gradient(100deg,#2456B0,#0E8A83 45%,#C93B6E 90%);
+   -webkit-background-clip:text;background-clip:text;color:transparent;white-space:nowrap;cursor:pointer;}
+h1 small{font-family:var(--gothic);font-size:11px;color:var(--usuzumi);letter-spacing:.05em;margin-left:8px;font-weight:400;-webkit-text-fill-color:var(--usuzumi);}
+#jumpWrap{margin-left:auto;display:flex;gap:8px;align-items:center;}
+#jump{width:225px;max-width:40vw;padding:8px 12px;font-size:16px;border:1.5px solid var(--line);border-radius:20px;background:var(--paper);color:var(--ink);}
+/* font-size:16px は iOS Safari の入力時ズーム防止（16px未満だと拡大される） */
+#jump:focus{outline:none;border-color:#2456B0;box-shadow:0 0 0 3px rgba(36,86,176,.15);}
+#jumpBtn{padding:8px 15px;font-size:13px;border:none;border-radius:20px;color:#fff;cursor:pointer;letter-spacing:.1em;white-space:nowrap;
+  background:linear-gradient(120deg,#2456B0,#0E8A83);}
+#homeBtnHdr{border:1.5px solid var(--line);background:#fff;border-radius:20px;padding:7px 13px;font-size:13px;color:var(--ink);cursor:pointer;letter-spacing:.08em;white-space:nowrap;}
+#homeBtnHdr:hover{background:var(--shade);}
+
+#wrap{display:flex;flex:1;min-height:0;position:relative;}
+nav{width:302px;min-width:302px;border-right:1px solid var(--line);overflow-y:auto;background:#fff;
+  -webkit-overflow-scrolling:touch;overscroll-behavior:contain;}
+main{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;}
+main:focus{outline:none;}
+#scrim{display:none;}
+
+/* ── 初期メニュー：カラーカード ── */
+.home{max-width:960px;margin:0 auto;padding:38px 26px 90px;}
+.homeTitle{text-align:center;margin-bottom:30px;}
+.homeTitle .big{font-family:var(--mincho);font-size:34px;letter-spacing:.28em;font-weight:600;display:block;
+  background:linear-gradient(100deg,#2456B0 10%,#0E8A83 40%,#E07514 70%,#C93B6E);
+  -webkit-background-clip:text;background-clip:text;color:transparent;}
+.homeTitle .sub{font-size:12px;color:var(--usuzumi);letter-spacing:.2em;display:block;margin-top:10px;}
+.cardGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;}
+.lawCard{
+  background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  box-shadow:0 2px 10px rgba(40,40,60,.06);transition:transform .12s ease, box-shadow .12s ease;
+}
+.lawCard:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(40,40,60,.13);}
+.cardTop{display:flex;align-items:center;gap:12px;padding:14px 16px 12px;border-top:5px solid var(--c);}
+.medal{
+  width:46px;height:46px;border-radius:50%;background:var(--c);color:#fff;flex:none;
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  font-family:var(--mincho);font-size:13px;line-height:1.15;font-weight:600;
+  box-shadow:inset 0 -3px 0 rgba(0,0,0,.14);
+}
+.cardName{font-family:var(--mincho);font-size:17px;font-weight:600;color:var(--ink);}
+.cardName small{display:block;font-family:var(--gothic);font-size:10.5px;color:var(--usuzumi);font-weight:400;margin-top:2px;letter-spacing:.05em;}
+.cardBtns{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:0 14px 14px;}
+.cBtn{
+  border:none;border-radius:8px;padding:9px 2px;font-size:12.5px;cursor:pointer;letter-spacing:.04em;
+  background:color-mix(in srgb, var(--c) 10%, #fff);color:var(--c);font-weight:600;
+}
+.cBtn:hover{background:color-mix(in srgb, var(--c) 20%, #fff);}
+.cBtn.main{background:var(--c);color:#fff;}
+.cBtn:disabled{background:var(--shade);color:#B4B7B1;cursor:default;font-weight:400;}
+.cBtn .p2{display:block;font-size:8.5px;margin-top:1px;color:#C93B6E;}
+.cBtn:disabled .p2{color:#C9A3B2;}
+.homeFoot{margin-top:28px;font-size:11.5px;color:var(--usuzumi);line-height:1.9;text-align:center;}
+
+/* ── 目次ツリー ── */
+.navHead{padding:14px 16px 10px;border-bottom:1px solid var(--line);background:color-mix(in srgb, var(--c) 7%, #fff);
+  position:sticky;top:0;z-index:2;}
+.navHead .medal{width:38px;height:38px;font-size:11px;}
+.navHeadRow{display:flex;align-items:center;gap:10px;}
+.navHead .nm{font-family:var(--mincho);font-size:16px;font-weight:600;color:var(--c);line-height:1.3;}
+.navHead .nm small{display:block;font-family:var(--gothic);font-size:10px;color:var(--usuzumi);font-weight:400;letter-spacing:.04em;}
+.navTabs{display:flex;gap:6px;margin-top:10px;}
+.navTabs button{
+  flex:1;padding:6px 0;font-size:11.5px;border-radius:14px;cursor:pointer;
+  background:#fff;color:var(--usuzumi);border:1px solid var(--line);
+}
+.navTabs button.on{background:var(--c);color:#fff;border-color:var(--c);font-weight:600;}
+.navTabs button:disabled{color:#B9BCB6;cursor:default;background:var(--shade);}
+.navSearch{display:flex;gap:6px;margin-top:9px;}
+.navSearch input{
+  flex:1;min-width:0;padding:7px 11px;font-size:16px;border:1.5px solid var(--line);border-radius:16px;
+  background:#fff;color:var(--ink);
+}
+.navSearch input:focus{outline:none;border-color:var(--c);}
+.navSearch button{border:1.5px solid var(--line);background:#fff;border-radius:16px;padding:0 10px;font-size:11px;color:var(--usuzumi);cursor:pointer;white-space:nowrap;}
+.navSearch button:hover{background:var(--shade);}
+
+.toc{padding:6px 0 14px;}
+.toc .grp > .lbl{cursor:pointer;user-select:none;position:relative;}
+.toc .grp > .lbl::after{content:"▾";position:absolute;right:14px;font-size:9px;opacity:.55;transition:transform .12s ease;}
+.toc .grp.closed > .lbl::after{transform:rotate(-90deg);}
+.toc .grp.closed > .kids{display:none;}
+.toc .hen{color:#fff;background:var(--c);letter-spacing:.06em;margin:6px 10px 4px;border-radius:6px;padding:7px 12px;font-size:11.5px;}
+.toc .sho{padding:6px 16px 3px 20px;font-size:12.5px;color:var(--ink);font-weight:600;}
+.toc .setsu{padding:5px 16px 3px 30px;font-size:11.5px;color:var(--usuzumi);}
+.toc .kan{padding:4px 16px 3px 36px;font-size:11px;color:var(--usuzumi);}
+.toc .moku{padding:4px 16px 3px 42px;font-size:11px;color:var(--usuzumi);opacity:.9;}
+.toc .jo{padding:8px 14px 8px 40px;font-size:13.5px;cursor:pointer;color:var(--ink);display:flex;gap:8px;align-items:baseline;border-radius:0 18px 18px 0;margin-right:10px;}
+.toc .jo:hover{background:color-mix(in srgb, var(--c) 8%, #fff);}
+.toc .jo.now{background:color-mix(in srgb, var(--c) 14%, #fff);color:var(--c);font-weight:700;border-left:4px solid var(--c);padding-left:36px;}
+.toc .jo .num{font-variant-numeric:tabular-nums;min-width:52px;flex:none;}
+.toc .jo .cap{font-size:11.5px;color:var(--usuzumi);font-weight:400;}
+.toc .jo .cap.d{font-style:italic;opacity:.85;}   /* 款・目名から補完した見出し */
+.toc .none{padding:14px 16px;font-size:11.5px;color:var(--usuzumi);}
+.navNote{padding:12px 16px;font-size:11px;color:var(--usuzumi);line-height:1.7;border-top:1px solid var(--line);}
+.backHome{display:block;margin:10px 14px;padding:8px;text-align:center;font-size:12px;border:1px dashed var(--line);border-radius:8px;color:var(--usuzumi);cursor:pointer;background:none;width:calc(100% - 28px);}
+.backHome:hover{background:var(--shade);}
+.srchHit{font-size:11px;color:var(--usuzumi);padding:8px 16px 4px;}
+.toc .jo mark, .srchHit mark{background:#FFF3A8;color:inherit;border-radius:2px;padding:0 1px;}
+
+/* ── 条文表示 ── */
+article{max-width:780px;margin:0 auto;padding:30px 34px 90px;}
+.pankuzu{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:11.5px;color:var(--usuzumi);margin-bottom:20px;}
+.pankuzu .lawChip{background:var(--c);color:#fff;border-radius:12px;padding:3px 11px;font-weight:600;font-size:12px;letter-spacing:.05em;}
+.joHead{display:flex;align-items:flex-start;gap:14px;margin-bottom:6px;}
+.stamp{
+  font-family:var(--mincho);font-size:13px;line-height:1.25;letter-spacing:.05em;
+  color:#fff;background:var(--c);border-radius:8px;padding:7px 9px;text-align:center;min-width:58px;flex:none;
+  font-weight:600;box-shadow:0 2px 6px color-mix(in srgb, var(--c) 40%, transparent);
+}
+.joTitle{font-family:var(--mincho);}
+.joTitle .midashi{font-size:13.5px;color:var(--usuzumi);display:block;margin-bottom:2px;}
+.joTitle .midashi.d{border-bottom:1px dotted var(--usuzumi);cursor:help;}
+.joTitle .jonum{font-size:23px;font-weight:600;letter-spacing:.08em;color:var(--c);}
+.honbun{font-family:var(--mincho);font-size:16.5px;line-height:2.05;text-align:justify;margin-top:14px;
+  background:#fff;border:1px solid var(--line);border-radius:12px;padding:24px 26px;box-shadow:0 2px 8px rgba(40,40,60,.05);}
+.honbun p.ko{margin-bottom:14px;text-indent:1em;}
+.honbun p.ko .konum{font-family:var(--gothic);font-size:12px;color:#fff;background:var(--c);border-radius:50%;
+  display:inline-flex;width:22px;height:22px;align-items:center;justify-content:center;margin-right:.6em;text-indent:0;vertical-align:2px;font-weight:600;}
+.honbun p.kocap{margin:0 0 2px;font-size:13.5px;color:var(--usuzumi);text-indent:0;}
+.honbun p.go{margin:0 0 10px 2.4em;text-indent:-1.2em;font-size:15.5px;line-height:1.95;}
+.honbun p.go .gonum{color:var(--c);font-weight:600;margin-right:.5em;}
+.honbun p.go.l2{margin-left:4.2em;font-size:15px;}
+.honbun p.go.l3{margin-left:6em;font-size:14.5px;}
+.honbun p.go.l4{margin-left:7.8em;font-size:14.5px;}
+.honbun p.go.l5{margin-left:9.6em;font-size:14.5px;}
+.honbun .cols{display:flex;gap:.8em;text-indent:0;}
+.honbun .cols .c1{flex:none;min-width:5.5em;font-weight:600;}
+.honbun .deleted{color:var(--usuzumi);}
+
+/* 表（別表・税額表など） */
+.honbun .tbl, .appdxBody .tbl{overflow-x:auto;margin:10px 0 14px;-webkit-overflow-scrolling:touch;}
+.honbun table, .appdxBody table{border-collapse:collapse;font-family:var(--gothic);font-size:12.5px;line-height:1.7;min-width:100%;}
+.honbun td, .appdxBody td{border:1px solid var(--line);padding:5px 9px;vertical-align:top;text-align:left;}
+.honbun .tblTitle, .appdxBody .tblTitle{font-size:12.5px;color:var(--usuzumi);margin-bottom:4px;text-indent:0;}
+.honbun .tblNote, .appdxBody .tblNote{font-size:11.5px;color:var(--usuzumi);line-height:1.8;text-indent:0;margin-top:4px;}
+
+/* ── 括弧書きの色分け（関根「APカラーソフト」の自動化。指示書9）── */
+.honbun.mcolor .p1{color:#0D50C8;background:#E3EDFF;}   /* 第1階層＝青 */
+.honbun.mcolor .p2{color:#C21807;background:#FFE8E3;}   /* 第2階層＝赤 */
+.honbun.mcolor .p3{color:#0E7A2E;background:#DFF5E4;}   /* 第3階層＝緑 */
+.honbun.mcolor .p4{color:#7A1FA8;background:#F2E4FB;}   /* 第4階層＝紫 */
+.honbun.mcolor .p5{color:#B05A00;background:#FFEFD6;}   /* 第5階層＝褐（6階層目からは青に循環） */
+.honbun.mcolor .p1,.honbun.mcolor .p2,.honbun.mcolor .p3,.honbun.mcolor .p4,.honbun.mcolor .p5{
+  border-radius:3px;padding:0 1px;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+}
+/* 本文（括弧の外＝条文の骨格）は太字、括弧内は通常の太さで対比を強調 */
+.honbun.mcolor, .honbun.musu{font-weight:600;}
+.honbun.mcolor .p1,.honbun.mcolor .p2,.honbun.mcolor .p3,.honbun.mcolor .p4,.honbun.mcolor .p5,
+.honbun.musu .p1,.honbun.musu .p1 *{font-weight:400;}
+.honbun.musu .p1,.honbun.musu .p1 *{color:#C2C4BE;} /* 薄字＝骨格読みモード */
+
+.modeBar{display:flex;gap:6px;align-items:center;margin:16px 0 10px;flex-wrap:wrap;}
+.modeBar .lbl{font-size:11.5px;color:var(--usuzumi);margin-right:4px;}
+.modeBar button{
+  border:1.5px solid var(--line);background:#fff;border-radius:16px;
+  padding:5px 13px;font-size:12px;color:var(--usuzumi);cursor:pointer;letter-spacing:.04em;
+}
+.modeBar button.on{background:var(--c);border-color:var(--c);color:#fff;font-weight:600;}
+.modeBar .sizer{margin-left:auto;display:flex;gap:4px;align-items:center;}
+.modeBar .sizer button{padding:5px 10px;font-weight:600;}
+
+.refBar{margin-top:22px;display:flex;gap:10px;flex-wrap:wrap;}
+.refChip{font-size:12px;padding:6px 13px;border-radius:20px;border:1.5px solid var(--line);background:#fff;color:var(--usuzumi);text-decoration:none;display:inline-block;}
+a.refChip:hover{background:var(--shade);}
+.refChip.tsu{border-color:#C93B6E;color:#C93B6E;background:#FDF3F6;}
+.refChip.now{border-color:var(--c);color:var(--c);}
+.srcNote{margin-top:24px;font-size:11px;color:var(--usuzumi);line-height:1.8;}
+.srcNote .sw{border-radius:3px;padding:0 3px;}
+.navi{display:flex;justify-content:space-between;gap:10px;margin-top:26px;}
+.navi button{border:1.5px solid var(--line);background:#fff;border-radius:20px;padding:8px 14px;font-size:12.5px;color:var(--ink);cursor:pointer;max-width:47%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.navi button:hover{background:var(--shade);}
+.navi button:disabled{opacity:.35;cursor:default;}
+
+/* 附則・別表 */
+.supHead{font-family:var(--mincho);font-size:19px;font-weight:600;color:var(--c);margin-bottom:4px;}
+.supMeta{font-size:11.5px;color:var(--usuzumi);margin-bottom:14px;line-height:1.8;}
+.supArt{font-family:var(--mincho);font-size:15px;font-weight:600;color:var(--c);margin:18px 0 4px;}
+.appdxBody{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px 22px;box-shadow:0 2px 8px rgba(40,40,60,.05);}
+.appdxItem{border-bottom:1px solid var(--line);padding:14px 0;}
+.appdxItem:last-child{border-bottom:none;}
+.appdxItem h3{font-family:var(--mincho);font-size:15.5px;color:var(--ink);font-weight:600;}
+.appdxItem .rel{font-size:11px;color:var(--usuzumi);margin:2px 0 8px;}
+.loading{padding:40px 20px;text-align:center;color:var(--usuzumi);font-size:13px;}
+.err{margin:20px;padding:14px 16px;border:1.5px dashed #C93B6E;border-radius:10px;background:#FDF3F6;color:#8E2A50;font-size:13px;line-height:1.8;}
+
+footer{border-top:1px solid var(--line);padding:10px 16px;font-size:11px;color:var(--usuzumi);display:flex;justify-content:space-between;gap:10px;background:#fff;
+  padding-bottom:calc(10px + env(safe-area-inset-bottom));}
+
+/* ── iPad / スマホ（指示書 5-7：768px・1024px を基準）── */
+@media (max-width:900px){
+  #menuBtn{display:block;}
+  /* ドロワーは #wrap（ヘッダとフッタの内側）を基準に重ねる */
+  nav{position:absolute;left:0;top:0;bottom:0;z-index:15;transform:translateX(-100%);transition:transform .2s ease;box-shadow:2px 0 14px rgba(0,0,0,.15);}
+  nav.show{transform:translateX(0);}
+  #scrim{display:block;position:absolute;inset:0;background:rgba(20,20,25,.35);z-index:14;}
+  #scrim[hidden]{display:none;}
+  article{padding:22px 18px 80px;}
+  .honbun{padding:18px 16px;}
+  h1 small{display:none;}
+  .hdrInner{gap:8px;padding:10px 12px;}
+  #jump{width:190px;}
+}
+@media (max-width:620px){
+  h1{font-size:16px;letter-spacing:.08em;}
+  #jumpWrap{gap:6px;}
+  #homeBtnHdr{padding:7px 9px;}
+  #jumpBtn{padding:8px 11px;}
+  footer{flex-direction:column;gap:2px;}
+}
+@media (prefers-reduced-motion: reduce){ nav,.lawCard{transition:none;} }
+
+/* ── A4印刷（指示書 3：A4印刷にも耐えるCSS）── */
+@media print{
+  @page{size:A4;margin:16mm 14mm;}
+  header,nav,footer,.modeBar,.navi,#scrim,.backHome{display:none !important;}
+  #wrap{display:block;height:auto;}
+  main{overflow:visible;}
+  html,body{height:auto;overflow:visible;display:block;}
+  body{background:#fff;}
+  article{max-width:none;padding:0;}
+  .honbun{border:none;box-shadow:none;padding:0;font-size:11pt;line-height:1.9;
+    background:#fff;break-inside:auto;}
+  .honbun p.ko,.honbun p.go{break-inside:avoid;}
+  .joHead{break-after:avoid;}
+  .stamp{box-shadow:none;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+  .honbun.mcolor .p1,.honbun.mcolor .p2,.honbun.mcolor .p3,.honbun.mcolor .p4,.honbun.mcolor .p5,
+  .pankuzu .lawChip,.honbun p.ko .konum{print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+  .refBar{display:none;}
+  .srcNote{font-size:8pt;border-top:1px solid var(--line);padding-top:6px;}
+}
