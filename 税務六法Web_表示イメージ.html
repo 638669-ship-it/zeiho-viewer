@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>税務六法 Web版｜表示イメージ v3（カラフル版）</title>
+<style>
+  :root{
+    --paper:#FDFCF8; --ink:#23262B; --usuzumi:#6B7076;
+    --line:#E7E5DC; --shade:#F4F2EA;
+    --mincho:"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif;
+    --gothic:"Hiragino Kaku Gothic ProN","Yu Gothic","Noto Sans JP",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{height:100%;}
+  body{font-family:var(--gothic);background:var(--paper);color:var(--ink);}
+
+  /* ── 上部バー：六法の小口インデックス風カラー帯 ── */
+  header{background:#fff;position:sticky;top:0;z-index:20;box-shadow:0 1px 6px rgba(40,40,60,.08);}
+  #indexBar{display:flex;height:6px;}
+  #indexBar span{flex:1;}
+  .hdrInner{display:flex;align-items:center;gap:12px;padding:10px 16px;}
+  #menuBtn{display:none;border:1px solid var(--line);background:#fff;border-radius:8px;width:38px;height:38px;font-size:18px;color:var(--ink);}
+  h1{font-family:var(--mincho);font-size:19px;font-weight:600;letter-spacing:.14em;
+     background:linear-gradient(100deg,#2456B0,#0E8A83 45%,#C93B6E 90%);
+     -webkit-background-clip:text;background-clip:text;color:transparent;white-space:nowrap;}
+  h1 small{font-family:var(--gothic);font-size:11px;color:var(--usuzumi);letter-spacing:.05em;margin-left:8px;font-weight:400;-webkit-text-fill-color:var(--usuzumi);}
+  #jumpWrap{margin-left:auto;display:flex;gap:8px;align-items:center;}
+  #jump{width:225px;max-width:40vw;padding:8px 12px;font-size:14px;border:1.5px solid var(--line);border-radius:20px;background:var(--paper);}
+  #jump:focus{outline:none;border-color:#2456B0;box-shadow:0 0 0 3px rgba(36,86,176,.15);}
+  #jumpBtn{padding:8px 15px;font-size:13px;border:none;border-radius:20px;color:#fff;cursor:pointer;letter-spacing:.1em;
+    background:linear-gradient(120deg,#2456B0,#0E8A83);}
+  #homeBtnHdr{border:1.5px solid var(--line);background:#fff;border-radius:20px;padding:7px 13px;font-size:13px;color:var(--ink);cursor:pointer;letter-spacing:.08em;white-space:nowrap;}
+  #homeBtnHdr:hover{background:var(--shade);}
+
+  #wrap{display:flex;height:calc(100vh - 65px);}
+  nav{width:302px;min-width:302px;border-right:1px solid var(--line);overflow-y:auto;background:#fff;}
+  main{flex:1;overflow-y:auto;}
+
+  /* ── 初期メニュー：カラーカード ── */
+  .home{max-width:960px;margin:0 auto;padding:38px 26px 90px;}
+  .homeTitle{text-align:center;margin-bottom:30px;}
+  .homeTitle .big{font-family:var(--mincho);font-size:34px;letter-spacing:.28em;font-weight:600;display:block;
+    background:linear-gradient(100deg,#2456B0 10%,#0E8A83 40%,#E07514 70%,#C93B6E);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .homeTitle .sub{font-size:12px;color:var(--usuzumi);letter-spacing:.2em;display:block;margin-top:10px;}
+  .cardGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;}
+  .lawCard{
+    background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;
+    box-shadow:0 2px 10px rgba(40,40,60,.06);transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .lawCard:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(40,40,60,.13);}
+  .cardTop{display:flex;align-items:center;gap:12px;padding:14px 16px 12px;border-top:5px solid var(--c);}
+  .medal{
+    width:46px;height:46px;border-radius:50%;background:var(--c);color:#fff;flex:none;
+    display:flex;align-items:center;justify-content:center;text-align:center;
+    font-family:var(--mincho);font-size:13px;line-height:1.15;font-weight:600;
+    box-shadow:inset 0 -3px 0 rgba(0,0,0,.14);
+  }
+  .cardName{font-family:var(--mincho);font-size:17px;font-weight:600;color:var(--ink);}
+  .cardName small{display:block;font-family:var(--gothic);font-size:10.5px;color:var(--usuzumi);font-weight:400;margin-top:2px;letter-spacing:.05em;}
+  .cardBtns{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:0 14px 14px;}
+  .cBtn{
+    border:none;border-radius:8px;padding:9px 2px;font-size:12.5px;cursor:pointer;letter-spacing:.04em;
+    background:color-mix(in srgb, var(--c) 10%, #fff);color:var(--c);font-weight:600;
+  }
+  .cBtn:hover{background:color-mix(in srgb, var(--c) 20%, #fff);}
+  .cBtn.main{background:var(--c);color:#fff;}
+  .cBtn:disabled{background:var(--shade);color:#B4B7B1;cursor:default;font-weight:400;}
+  .cBtn .p2{display:block;font-size:8.5px;margin-top:1px;color:#C93B6E;}
+  .homeFoot{margin-top:28px;font-size:11.5px;color:var(--usuzumi);line-height:1.9;text-align:center;}
+
+  /* ── 目次ツリー ── */
+  .navHead{padding:14px 16px 10px;border-bottom:1px solid var(--line);background:color-mix(in srgb, var(--c) 7%, #fff);}
+  .navHead .medal{width:38px;height:38px;font-size:11px;}
+  .navHeadRow{display:flex;align-items:center;gap:10px;}
+  .navHead .nm{font-family:var(--mincho);font-size:16px;font-weight:600;color:var(--c);}
+  .navTabs{display:flex;gap:6px;margin-top:10px;}
+  .navTabs button{
+    flex:1;padding:6px 0;font-size:11.5px;border:none;border-radius:14px;cursor:pointer;
+    background:#fff;color:var(--usuzumi);border:1px solid var(--line);
+  }
+  .navTabs button.on{background:var(--c);color:#fff;border-color:var(--c);font-weight:600;}
+  .navTabs button:disabled{color:#B9BCB6;cursor:default;}
+  .toc{padding:6px 0 14px;}
+  .toc .hen{padding:9px 16px 3px;font-size:11.5px;color:#fff;background:var(--c);letter-spacing:.06em;margin:6px 10px 4px;border-radius:6px;padding:6px 12px;}
+  .toc .sho{padding:6px 16px 2px 20px;font-size:12.5px;color:var(--ink);font-weight:600;}
+  .toc .setsu{padding:4px 16px 2px 30px;font-size:11.5px;color:var(--usuzumi);}
+  .toc .jo{padding:8px 14px 8px 40px;font-size:13.5px;cursor:pointer;color:var(--ink);display:flex;gap:8px;align-items:baseline;border-radius:0 18px 18px 0;margin-right:10px;}
+  .toc .jo:hover{background:color-mix(in srgb, var(--c) 8%, #fff);}
+  .toc .jo.now{background:color-mix(in srgb, var(--c) 14%, #fff);color:var(--c);font-weight:700;border-left:4px solid var(--c);padding-left:36px;}
+  .toc .jo .num{font-variant-numeric:tabular-nums;min-width:52px;}
+  .toc .jo .cap{font-size:11.5px;color:var(--usuzumi);font-weight:400;}
+  .navNote{padding:12px 16px;font-size:11px;color:var(--usuzumi);line-height:1.7;border-top:1px solid var(--line);}
+  .backHome{display:block;margin:10px 14px;padding:8px;text-align:center;font-size:12px;border:1px dashed var(--line);border-radius:8px;color:var(--usuzumi);cursor:pointer;background:none;width:calc(100% - 28px);}
+
+  /* ── 条文表示 ── */
+  article{max-width:780px;margin:0 auto;padding:30px 34px 90px;}
+  .pankuzu{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:11.5px;color:var(--usuzumi);margin-bottom:20px;}
+  .pankuzu .lawChip{background:var(--c);color:#fff;border-radius:12px;padding:3px 11px;font-weight:600;font-size:12px;letter-spacing:.05em;}
+  .joHead{display:flex;align-items:flex-start;gap:14px;margin-bottom:6px;}
+  .stamp{
+    font-family:var(--mincho);font-size:13px;line-height:1.25;letter-spacing:.05em;
+    color:#fff;background:var(--c);border-radius:8px;padding:7px 9px;text-align:center;min-width:58px;
+    font-weight:600;box-shadow:0 2px 6px color-mix(in srgb, var(--c) 40%, transparent);
+  }
+  .joTitle{font-family:var(--mincho);}
+  .joTitle .midashi{font-size:13.5px;color:var(--usuzumi);display:block;margin-bottom:2px;}
+  .joTitle .jonum{font-size:23px;font-weight:600;letter-spacing:.08em;color:var(--c);}
+  .honbun{font-family:var(--mincho);font-size:16.5px;line-height:2.05;text-align:justify;margin-top:14px;
+    background:#fff;border:1px solid var(--line);border-radius:12px;padding:24px 26px;box-shadow:0 2px 8px rgba(40,40,60,.05);}
+  .honbun p.ko{margin-bottom:14px;text-indent:1em;}
+  .honbun p.ko .konum{font-family:var(--gothic);font-size:12px;color:#fff;background:var(--c);border-radius:50%;
+    display:inline-flex;width:22px;height:22px;align-items:center;justify-content:center;margin-right:.6em;text-indent:0;vertical-align:2px;}
+  .honbun p.go{margin:0 0 10px 2.4em;text-indent:-1.2em;font-size:15.5px;line-height:1.95;}
+  .honbun p.go .gonum{color:var(--c);font-weight:600;margin-right:.5em;}
+
+  /* ── 括弧書きの色分け（関根方式の自動化）── */
+  .honbun.mcolor .p1{color:#0D50C8;background:#E3EDFF;}   /* 第1階層＝青 */
+  .honbun.mcolor .p2{color:#C21807;background:#FFE8E3;}   /* 第2階層＝赤 */
+  .honbun.mcolor .p3{color:#0E7A2E;background:#DFF5E4;}   /* 第3階層＝緑 */
+  .honbun.mcolor .p4{color:#7A1FA8;background:#F2E4FB;}   /* 第4階層＝紫 */
+  .honbun.mcolor .p5{color:#B05A00;background:#FFEFD6;}   /* 第5階層＝褐（6階層目からは青に循環） */
+  .honbun.mcolor .p1,.honbun.mcolor .p2,.honbun.mcolor .p3,.honbun.mcolor .p4,.honbun.mcolor .p5{
+    border-radius:3px;padding:0 1px;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+  }
+  /* 本文（括弧の外＝条文の骨格）は太字、括弧内は通常の太さで対比を強調 */
+  .honbun.mcolor, .honbun.musu{font-weight:600;}
+  .honbun.mcolor .p1,.honbun.mcolor .p2,.honbun.mcolor .p3,.honbun.mcolor .p4,.honbun.mcolor .p5,
+  .honbun.musu .p1,.honbun.musu .p1 *{font-weight:400;}
+  .honbun.musu .p1,.honbun.musu .p1 *{color:#C2C4BE;} /* 薄字＝骨格読みモード */
+  .modeBar{display:flex;gap:6px;align-items:center;margin:16px 0 10px;}
+  .modeBar .lbl{font-size:11.5px;color:var(--usuzumi);margin-right:4px;}
+  .modeBar button{
+    border:1.5px solid var(--line);background:#fff;border-radius:16px;
+    padding:5px 13px;font-size:12px;color:var(--usuzumi);cursor:pointer;letter-spacing:.04em;
+  }
+  .modeBar button.on{background:var(--c);border-color:var(--c);color:#fff;font-weight:600;}
+  .demoBanner{
+    margin:14px 0 4px;padding:10px 14px;border-radius:10px;font-size:12.5px;line-height:1.7;
+    background:#FDF3F6;border:1.5px dashed #C93B6E;color:#8E2A50;
+  }
+  .refBar{margin-top:22px;display:flex;gap:10px;flex-wrap:wrap;}
+  .refChip{font-size:12px;padding:6px 13px;border-radius:20px;border:1.5px solid var(--line);background:#fff;color:var(--usuzumi);}
+  .refChip.tsu{border-color:#C93B6E;color:#C93B6E;background:#FDF3F6;}
+  .srcNote{margin-top:24px;font-size:11px;color:var(--usuzumi);line-height:1.8;}
+  footer{border-top:1px solid var(--line);padding:10px 16px;font-size:11px;color:var(--usuzumi);display:flex;justify-content:space-between;background:#fff;}
+
+  @media (max-width:900px){
+    #menuBtn{display:block;}
+    nav{position:fixed;left:0;top:65px;bottom:0;z-index:15;transform:translateX(-100%);transition:transform .2s ease;box-shadow:2px 0 14px rgba(0,0,0,.15);}
+    nav.show{transform:translateX(0);}
+    article{padding:22px 18px 80px;}
+    .honbun{padding:18px 16px;}
+    h1 small{display:none;}
+  }
+  @media (prefers-reduced-motion: reduce){ nav,.lawCard{transition:none;} }
+</style>
+</head>
+<body>
+
+<header>
+  <div id="indexBar"></div>
+  <div class="hdrInner">
+    <button id="menuBtn" aria-label="目次を開く">☰</button>
+    <h1>税務六法<small>国税法令＆通達集 Web（表示イメージ）</small></h1>
+    <div id="jumpWrap">
+      <input id="jump" placeholder="条番号ジャンプ：法法22 ／ 所法56" aria-label="条番号ジャンプ">
+      <button id="jumpBtn">直行</button>
+      <button id="homeBtnHdr">⌂ メニュー</button>
+    </div>
+  </div>
+</header>
+
+<div id="wrap">
+  <nav id="nav"></nav>
+  <main id="main"></main>
+</div>
+
+<footer>
+  <span>出典：e-Gov法令検索（デジタル庁）｜政府標準利用規約2.0</span>
+  <span>データ基準日：2026-07-01（完成版では自動更新）</span>
+</footer>
+
+<script>
+/* ============ サンプルデータ（実際の現行条文）＋法令カラー ============ */
+const DATA = {
+  tsusoku:{ name:"国税通則法", abbr:"通法", color:"#0E8A83", stub:true },
+  choshu:{ name:"国税徴収法", abbr:"徴法", color:"#946200", stub:true },
+  shotoku:{
+    name:"所得税法", abbr:"所法", color:"#2E8B3C",
+    toc:[
+      {t:"hen", x:"第二編　居住者の納税義務"},
+      {t:"sho", x:"第二章　課税標準及びその計算並びに所得控除"},
+      {t:"setsu", x:"第三節　所得金額の計算の通則等"},
+      {t:"jo", id:"s56", num:"第56条", cap:"事業から対価を受ける親族がある場合の必要経費の特例"},
+    ],
+    articles:{
+      s56:{
+        stamp:"所法|56", midashi:"（事業から対価を受ける親族がある場合の必要経費の特例）", jonum:"第五十六条",
+        body:[
+          {k:"1", text:"居住者と生計を一にする配偶者その他の親族がその居住者の営む不動産所得、事業所得又は山林所得を生ずべき事業に従事したことその他の事由により当該事業から対価の支払を受ける場合には、その対価に相当する金額は、その居住者の当該事業に係る不動産所得の金額、事業所得の金額又は山林所得の金額の計算上、必要経費に算入しないものとし、かつ、その親族のその対価に係る各種所得の金額の計算上必要経費に算入されるべき金額は、その親族の当該各種所得の金額の計算上、必要経費に算入しない。この場合において、その親族が支払を受けた対価の額及びその親族のその対価に係る各種所得の金額の計算上必要経費に算入されるべき金額は、当該事業に係る不動産所得の金額、事業所得の金額又は山林所得の金額の計算上、必要経費に算入する。"}
+        ],
+        refs:["関連：所法57（青色事業専従者給与）","所基通（Phase 2でリンク）"]
+      }
+    }
+  },
+  houjin:{
+    name:"法人税法", abbr:"法法", color:"#2456B0",
+    toc:[
+      {t:"hen", x:"第二編　内国法人の法人税"},
+      {t:"sho", x:"第一章　各事業年度の所得に対する法人税"},
+      {t:"setsu", x:"第一節　課税標準及びその計算　▸　第一款　通則"},
+      {t:"jo", id:"h21", num:"第21条", cap:"課税標準"},
+      {t:"jo", id:"h22", num:"第22条", cap:"各事業年度の所得の金額の計算の通則"},
+      {t:"jo", id:"h22_2", num:"第22条の2", cap:"収益の額"},
+    ],
+    articles:{
+      h21:{
+        stamp:"法法|21", midashi:"（課税標準）", jonum:"第二十一条",
+        body:[{k:"1", text:"内国法人に対して課する各事業年度の所得に対する法人税の課税標準は、各事業年度の所得の金額とする。"}],
+        refs:["法令─（政令委任なし）","法基通（Phase 2でリンク）"]
+      },
+      h22:{
+        stamp:"法法|22", midashi:"（各事業年度の所得の金額の計算の通則）", jonum:"第二十二条",
+        body:[
+          {k:"1", text:"内国法人の各事業年度の所得の金額は、当該事業年度の益金の額から当該事業年度の損金の額を控除した金額とする。"},
+          {k:"2", text:"内国法人の各事業年度の所得の金額の計算上当該事業年度の益金の額に算入すべき金額は、別段の定めがあるものを除き、資産の販売、有償又は無償による資産の譲渡又は役務の提供、無償による資産の譲受けその他の取引で資本等取引以外のものに係る当該事業年度の収益の額とする。"},
+          {k:"3", text:"内国法人の各事業年度の所得の金額の計算上当該事業年度の損金の額に算入すべき金額は、別段の定めがあるものを除き、次に掲げる額とする。",
+           go:[
+             "一　当該事業年度の収益に係る売上原価、完成工事原価その他これらに準ずる原価の額",
+             "二　前号に掲げるもののほか、当該事業年度の販売費、一般管理費その他の費用（償却費以外の費用で当該事業年度終了の日までに債務の確定しないものを除く。）の額",
+             "三　当該事業年度の損失の額で資本等取引以外の取引に係るもの"
+           ]},
+          {k:"4", text:"第二項に規定する当該事業年度の収益の額及び前項各号に掲げる額は、別段の定めがあるものを除き、一般に公正妥当と認められる会計処理の基準に従つて計算されるものとする。"},
+          {k:"5", text:"第二項又は第三項に規定する資本等取引とは、法人の資本金等の額の増加又は減少を生ずる取引並びに法人が行う利益又は剰余金の分配（資産の流動化に関する法律第百十五条第一項（中間配当）に規定する金銭の分配を含む。）及び残余財産の分配又は引渡しをいう。"}
+        ],
+        refs:["法令─","法基通2-1-1ほか（Phase 2でリンク）","関連：法法22の2"]
+      },
+      h22_2:{
+        stamp:"法法|22の2", midashi:"（収益の額）", jonum:"第二十二条の二",
+        body:[
+          {k:"1", text:"内国法人の資産の販売若しくは譲渡又は役務の提供（以下この条において「資産の販売等」という。）に係る収益の額は、別段の定め（前条第四項を除く。）があるものを除き、その資産の販売等に係る目的物の引渡し又は役務の提供の日の属する事業年度の所得の金額の計算上、益金の額に算入する。"},
+          {k:"2", text:"（第2項以下は完成版で全文収録──枝番条文・全項・全号を通常条文と同一の書式で表示します）"}
+        ],
+        refs:["法基通2-1-2ほか（Phase 2でリンク）","関連：法法22"]
+      }
+    }
+  },
+  souzoku:{ name:"相続税法", abbr:"相法", color:"#7A3FA8", stub:true },
+  shohi:{ name:"消費税法", abbr:"消法", color:"#E07514", stub:true },
+  sochi:{
+    name:"租税特別措置法", abbr:"措法", color:"#C93B6E",
+    toc:[
+      {t:"hen", x:"第三章　法人税法の特例"},
+      {t:"sho", x:"第四節の二　中小企業者等の特別償却（表示デモ）"},
+      {t:"jo", id:"z99", num:"第99条", cap:"【架空条文】色分けデモ（入れ子7階層）"},
+    ],
+    articles:{
+      z99:{
+        demo:true,
+        stamp:"措法|99", midashi:"（中小企業者等が特定機械装置等を取得した場合の特別償却）【デモ用架空条文】", jonum:"第九十九条",
+        body:[
+          {k:"1", text:"青色申告書を提出する中小企業者等（第四十二条の四第十九項第七号に規定する中小企業者（適用除外事業者（当該事業年度開始の日前三年以内に終了した各事業年度の所得の金額の年平均額が十五億円（当該各事業年度のうちに欠損事業年度（欠損金額（第五十七条第一項（欠損金の繰越し）に規定する欠損金額をいう。）が生じた事業年度をいう。）がある場合には、政令で定めるところにより計算した金額）を超える法人として政令で定めるものをいう。）に該当するものを除く。）又は農業協同組合等で青色申告書を提出するものをいう。以下この条において同じ。）が、指定期間（令和六年四月一日から令和九年三月三十一日までの期間をいう。）内に、その製作の後事業の用に供されたことのない特定機械装置等（機械及び装置並びに器具及び備品（事務処理の能率化等に資するものとして財務省令で定めるものに限る。）のうち、その中小企業者等の営む事業（不動産業、物品賃貸業その他政令で定める事業（性風俗関連特殊営業に該当するものを除く。）を除く。）の用に直接供されるものとして政令で定める規模のもの（一台又は一基の取得価額が百六十万円（器具及び備品にあつては、百二十万円（財務省令で定めるもの（開発研究（新たな製品の製造若しくは新たな技術の発明又は現に企業が製造している製品の製造若しくは企業が現に採用している技術の改良、考案若しくは発明に係る試験研究をいう。）の用に供されるものに限る。）にあつては、三十万円））以上のものに限る。）をいう。以下この条において同じ。）を取得し、又は特定機械装置等を製作して、これを国内にあるその中小企業者等の営む事業の用に供した場合には、その用に供した日を含む事業年度（以下この条において「供用年度」という。）の当該特定機械装置等の償却限度額は、供用年度の普通償却限度額と特別償却限度額（当該特定機械装置等の取得価額の百分の三十に相当する金額をいう。）との合計額とする。"},
+          {k:"2", text:"前項の規定は、確定申告書等（法人税法第二条第三十一号（定義）に規定する確定申告書及び同条第三十号に規定する中間申告書をいう。）に同項に規定する償却限度額の計算に関する明細書の添付がある場合に限り、適用する。"}
+        ],
+        refs:["※実在の条文ではありません","本物の措置法はPhase 1でe-Govから全文収録"]
+      }
+    }
+  },
+  chihou:{ name:"地方税法", abbr:"地法", color:"#148FB4", stub:true },
+};
+const LAW_ORDER = ["tsusoku","choshu","shotoku","houjin","souzoku","shohi","sochi","chihou"];
+let openLaw = "houjin", nowArt = "h22";
+
+/* 上部のカラーインデックス帯（8法の色） */
+document.getElementById("indexBar").innerHTML =
+  LAW_ORDER.map(k=>`<span style="background:${DATA[k].color}" title="${DATA[k].name}"></span>`).join("");
+
+/* ============ 初期メニュー：カラーカード ============ */
+const nav = document.getElementById("nav");
+function renderHome(){
+  nav.style.display = "none";
+  const cards = LAW_ORDER.map(key=>{
+    const law = DATA[key];
+    return `<div class="lawCard" style="--c:${law.color}">
+      <div class="cardTop">
+        <div class="medal">${law.abbr}</div>
+        <div class="cardName">${law.name}<small>施行令・施行規則つき</small></div>
+      </div>
+      <div class="cardBtns">
+        <button class="cBtn main" data-law="${key}">法律</button>
+        <button class="cBtn" data-law="${key}" data-kind="施行令">施行令</button>
+        <button class="cBtn" data-law="${key}" data-kind="施行規則">規則</button>
+        <button class="cBtn" disabled>通達<span class="p2">Phase 2</span></button>
+      </div>
+    </div>`;
+  }).join("");
+  document.getElementById("main").innerHTML = `
+    <div class="home">
+      <div class="homeTitle">
+        <span class="big">税務六法</span>
+        <span class="sub">国税法令＆通達集 Web ─ 完成イメージ</span>
+      </div>
+      <div class="cardGrid">${cards}
+        <div class="lawCard" style="--c:#B5342A">
+          <div class="cardTop">
+            <div class="medal">評基通</div>
+            <div class="cardName">財産評価基本通達<small>相続税・贈与税の財産評価</small></div>
+          </div>
+          <div class="cardBtns">
+            <button class="cBtn" disabled>通達<span class="p2">Phase 2</span></button>
+            <button class="cBtn" disabled>─</button><button class="cBtn" disabled>─</button><button class="cBtn" disabled>─</button>
+          </div>
+        </div>
+      </div>
+      <div class="homeFoot">
+        カードの「法律」を押すと目次ツリー＋条文画面が開きます（モックは法人税法・所得税法のみ収録）。<br>
+        法令ごとの色は目次・条文・上部のインデックス帯まで一貫します。　出典：e-Gov法令検索（デジタル庁）
+      </div>
+    </div>`;
+  document.querySelectorAll(".cBtn[data-law]").forEach(btn=>{
+    btn.onclick = ()=>{
+      const key = btn.dataset.law, law = DATA[key];
+      if(btn.dataset.kind){ alert(law.name+btn.dataset.kind+"：完成版で全条文を収録します"); return; }
+      if(law.stub){ alert(law.name+"：完成版で全条文を収録します（モックでは法人税法・所得税法のみ）"); return; }
+      openLaw = key; nowArt = Object.keys(law.articles)[0];
+      openViewer();
+    };
+  });
+}
+
+/* ============ 目次 ============ */
+function renderNav(){
+  const law = DATA[openLaw];
+  const rows = law.toc.map(row=>{
+    if(row.t==="jo"){
+      return `<div class="jo${row.id===nowArt?" now":""}" data-id="${row.id}">
+        <span class="num">${row.num}</span><span class="cap">${row.cap}</span></div>`;
+    }
+    return `<div class="${row.t}">${row.x}</div>`;
+  }).join("");
+  nav.innerHTML = `
+    <div class="navHead" style="--c:${law.color}">
+      <div class="navHeadRow"><div class="medal">${law.abbr}</div><div class="nm">${law.name}</div></div>
+      <div class="navTabs" style="--c:${law.color}">
+        <button class="on">法律</button><button>施行令</button><button>規則</button>
+        <button disabled>通達</button>
+      </div>
+    </div>
+    <div class="toc" style="--c:${law.color}">${rows}</div>
+    <button class="backHome">⌂ 法令メニューへ戻る</button>
+    <div class="navNote">※ 完成版では編・章・節・款の全階層と全条文を自動生成します。</div>`;
+  nav.querySelectorAll(".jo").forEach(d=>{
+    d.onclick = ()=>{ nowArt = d.dataset.id; renderNav(); renderArticle(); closeDrawer(); };
+  });
+  nav.querySelector(".backHome").onclick = ()=>{ closeDrawer(); renderHome(); };
+}
+
+/* ============ 条文 ============ */
+/* 括弧書きの入れ子深さを判定して色分けspanで包む（関根「APカラーソフト」の自動化） */
+let kakkoMode = "mcolor";   // mcolor=色分け／mplain=標準／musu=括弧を薄く
+function colorize(t){
+  let d = 0, out = "";
+  for(const ch of t){
+    if(ch === "（"){ d++; out += `<span class="p${((d-1)%5)+1}">` + ch; }
+    else if(ch === "）"){ out += ch + "</span>"; d = Math.max(d-1, 0); }
+    else out += ch;
+  }
+  while(d-- > 0) out += "</span>";   // 閉じ忘れ保険
+  return out;
+}
+function renderArticle(){
+  const law = DATA[openLaw], a = law.articles[nowArt];
+  const kos = a.body.map(ko=>{
+    let h = `<p class="ko">${ko.k!=="1" ? `<span class="konum">${ko.k}</span>`:""}${colorize(ko.text)}</p>`;
+    if(ko.go) h += ko.go.map(g=>{
+      const sp = g.indexOf("　");
+      return `<p class="go"><span class="gonum">${g.slice(0,sp)}</span>${colorize(g.slice(sp+1))}</p>`;
+    }).join("");
+    return h;
+  }).join("");
+  const refs = a.refs.map(r=>`<span class="refChip${r.includes("通")?" tsu":""}">${r}</span>`).join("");
+  document.getElementById("main").innerHTML = `
+    <article style="--c:${law.color}">
+      <div class="pankuzu"><span class="lawChip">${law.name}</span>${law.toc.filter(r=>r.t!=="jo").map(r=>r.x).join("　›　")}</div>
+      <div class="joHead">
+        <div class="stamp">${a.stamp.split("|").join("<br>")}</div>
+        <div class="joTitle">
+          <span class="midashi">${a.midashi}</span>
+          <span class="jonum">${a.jonum}</span>
+        </div>
+      </div>
+      <div class="modeBar">
+        <span class="lbl">カッコ書き：</span>
+        <button data-m="mcolor">色分け</button>
+        <button data-m="mplain">標準</button>
+        <button data-m="musu">薄字（骨格読み）</button>
+      </div>
+      ${a.demo ? `<div class="demoBanner">⚠ この条は<b>カッコ色分けの表示能力を確認するための架空条文</b>です（措置法の文体を模した創作。現行法にこの条は存在しません）。実際の措置法全条文はPhase 1でe-Govから取得して収録します。</div>` : ""}
+      <div class="honbun ${kakkoMode==="mplain" ? "" : kakkoMode}">${kos}</div>
+      <div class="refBar">${refs}</div>
+      <div class="srcNote">${a.demo ? "第1項は括弧の入れ子が最大7階層に達します（中小企業者等→中小企業者→適用除外事業者→十五億円→欠損事業年度→欠損金額→第五十七条第一項）。階層ごとに文字色＋マーカー背景が切り替わります。" : ""}カッコ色分け：<span style="color:#0D50C8;background:#E3EDFF;border-radius:3px;padding:0 3px;">第1階層</span>／<span style="color:#C21807;background:#FFE8E3;border-radius:3px;padding:0 3px;">第2階層</span>／<span style="color:#0E7A2E;background:#DFF5E4;border-radius:3px;padding:0 3px;">第3階層</span>／<span style="color:#7A1FA8;background:#F2E4FB;border-radius:3px;padding:0 3px;">第4階層</span>／<span style="color:#B05A00;background:#FFEFD6;border-radius:3px;padding:0 3px;">第5階層</span>（6階層目からは循環）。括弧の外＝条文の骨格は太字で表示します。「薄字」は括弧書きを淡色化して本文の骨格だけを追う読み方用です。出典：e-Gov法令検索（${law.name}）を加工して作成。完成版では各条にe-Gov原文へのリンクとデータ取得日を付します。</div>
+    </article>`;
+  document.querySelectorAll(".modeBar button").forEach(b=>{
+    b.classList.toggle("on", b.dataset.m === kakkoMode);
+    b.onclick = ()=>{ kakkoMode = b.dataset.m; renderArticle(); };
+  });
+}
+function openViewer(){ nav.style.display = ""; renderNav(); renderArticle(); }
+
+/* ============ 条番号ジャンプ ============ */
+const JUMP = {
+  "法法21":["houjin","h21"], "法法22":["houjin","h22"], "法法22の2":["houjin","h22_2"],
+  "所法56":["shotoku","s56"],
+  "措法99":["sochi","z99"],
+};
+function doJump(){
+  const q = document.getElementById("jump").value.trim().replace(/\s/g,"");
+  if(JUMP[q]){ [openLaw,nowArt]=JUMP[q]; openViewer(); closeDrawer(); }
+  else if(q){ alert("モックの収録範囲：法法21／法法22／法法22の2／所法56／措法99（色分けデモ）\n完成版では全法令・全条文にヒットします"); }
+}
+document.getElementById("jumpBtn").onclick = doJump;
+document.getElementById("jump").addEventListener("keydown",e=>{ if(e.key==="Enter") doJump(); });
+
+/* ============ モバイルの目次ドロワー ============ */
+document.getElementById("menuBtn").onclick = ()=> nav.classList.toggle("show");
+function closeDrawer(){ nav.classList.remove("show"); }
+document.getElementById("homeBtnHdr").onclick = ()=>{ closeDrawer(); renderHome(); };
+
+renderHome();
+</script>
+</body>
+</html>

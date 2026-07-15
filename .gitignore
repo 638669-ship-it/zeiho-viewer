@@ -1,0 +1,20 @@
+# e-Gov から取得した生データ（約97MB／再取得可能）
+# ディレクトリごと除外すると git が中へ降りず「!」の打ち消しが効かないため、
+# 中身を除外して取得ログだけ拾い直す。
+data/raw/*
+!data/raw/_fetch_log.json
+
+# ビルド生成物
+dist/
+*.zip
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# OS
+Thumbs.db
+desktop.ini
+.DS_Store

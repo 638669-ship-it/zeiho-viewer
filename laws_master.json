@@ -1,0 +1,255 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-15",
+  "source": {
+    "api_base": "https://laws.e-gov.go.jp/api/2",
+    "api_version": "2.1.139",
+    "spec": "https://laws.e-gov.go.jp/api/2/swagger-ui/lawapi-v2.yaml",
+    "attribution": "出典：e-Gov法令検索（デジタル庁）",
+    "terms": "政府標準利用規約（第2.0版）",
+    "note": "法令ID・法令番号は 2026-07-15 に GET /laws で実地確認した値。現行法令のみ（repeal_status=null）。"
+  },
+  "fetch_params": {
+    "endpoint": "/law_data/{law_id}",
+    "response_format": "json",
+    "law_full_text_format": "json",
+    "json_format": "full",
+    "why_full": "json_format=light は要素の属性を落とし、Paragraph の Num しか保持しない。条番号（Article の Num 属性）が必要なため full を使う。",
+    "why_matched_format": "response_format と law_full_text_format が食い違うと law_full_text が Base64 で返る。両方 json に揃える。"
+  },
+  "kinds": {
+    "act": { "label": "法律", "law_type": "Act" },
+    "cabinet_order": { "label": "施行令", "law_type": "CabinetOrder" },
+    "ministerial_ordinance": { "label": "施行規則", "law_type": "MinisterialOrdinance" }
+  },
+  "groups": [
+    { "key": "tsusoku", "name": "国税通則法", "abbr": "通法", "color": "#0E8A83", "order": 1 },
+    { "key": "choshu", "name": "国税徴収法", "abbr": "徴法", "color": "#946200", "order": 2 },
+    { "key": "shotoku", "name": "所得税法", "abbr": "所法", "color": "#2E8B3C", "order": 3 },
+    { "key": "houjin", "name": "法人税法", "abbr": "法法", "color": "#2456B0", "order": 4 },
+    { "key": "souzoku", "name": "相続税法", "abbr": "相法", "color": "#7A3FA8", "order": 5 },
+    { "key": "shohi", "name": "消費税法", "abbr": "消法", "color": "#E07514", "order": 6 },
+    { "key": "sochi", "name": "租税特別措置法", "abbr": "措法", "color": "#C93B6E", "order": 7 },
+    { "key": "chihou", "name": "地方税法", "abbr": "地法", "color": "#148FB4", "order": 8 }
+  ],
+  "laws": [
+    {
+      "key": "tsusoku_act",
+      "group": "tsusoku",
+      "kind": "act",
+      "name": "国税通則法",
+      "abbr": "通法",
+      "law_id": "337AC0000000066",
+      "law_num": "昭和三十七年法律第六十六号"
+    },
+    {
+      "key": "tsusoku_co",
+      "group": "tsusoku",
+      "kind": "cabinet_order",
+      "name": "国税通則法施行令",
+      "abbr": "通令",
+      "law_id": "337CO0000000135",
+      "law_num": "昭和三十七年政令第百三十五号"
+    },
+    {
+      "key": "tsusoku_mo",
+      "group": "tsusoku",
+      "kind": "ministerial_ordinance",
+      "name": "国税通則法施行規則",
+      "abbr": "通規",
+      "law_id": "337M50000040028",
+      "law_num": "昭和三十七年大蔵省令第二十八号"
+    },
+    {
+      "key": "choshu_act",
+      "group": "choshu",
+      "kind": "act",
+      "name": "国税徴収法",
+      "abbr": "徴法",
+      "law_id": "334AC0000000147",
+      "law_num": "昭和三十四年法律第百四十七号"
+    },
+    {
+      "key": "choshu_co",
+      "group": "choshu",
+      "kind": "cabinet_order",
+      "name": "国税徴収法施行令",
+      "abbr": "徴令",
+      "law_id": "334CO0000000329",
+      "law_num": "昭和三十四年政令第三百二十九号"
+    },
+    {
+      "key": "choshu_mo",
+      "group": "choshu",
+      "kind": "ministerial_ordinance",
+      "name": "国税徴収法施行規則",
+      "abbr": "徴規",
+      "law_id": "337M50000040031",
+      "law_num": "昭和三十七年大蔵省令第三十一号",
+      "note": "法本体は昭和34年だが、施行規則は昭和37年大蔵省令。年が揃わない点に注意（API実地確認済み）。"
+    },
+    {
+      "key": "shotoku_act",
+      "group": "shotoku",
+      "kind": "act",
+      "name": "所得税法",
+      "abbr": "所法",
+      "law_id": "340AC0000000033",
+      "law_num": "昭和四十年法律第三十三号"
+    },
+    {
+      "key": "shotoku_co",
+      "group": "shotoku",
+      "kind": "cabinet_order",
+      "name": "所得税法施行令",
+      "abbr": "所令",
+      "law_id": "340CO0000000096",
+      "law_num": "昭和四十年政令第九十六号"
+    },
+    {
+      "key": "shotoku_mo",
+      "group": "shotoku",
+      "kind": "ministerial_ordinance",
+      "name": "所得税法施行規則",
+      "abbr": "所規",
+      "law_id": "340M50000040011",
+      "law_num": "昭和四十年大蔵省令第十一号"
+    },
+    {
+      "key": "houjin_act",
+      "group": "houjin",
+      "kind": "act",
+      "name": "法人税法",
+      "abbr": "法法",
+      "law_id": "340AC0000000034",
+      "law_num": "昭和四十年法律第三十四号"
+    },
+    {
+      "key": "houjin_co",
+      "group": "houjin",
+      "kind": "cabinet_order",
+      "name": "法人税法施行令",
+      "abbr": "法令",
+      "law_id": "340CO0000000097",
+      "law_num": "昭和四十年政令第九十七号"
+    },
+    {
+      "key": "houjin_mo",
+      "group": "houjin",
+      "kind": "ministerial_ordinance",
+      "name": "法人税法施行規則",
+      "abbr": "法規",
+      "law_id": "340M50000040012",
+      "law_num": "昭和四十年大蔵省令第十二号"
+    },
+    {
+      "key": "souzoku_act",
+      "group": "souzoku",
+      "kind": "act",
+      "name": "相続税法",
+      "abbr": "相法",
+      "law_id": "325AC0000000073",
+      "law_num": "昭和二十五年法律第七十三号"
+    },
+    {
+      "key": "souzoku_co",
+      "group": "souzoku",
+      "kind": "cabinet_order",
+      "name": "相続税法施行令",
+      "abbr": "相令",
+      "law_id": "325CO0000000071",
+      "law_num": "昭和二十五年政令第七十一号"
+    },
+    {
+      "key": "souzoku_mo",
+      "group": "souzoku",
+      "kind": "ministerial_ordinance",
+      "name": "相続税法施行規則",
+      "abbr": "相規",
+      "law_id": "325M50000040017",
+      "law_num": "昭和二十五年大蔵省令第十七号"
+    },
+    {
+      "key": "shohi_act",
+      "group": "shohi",
+      "kind": "act",
+      "name": "消費税法",
+      "abbr": "消法",
+      "law_id": "363AC0000000108",
+      "law_num": "昭和六十三年法律第百八号"
+    },
+    {
+      "key": "shohi_co",
+      "group": "shohi",
+      "kind": "cabinet_order",
+      "name": "消費税法施行令",
+      "abbr": "消令",
+      "law_id": "363CO0000000360",
+      "law_num": "昭和六十三年政令第三百六十号"
+    },
+    {
+      "key": "shohi_mo",
+      "group": "shohi",
+      "kind": "ministerial_ordinance",
+      "name": "消費税法施行規則",
+      "abbr": "消規",
+      "law_id": "363M50000040053",
+      "law_num": "昭和六十三年大蔵省令第五十三号"
+    },
+    {
+      "key": "sochi_act",
+      "group": "sochi",
+      "kind": "act",
+      "name": "租税特別措置法",
+      "abbr": "措法",
+      "law_id": "332AC0000000026",
+      "law_num": "昭和三十二年法律第二十六号"
+    },
+    {
+      "key": "sochi_co",
+      "group": "sochi",
+      "kind": "cabinet_order",
+      "name": "租税特別措置法施行令",
+      "abbr": "措令",
+      "law_id": "332CO0000000043",
+      "law_num": "昭和三十二年政令第四十三号"
+    },
+    {
+      "key": "sochi_mo",
+      "group": "sochi",
+      "kind": "ministerial_ordinance",
+      "name": "租税特別措置法施行規則",
+      "abbr": "措規",
+      "law_id": "332M50000040015",
+      "law_num": "昭和三十二年大蔵省令第十五号"
+    },
+    {
+      "key": "chihou_act",
+      "group": "chihou",
+      "kind": "act",
+      "name": "地方税法",
+      "abbr": "地法",
+      "law_id": "325AC0000000226",
+      "law_num": "昭和二十五年法律第二百二十六号"
+    },
+    {
+      "key": "chihou_co",
+      "group": "chihou",
+      "kind": "cabinet_order",
+      "name": "地方税法施行令",
+      "abbr": "地令",
+      "law_id": "325CO0000000245",
+      "law_num": "昭和二十五年政令第二百四十五号"
+    },
+    {
+      "key": "chihou_mo",
+      "group": "chihou",
+      "kind": "ministerial_ordinance",
+      "name": "地方税法施行規則",
+      "abbr": "地規",
+      "law_id": "329M50000002023",
+      "law_num": "昭和二十九年総理府令第二十三号",
+      "note": "地方税法施行規則のみ総理府令（他は大蔵省令・政令）。"
+    }
+  ]
+}
