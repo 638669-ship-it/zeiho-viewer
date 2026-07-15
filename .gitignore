@@ -8,6 +8,12 @@ data/raw/*
 dist/
 *.zip
 
+# 発注者の内部文書（公開リポジトリには含めない）
+税法条文ビューア_着手指示書_v2.md
+
+# Claude Code のローカル設定（この端末固有）
+.claude/settings.local.json
+
 # Python
 __pycache__/
 *.pyc
