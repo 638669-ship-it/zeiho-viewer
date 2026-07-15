@@ -4,7 +4,11 @@
      パンくずまで一貫させる（着手指示書 8-2/8-3）。 */
 
 :root{
-  --paper:#FDFCF8; --ink:#23262B; --usuzumi:#6B7076;
+  /* 濃さの方針：本文 --ink、補助情報 --usuzumi。
+     Windowsの游明朝・游ゴシックは太さ400だと極端に細く出るため、
+     文字色を濃くしたうえで下限の太さを500に上げている（body / .honbun）。
+     --usuzumi は当初 #6B7076 だったが、目次の条見出しが読めないため濃くした。 */
+  --paper:#FDFCF8; --ink:#1A1D22; --usuzumi:#4A5058;
   --line:#E7E5DC; --shade:#F4F2EA;
   --mincho:"Hiragino Mincho ProN","Yu Mincho",YuMincho,"Noto Serif JP","MS PMincho",serif;
   --gothic:"Hiragino Kaku Gothic ProN","Yu Gothic",YuGothic,"Noto Sans JP","Meiryo",sans-serif;
@@ -17,6 +21,7 @@
 html,body{height:100%;}
 body{
   font-family:var(--gothic);background:var(--paper);color:var(--ink);
+  font-weight:500;                 /* 游ゴシック400は細すぎる。UI全体の下限を上げる */
   -webkit-text-size-adjust:100%;   /* iPad Safari の自動文字拡大を止める */
   overscroll-behavior-y:none;
   display:flex;flex-direction:column;
@@ -94,7 +99,7 @@ main:focus{outline:none;}
 .navHead .nm small{display:block;font-family:var(--gothic);font-size:10px;color:var(--usuzumi);font-weight:400;letter-spacing:.04em;}
 .navTabs{display:flex;gap:6px;margin-top:10px;}
 .navTabs button{
-  flex:1;padding:6px 0;font-size:11.5px;border-radius:14px;cursor:pointer;
+  flex:1;padding:6px 0;font-size:12px;border-radius:14px;cursor:pointer;font-weight:600;
   background:#fff;color:var(--usuzumi);border:1px solid var(--line);
 }
 .navTabs button.on{background:var(--c);color:#fff;border-color:var(--c);font-weight:600;}
@@ -113,19 +118,23 @@ main:focus{outline:none;}
 .toc .grp > .lbl::after{content:"▾";position:absolute;right:14px;font-size:9px;opacity:.55;transition:transform .12s ease;}
 .toc .grp.closed > .lbl::after{transform:rotate(-90deg);}
 .toc .grp.closed > .kids{display:none;}
-.toc .hen{color:#fff;background:var(--c);letter-spacing:.06em;margin:6px 10px 4px;border-radius:6px;padding:7px 12px;font-size:11.5px;}
-.toc .sho{padding:6px 16px 3px 20px;font-size:12.5px;color:var(--ink);font-weight:600;}
-.toc .setsu{padding:5px 16px 3px 30px;font-size:11.5px;color:var(--usuzumi);}
-.toc .kan{padding:4px 16px 3px 36px;font-size:11px;color:var(--usuzumi);}
-.toc .moku{padding:4px 16px 3px 42px;font-size:11px;color:var(--usuzumi);opacity:.9;}
-.toc .jo{padding:8px 14px 8px 40px;font-size:13.5px;cursor:pointer;color:var(--ink);display:flex;gap:8px;align-items:baseline;border-radius:0 18px 18px 0;margin-right:10px;}
+.toc .hen{color:#fff;background:var(--c);letter-spacing:.06em;margin:6px 10px 4px;border-radius:6px;padding:7px 12px;font-size:12px;font-weight:600;}
+.toc .sho{padding:6px 16px 3px 20px;font-size:13px;color:var(--ink);font-weight:700;}
+.toc .setsu{padding:5px 16px 3px 30px;font-size:12.5px;color:var(--ink);font-weight:600;}
+.toc .kan{padding:4px 16px 3px 36px;font-size:12px;color:var(--usuzumi);font-weight:600;}
+.toc .moku{padding:4px 16px 3px 42px;font-size:12px;color:var(--usuzumi);font-weight:600;}
+.toc .jo{padding:8px 14px 8px 40px;font-size:14px;cursor:pointer;color:var(--ink);display:flex;gap:8px;align-items:baseline;border-radius:0 18px 18px 0;margin-right:10px;}
 .toc .jo:hover{background:color-mix(in srgb, var(--c) 8%, #fff);}
 .toc .jo.now{background:color-mix(in srgb, var(--c) 14%, #fff);color:var(--c);font-weight:700;border-left:4px solid var(--c);padding-left:36px;}
-.toc .jo .num{font-variant-numeric:tabular-nums;min-width:52px;flex:none;}
-.toc .jo .cap{font-size:11.5px;color:var(--usuzumi);font-weight:400;}
-.toc .jo .cap.d{font-style:italic;opacity:.85;}   /* 款・目名から補完した見出し */
+.toc .jo .num{font-variant-numeric:tabular-nums;min-width:52px;flex:none;font-weight:600;}
+/* 目次で一番読みたいのは条見出し。細い薄グレーだと役に立たないので、
+   本文と同じ濃さ・太さ寄りにする（当初 11.5px/400/#6B7076）。 */
+.toc .jo .cap{font-size:12.5px;color:var(--ink);font-weight:500;}
+/* 款・目名から補完した見出し。薄くすると読めないので濃さは本物と同じにし、
+   斜体だけで「借りてきた見出し」と分かるようにする。 */
+.toc .jo .cap.d{font-style:italic;}
 .toc .none{padding:14px 16px;font-size:11.5px;color:var(--usuzumi);}
-.navNote{padding:12px 16px;font-size:11px;color:var(--usuzumi);line-height:1.7;border-top:1px solid var(--line);}
+.navNote{padding:12px 16px;font-size:11.5px;color:var(--usuzumi);line-height:1.75;border-top:1px solid var(--line);}
 .backHome{display:block;margin:10px 14px;padding:8px;text-align:center;font-size:12px;border:1px dashed var(--line);border-radius:8px;color:var(--usuzumi);cursor:pointer;background:none;width:calc(100% - 28px);}
 .backHome:hover{background:var(--shade);}
 .srchHit{font-size:11px;color:var(--usuzumi);padding:8px 16px 4px;}
@@ -133,7 +142,7 @@ main:focus{outline:none;}
 
 /* ── 条文表示 ── */
 article{max-width:780px;margin:0 auto;padding:30px 34px 90px;}
-.pankuzu{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:11.5px;color:var(--usuzumi);margin-bottom:20px;}
+.pankuzu{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12px;color:var(--usuzumi);margin-bottom:20px;font-weight:600;}
 .pankuzu .lawChip{background:var(--c);color:#fff;border-radius:12px;padding:3px 11px;font-weight:600;font-size:12px;letter-spacing:.05em;}
 .joHead{display:flex;align-items:flex-start;gap:14px;margin-bottom:6px;}
 .stamp{
@@ -142,10 +151,11 @@ article{max-width:780px;margin:0 auto;padding:30px 34px 90px;}
   font-weight:600;box-shadow:0 2px 6px color-mix(in srgb, var(--c) 40%, transparent);
 }
 .joTitle{font-family:var(--mincho);}
-.joTitle .midashi{font-size:13.5px;color:var(--usuzumi);display:block;margin-bottom:2px;}
+.joTitle .midashi{font-size:14.5px;color:var(--ink);display:block;margin-bottom:2px;font-weight:600;}
 .joTitle .midashi.d{border-bottom:1px dotted var(--usuzumi);cursor:help;}
 .joTitle .jonum{font-size:23px;font-weight:600;letter-spacing:.08em;color:var(--c);}
 .honbun{font-family:var(--mincho);font-size:16.5px;line-height:2.05;text-align:justify;margin-top:14px;
+  font-weight:500;   /* 「標準」モードの本文。游明朝400では細くて読めない */
   background:#fff;border:1px solid var(--line);border-radius:12px;padding:24px 26px;box-shadow:0 2px 8px rgba(40,40,60,.05);}
 .honbun p.ko{margin-bottom:14px;text-indent:1em;}
 .honbun p.ko .konum{font-family:var(--gothic);font-size:12px;color:#fff;background:var(--c);border-radius:50%;
@@ -177,17 +187,19 @@ article{max-width:780px;margin:0 auto;padding:30px 34px 90px;}
 .honbun.mcolor .p1,.honbun.mcolor .p2,.honbun.mcolor .p3,.honbun.mcolor .p4,.honbun.mcolor .p5{
   border-radius:3px;padding:0 1px;box-decoration-break:clone;-webkit-box-decoration-break:clone;
 }
-/* 本文（括弧の外＝条文の骨格）は太字、括弧内は通常の太さで対比を強調 */
-.honbun.mcolor, .honbun.musu{font-weight:600;}
+/* 本文（括弧の外＝条文の骨格）は太字、括弧内は通常の太さで対比を強調。
+   指示書9-2は 600／400 だが、Windowsの游明朝は400が細すぎて読めないため
+   700／500 に上げた。幹と枝の対比（2段階の差）は保っている。 */
+.honbun.mcolor, .honbun.musu{font-weight:700;}
 .honbun.mcolor .p1,.honbun.mcolor .p2,.honbun.mcolor .p3,.honbun.mcolor .p4,.honbun.mcolor .p5,
-.honbun.musu .p1,.honbun.musu .p1 *{font-weight:400;}
+.honbun.musu .p1,.honbun.musu .p1 *{font-weight:500;}
 .honbun.musu .p1,.honbun.musu .p1 *{color:#C2C4BE;} /* 薄字＝骨格読みモード */
 
 .modeBar{display:flex;gap:6px;align-items:center;margin:16px 0 10px;flex-wrap:wrap;}
-.modeBar .lbl{font-size:11.5px;color:var(--usuzumi);margin-right:4px;}
+.modeBar .lbl{font-size:12px;color:var(--usuzumi);margin-right:4px;font-weight:600;}
 .modeBar button{
   border:1.5px solid var(--line);background:#fff;border-radius:16px;
-  padding:5px 13px;font-size:12px;color:var(--usuzumi);cursor:pointer;letter-spacing:.04em;
+  padding:5px 13px;font-size:12.5px;color:var(--usuzumi);cursor:pointer;letter-spacing:.04em;font-weight:600;
 }
 .modeBar button.on{background:var(--c);border-color:var(--c);color:#fff;font-weight:600;}
 .modeBar .sizer{margin-left:auto;display:flex;gap:4px;align-items:center;}
@@ -198,7 +210,7 @@ article{max-width:780px;margin:0 auto;padding:30px 34px 90px;}
 a.refChip:hover{background:var(--shade);}
 .refChip.tsu{border-color:#C93B6E;color:#C93B6E;background:#FDF3F6;}
 .refChip.now{border-color:var(--c);color:var(--c);}
-.srcNote{margin-top:24px;font-size:11px;color:var(--usuzumi);line-height:1.8;}
+.srcNote{margin-top:24px;font-size:11.5px;color:var(--usuzumi);line-height:1.85;}
 .srcNote .sw{border-radius:3px;padding:0 3px;}
 .navi{display:flex;justify-content:space-between;gap:10px;margin-top:26px;}
 .navi button{border:1.5px solid var(--line);background:#fff;border-radius:20px;padding:8px 14px;font-size:12.5px;color:var(--ink);cursor:pointer;max-width:47%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
