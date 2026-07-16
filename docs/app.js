@@ -224,8 +224,12 @@ function renderHome() {
     const btn = (l, cls, label) => l
       ? `<button class="cBtn ${cls}" data-open="${l.key}">${label}</button>`
       : `<button class="cBtn" disabled>${label}</button>`;
-    // 通達は条ではなく項目なので「本則○条」には数えない
-    const total = laws.filter((l) => l.kind !== 'tsutatsu').reduce((s, l) => s + l.articles, 0);
+    // 本則の条数は法令ごとに別物（施行令・規則は独立した本則を持つ）。合算すると
+    // 「印紙税法 本則65条」のように実際の本則24条とかけ離れるので、法・令・規で内訳を出す。
+    const KABBR = { act: '法', cabinet_order: '令', ministerial_ordinance: '規' };
+    const bodyBreak = ['act', 'cabinet_order', 'ministerial_ordinance']
+      .map((k) => { const l = byKind(k); return l ? `${KABBR[k]}${l.articles}` : null; })
+      .filter(Boolean).join('・');
     const tsus = tsusOf(g.key);
     const tsu = tsus[0];
     const tsuItems = tsus.reduce((s, l) => s + l.articles, 0);
@@ -236,7 +240,7 @@ function renderHome() {
     return `<div class="lawCard" style="--c:${g.color}">
       <div class="cardTop">
         <div class="medal">${esc(g.abbr)}</div>
-        <div class="cardName">${esc(g.name)}<small>施行令・施行規則つき／本則${total}条${tsu ? `／通達${tsuItems}項目` : ''}</small></div>
+        <div class="cardName">${esc(g.name)}<small>本則 ${bodyBreak}条${tsu ? `／通達${tsuItems}項目` : ''}</small></div>
       </div>
       <div class="cardBtns">
         ${btn(byKind('act'), 'main', '法律')}
@@ -394,7 +398,7 @@ async function renderNav() {
     <div id="tocArea">${tocAreaHtml(key, toc)}</div>
     <button class="backHome">⌂ 法令メニューへ戻る</button>
     <div class="navNote">${isT
-      ? `通達${law.articles}項目／附則${law.suppls}本。${esc(law.law_num)}。出典：国税庁ホームページ。`
+      ? `通達${law.articles}項目。${esc(law.law_num)}。出典：国税庁ホームページ。`
       : `本則${law.articles}条／附則${law.suppls}本／別表${law.appdx}。
          施行日 ${esc(law.enforced || '－')}。出典：e-Gov法令検索。`}</div>`;
 
@@ -694,9 +698,12 @@ function kanjiNum(s) {
 
 /* 通達の項目番号「36-1」「60の2-1」「23～35共-1」→ DOM id。
  * scripts/parse_tsutatsu.py の item_id() と同じ規則。原文はダッシュを4種類
- * 混在させているので（－ - ― ー）、入力もその全部を受ける。 */
+ * 混在させているので（－ - ― ー）、入力もその全部を受ける。
+ * 印基通は逐条（通達自身の第1〜128条）なので「印基通第62条」の第○条形式も受ける。 */
 function tsuItemId(rest) {
   let s = Z2H(rest).replace(/[－―ー−‐–—]/g, '-');
+  // 逐条の「第62条」「第62条の2」形式：先頭の「第」と「条」を落とす（枝番の「の」は残す）
+  s = s.replace(/^第/, '').replace(/条/g, '');
   s = s.replace(/付表/g, 'f').replace(/の/g, '_').replace(/から|～/g, 'r').replace(/・/g, 'n').replace(/共/g, 'c');
   return /^[0-9A-Za-z_-]+$/.test(s) ? 't' + s : null;
 }
