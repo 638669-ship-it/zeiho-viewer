@@ -1,0 +1,159 @@
+name: 月次更新チェック
+
+# 毎月2日 05:00 JST（UTC 前日20:00）。月初の改正・更新が反映されたころに見に行く。
+# 手動でも回せる（Actions → 月次更新チェック → Run workflow）。
+on:
+  schedule:
+    - cron: '0 20 1 * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: '変更を検知しても push しない（動作確認用）'
+        type: boolean
+        default: false
+      force_tsutatsu:
+        description: '掲載時点が変わっていなくても取り直す通達の key（空白区切り。例: shotoku houjin）'
+        type: string
+        default: ''
+
+# 同時に走らせない（push が競合するため）
+concurrency:
+  group: monthly-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: 依存を入れる
+        run: pip install --quiet beautifulsoup4 html5lib
+
+      # 何が変わったかを調べる。比較の元（_fetch_log.json / _links.json）は
+      # リポジトリに入っているので、生データが無くても比較できる。
+      - name: 更新を検知する
+        id: check
+        run: |
+          python scripts/check_updates.py --github | tee check.txt
+          python scripts/check_updates.py --json > check.json || true
+
+      - name: 検知結果をまとめに出す
+        run: |
+          {
+            echo '## 更新チェックの結果'
+            echo
+            echo '```'
+            cat check.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      # ── ここから先は変更があったときだけ ──────────────────────────
+
+      # 法令が改正されていたら全24本を取り直す。parse_laws.py は --only を付けると
+      # index.json を作らないので、施行日等が古いまま残る。全体を作り直すのが確実で、
+      # e-Gov API なら24本で1分ほど。
+      - name: 法令を取り直して変換する
+        if: steps.check.outputs.laws_changed == 'true'
+        run: |
+          python scripts/fetch_laws.py
+          python scripts/verify_raw.py
+          python scripts/parse_laws.py
+
+      # parse_laws.py が index.json を作り直すと通達のエントリが消える。
+      # 出力済みの toc.json から書き戻す（通信も生データも要らない）。
+      - name: 通達のエントリを index に戻す
+        if: steps.check.outputs.laws_changed == 'true'
+        run: python scripts/parse_tsutatsu.py --reindex
+
+      # 掲載時点が変わった通達だけを取り直す。国税庁には直列・1.2秒間隔で当たる。
+      - name: 通達を取り直して変換・検収する
+        id: tsu
+        if: steps.check.outputs.tsutatsu_keys != '' || inputs.force_tsutatsu != ''
+        env:
+          KEYS: ${{ steps.check.outputs.tsutatsu_keys }}
+          FORCE: ${{ inputs.force_tsutatsu }}
+        run: |
+          set -euo pipefail
+          keys=$(echo "$KEYS $FORCE" | tr ' ' '\n' | grep -v '^$' | sort -u | tr '\n' ' ')
+          echo "取り直す通達: $keys"
+          for k in $keys; do
+            python scripts/fetch_tsutatsu.py --only "$k" --force
+            python scripts/parse_tsutatsu.py --only "$k"
+          done
+          # 検収。1項目でも原文と食い違えば、この時点で job が落ちて push されない。
+          python scripts/verify_tsutatsu.py --only $keys
+
+      # 変更があった通達の検収は上で済んでいる。ここでは出力済みの全通達について、
+      # 目次と本文の整合だけを見る（生データが要らない検査）。
+      - name: 目次と本文の整合を全通達で確かめる
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          python - <<'PY'
+          import json, pathlib, sys
+          bad = 0
+          for d in sorted(pathlib.Path("docs/data").glob("*_tsutatsu")):
+              toc = json.loads((d / "toc.json").read_text(encoding="utf-8"))
+              ids = set()
+              for f in sorted(d.glob("main-*.json")):
+                  ids |= {a["id"] for a in json.loads(f.read_text(encoding="utf-8"))["arts"]}
+              leaves = []
+              def walk(ns):
+                  for n in ns:
+                      if n.get("k") == "条": leaves.append(n["id"])
+                      elif n.get("c"): walk(n["c"])
+              walk(toc["toc"])
+              miss = set(leaves) - ids
+              extra = ids - set(leaves)
+              mark = "OK" if not (miss or extra) else "!!"
+              print(f"[{mark}] {toc['abbr']:6s} 目次の葉 {len(set(leaves))} / 本文 {len(ids)}")
+              if miss or extra:
+                  bad += 1
+                  print(f"     目次にあるのに本文が無い: {sorted(miss)[:5]}")
+                  print(f"     本文にあるのに目次に無い: {sorted(extra)[:5]}")
+          sys.exit(1 if bad else 0)
+          PY
+
+      - name: 差分を確かめる
+        id: diff
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          git add -A
+          if git diff --cached --quiet; then
+            echo "has_diff=false" >> "$GITHUB_OUTPUT"
+            echo "更新は検知したが、出力に差はなかった。"
+          else
+            echo "has_diff=true" >> "$GITHUB_OUTPUT"
+            git diff --cached --stat | tail -20
+          fi
+
+      # 検収を通り、かつ実際に差があるときだけ push する。
+      # 検収が落ちていればここまで来ない（前のステップで job が失敗する）。
+      - name: push する
+        if: steps.check.outputs.changed == 'true' && steps.diff.outputs.has_diff == 'true' && !inputs.dry_run
+        env:
+          SUMMARY: ${{ steps.check.outputs.summary }}
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -q -m "データ更新（自動）：${SUMMARY}" -m "$(cat check.txt)" -m "月次更新チェック（.github/workflows/update.yml）が検知し、全項目突合に合格したため反映。"
+          git push
+          echo "push しました：${SUMMARY}" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: 検知結果を成果物として残す
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: check-report
+          path: |
+            check.txt
+            check.json
+          retention-days: 90

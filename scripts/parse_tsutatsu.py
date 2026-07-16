@@ -1248,10 +1248,70 @@ def parse_one(key: str) -> dict:
     return {"items": n_items, "figs": with_fig}
 
 
+def reindex_one(out_key: str) -> dict:
+    """出力済みの toc.json から index.json のエントリだけを作り直す（生データ不要）。
+
+    parse_laws.py を回すと index.json が作り直され、通達のエントリが消える。
+    通達を再パースするには生HTMLが要るが、法令だけ変わったときに通達を取り直すのは
+    国税庁に無駄な負荷をかける。出力済みの toc.json には必要な値が揃っているので、
+    そこからエントリを組み直して戻す。
+    """
+    toc = json.loads((OUT_DIR / out_key / "toc.json").read_text(encoding="utf-8"))
+
+    n_fusoku = 0
+
+    def count(nodes: list) -> None:
+        nonlocal n_fusoku
+        for n in nodes:
+            if n.get("k") == "条":
+                n_fusoku += 1 if n.get("fs") else 0
+            elif n.get("c"):
+                count(n["c"])
+
+    count(toc["toc"])
+    entry = {
+        "key": out_key,
+        "group": None,   # merge_index が親法令から決める
+        "kind": "tsutatsu",
+        "name": toc["name"],
+        "abbr": toc["abbr"],
+        "parent": toc["parent"],
+        "numbering": toc.get("numbering", "article"),
+        "law_id": "",
+        "law_num": toc["published_as_of"],
+        "enforced": None,
+        "articles": len(toc["arts"]),
+        "suppls": n_fusoku,
+        "appdx": 0,
+        "chunks": toc["chunks"],
+        "source_url": toc["source_url"],
+    }
+    merge_index(entry)
+    return entry
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--only", nargs="*", help="通達の key（例 shotoku）")
+    ap.add_argument(
+        "--reindex",
+        action="store_true",
+        help="出力済みの toc.json から index.json のエントリだけ作り直す（生データ・通信とも不要）",
+    )
     args = ap.parse_args()
+
+    if args.reindex:
+        out_keys = sorted(p.name for p in OUT_DIR.iterdir() if p.is_dir() and p.name.endswith("_tsutatsu"))
+        if args.only:
+            want = {f"{k}_tsutatsu" for k in args.only}
+            out_keys = [k for k in out_keys if k in want]
+        if not out_keys:
+            print("index に戻す通達がありません", file=sys.stderr)
+            return 1
+        for k in out_keys:
+            e = reindex_one(k)
+            print(f"  index に戻した: {e['abbr']:6s} {e['articles']:5d}項目  {e['law_num']}")
+        return 0
 
     keys = [p.name for p in sorted(RAW_DIR.iterdir()) if (p / "_links.json").exists()]
     if args.only:

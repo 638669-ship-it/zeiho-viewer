@@ -2,7 +2,7 @@
   "03/01.htm": {
     "bytes": 4473,
     "encoding": "cp932",
-    "fetched_at": "2026-07-16T03:56:22+00:00",
+    "fetched_at": "2026-07-16T06:10:32+00:00",
     "replacement_chars": 0,
     "status": 200,
     "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/880331/gensen/58/03/01.htm"
@@ -10,7 +10,7 @@
   "03/03.htm": {
     "bytes": 16124,
     "encoding": "cp932",
-    "fetched_at": "2026-07-16T03:56:24+00:00",
+    "fetched_at": "2026-07-16T06:10:33+00:00",
     "replacement_chars": 0,
     "status": 200,
     "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/880331/gensen/58/03/03.htm"
@@ -18,7 +18,7 @@
   "04/02.htm": {
     "bytes": 37894,
     "encoding": "cp932",
-    "fetched_at": "2026-07-16T03:56:25+00:00",
+    "fetched_at": "2026-07-16T06:10:35+00:00",
     "replacement_chars": 0,
     "status": 200,
     "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/880331/gensen/58/04/02.htm"
@@ -26,7 +26,7 @@
   "04/03.htm": {
     "bytes": 26212,
     "encoding": "cp932",
-    "fetched_at": "2026-07-16T03:56:26+00:00",
+    "fetched_at": "2026-07-16T06:10:36+00:00",
     "replacement_chars": 0,
     "status": 200,
     "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/880331/gensen/58/04/03.htm"
@@ -34,7 +34,7 @@
   "05/01.htm": {
     "bytes": 4296,
     "encoding": "cp932",
-    "fetched_at": "2026-07-16T03:56:28+00:00",
+    "fetched_at": "2026-07-16T06:10:37+00:00",
     "replacement_chars": 0,
     "status": 200,
     "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/880331/gensen/58/05/01.htm"
@@ -42,7 +42,7 @@
   "07/01.htm": {
     "bytes": 9795,
     "encoding": "cp932",
-    "fetched_at": "2026-07-16T03:56:29+00:00",
+    "fetched_at": "2026-07-16T06:10:38+00:00",
     "replacement_chars": 0,
     "status": 200,
     "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/880331/gensen/58/07/01.htm"
@@ -50,7 +50,7 @@
   "08/01.htm": {
     "bytes": 7873,
     "encoding": "cp932",
-    "fetched_at": "2026-07-16T03:56:30+00:00",
+    "fetched_at": "2026-07-16T06:10:40+00:00",
     "replacement_chars": 0,
     "status": 200,
     "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/880331/gensen/58/08/01.htm"
@@ -58,7 +58,7 @@
   "08/02.htm": {
     "bytes": 4646,
     "encoding": "cp932",
-    "fetched_at": "2026-07-16T03:56:32+00:00",
+    "fetched_at": "2026-07-16T06:10:41+00:00",
     "replacement_chars": 0,
     "status": 200,
     "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/880331/gensen/58/08/02.htm"
@@ -66,7 +66,7 @@
   "08/03.htm": {
     "bytes": 5203,
     "encoding": "cp932",
-    "fetched_at": "2026-07-16T03:56:33+00:00",
+    "fetched_at": "2026-07-16T06:10:42+00:00",
     "replacement_chars": 0,
     "status": 200,
     "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/880331/gensen/58/08/03.htm"
@@ -74,7 +74,7 @@
   "09/02.htm": {
     "bytes": 6760,
     "encoding": "cp932",
-    "fetched_at": "2026-07-16T03:56:34+00:00",
+    "fetched_at": "2026-07-16T06:10:44+00:00",
     "replacement_chars": 0,
     "status": 200,
     "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/880331/gensen/58/09/02.htm"
@@ -82,7 +82,7 @@
   "29/04.htm": {
     "bytes": 11614,
     "encoding": "cp932",
-    "fetched_at": "2026-07-16T03:56:36+00:00",
+    "fetched_at": "2026-07-16T06:10:45+00:00",
     "replacement_chars": 0,
     "status": 200,
     "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/880331/gensen/58/29/04.htm"
@@ -90,7 +90,7 @@
   "29/06.htm": {
     "bytes": 9035,
     "encoding": "cp932",
-    "fetched_at": "2026-07-16T03:56:37+00:00",
+    "fetched_at": "2026-07-16T06:10:46+00:00",
     "replacement_chars": 0,
     "status": 200,
     "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/880331/gensen/58/29/06.htm"
@@ -98,7 +98,7 @@
   "41/09.htm": {
     "bytes": 6751,
     "encoding": "cp932",
-    "fetched_at": "2026-07-16T03:56:39+00:00",
+    "fetched_at": "2026-07-16T06:10:47+00:00",
     "replacement_chars": 0,
     "status": 200,
     "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/880331/gensen/58/41/09.htm"
@@ -106,7 +106,7 @@
   "41/10.htm": {
     "bytes": 8922,
     "encoding": "cp932",
-    "fetched_at": "2026-07-16T03:56:40+00:00",
+    "fetched_at": "2026-07-16T06:10:49+00:00",
     "replacement_chars": 0,
     "status": 200,
     "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/880331/gensen/58/41/10.htm"
@@ -114,7 +114,7 @@
   "41/18.htm": {
     "bytes": 5709,
     "encoding": "cp932",
-    "fetched_at": "2026-07-16T03:56:41+00:00",
+    "fetched_at": "2026-07-16T06:10:50+00:00",
     "replacement_chars": 0,
     "status": 200,
     "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/880331/gensen/58/41/18.htm"
@@ -122,7 +122,7 @@
   "42/01.htm": {
     "bytes": 6310,
     "encoding": "cp932",
-    "fetched_at": "2026-07-16T03:56:42+00:00",
+    "fetched_at": "2026-07-16T06:10:51+00:00",
     "replacement_chars": 0,
     "status": 200,
     "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/880331/gensen/58/42/01.htm"
@@ -130,7 +130,7 @@
   "fusoku/01.htm": {
     "bytes": 10110,
     "encoding": "cp932",
-    "fetched_at": "2026-07-16T03:56:44+00:00",
+    "fetched_at": "2026-07-16T06:10:53+00:00",
     "replacement_chars": 0,
     "status": 200,
     "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/880331/gensen/58/fusoku/01.htm"
@@ -138,7 +138,7 @@
   "zenbun/01.htm": {
     "bytes": 7052,
     "encoding": "cp932",
-    "fetched_at": "2026-07-16T03:56:21+00:00",
+    "fetched_at": "2026-07-16T06:10:31+00:00",
     "replacement_chars": 0,
     "status": 200,
     "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/880331/gensen/58/zenbun/01.htm"
