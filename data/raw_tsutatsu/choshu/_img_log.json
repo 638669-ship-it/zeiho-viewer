@@ -1,0 +1,56 @@
+{
+  "02/03/015/1.gif": {
+    "bytes": 1727,
+    "fetched_at": "2026-07-16T03:48:14+00:00",
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/chosyu/02/03/015/1.gif"
+  },
+  "03/036/01.gif": {
+    "bytes": 1072,
+    "fetched_at": "2026-07-16T03:48:15+00:00",
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/chosyu/03/036/01.gif"
+  },
+  "03/036/02.gif": {
+    "bytes": 1194,
+    "fetched_at": "2026-07-16T03:48:17+00:00",
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/chosyu/03/036/02.gif"
+  },
+  "03/038/01.gif": {
+    "bytes": 36362,
+    "fetched_at": "2026-07-16T03:48:18+00:00",
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/chosyu/03/038/01.gif"
+  },
+  "03/039/01.jpg": {
+    "bytes": 107393,
+    "fetched_at": "2026-07-16T03:48:19+00:00",
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/chosyu/03/039/01.jpg"
+  },
+  "05/01/06/076/01.gif": {
+    "bytes": 3375,
+    "fetched_at": "2026-07-16T03:48:21+00:00",
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/chosyu/05/01/06/076/01.gif"
+  },
+  "05/01/06/076/02.gif": {
+    "bytes": 3549,
+    "fetched_at": "2026-07-16T03:48:22+00:00",
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/chosyu/05/01/06/076/02.gif"
+  },
+  "05/01/06/076/03.gif": {
+    "bytes": 3287,
+    "fetched_at": "2026-07-16T03:48:23+00:00",
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/chosyu/05/01/06/076/03.gif"
+  },
+  "05/01/06/076/04.gif": {
+    "bytes": 3468,
+    "fetched_at": "2026-07-16T03:48:25+00:00",
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/chosyu/05/01/06/076/04.gif"
+  }
+}

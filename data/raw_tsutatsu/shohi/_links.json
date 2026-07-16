@@ -1,0 +1,806 @@
+{
+  "key": "shohi",
+  "name": "消費税法基本通達",
+  "abbr": "消基通",
+  "parent": "shohi_act",
+  "toc_url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/01.htm",
+  "numbering": "chapter",
+  "min_segments": 2,
+  "published_as_of": "令和8年5月22日付改正分まで更新",
+  "listed_at": "2026-07-16T03:20:04+00:00",
+  "page_count": 99,
+  "pages": [
+    {
+      "path": "02.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/02.htm",
+      "anchors": [],
+      "labels": [
+        "前文・説明文"
+      ]
+    },
+    {
+      "path": "01/01.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/01/01.htm",
+      "anchors": [],
+      "labels": [
+        "個人事業者の納税義務"
+      ]
+    },
+    {
+      "path": "01/02.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/01/02.htm",
+      "anchors": [],
+      "labels": [
+        "法人の納税義務"
+      ]
+    },
+    {
+      "path": "01/03.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/01/03.htm",
+      "anchors": [],
+      "labels": [
+        "共同事業に係る納税義務"
+      ]
+    },
+    {
+      "path": "01/04.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/01/04.htm",
+      "anchors": [],
+      "labels": [
+        "納税義務の免除"
+      ]
+    },
+    {
+      "path": "01/05.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/01/05.htm",
+      "anchors": [],
+      "labels": [
+        "納税義務の免除の特例"
+      ]
+    },
+    {
+      "path": "01/06.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/01/06.htm",
+      "anchors": [],
+      "labels": [
+        "国外事業者"
+      ]
+    },
+    {
+      "path": "01/07.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/01/07.htm",
+      "anchors": [],
+      "labels": [
+        "適格請求書発行事業者"
+      ]
+    },
+    {
+      "path": "01/08.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/01/08.htm",
+      "anchors": [],
+      "labels": [
+        "適格請求書発行事業者の義務"
+      ]
+    },
+    {
+      "path": "02/01.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/02/01.htm",
+      "anchors": [],
+      "labels": [
+        "個人事業者の納税地"
+      ]
+    },
+    {
+      "path": "02/02.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/02/02.htm",
+      "anchors": [],
+      "labels": [
+        "法人の納税地"
+      ]
+    },
+    {
+      "path": "03/01.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/03/01.htm",
+      "anchors": [],
+      "labels": [
+        "個人事業者の課税期間"
+      ]
+    },
+    {
+      "path": "03/02.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/03/02.htm",
+      "anchors": [],
+      "labels": [
+        "法人の課税期間"
+      ]
+    },
+    {
+      "path": "03/03.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/03/03.htm",
+      "anchors": [],
+      "labels": [
+        "課税期間の特例"
+      ]
+    },
+    {
+      "path": "04/01.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/04/01.htm",
+      "anchors": [],
+      "labels": [
+        "実質主義"
+      ]
+    },
+    {
+      "path": "04/02.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/04/02.htm",
+      "anchors": [],
+      "labels": [
+        "信託財産に係る譲渡等の帰属"
+      ]
+    },
+    {
+      "path": "04/03.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/04/03.htm",
+      "anchors": [],
+      "labels": [
+        "受益者等課税信託に関する取扱い"
+      ]
+    },
+    {
+      "path": "04/04.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/04/04.htm",
+      "anchors": [],
+      "labels": [
+        "法人課税信託又は公益信託に関する取扱い"
+      ]
+    },
+    {
+      "path": "05/01.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/05/01.htm",
+      "anchors": [],
+      "labels": [
+        "通則"
+      ]
+    },
+    {
+      "path": "05/02.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/05/02.htm",
+      "anchors": [],
+      "labels": [
+        "資産の譲渡の範囲"
+      ]
+    },
+    {
+      "path": "05/03/01.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/05/03/01.htm",
+      "anchors": [],
+      "labels": [
+        "個人事業者の家事消費等"
+      ]
+    },
+    {
+      "path": "05/03/02.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/05/03/02.htm",
+      "anchors": [],
+      "labels": [
+        "役員に対するみなし譲渡"
+      ]
+    },
+    {
+      "path": "05/04.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/05/04.htm",
+      "anchors": [],
+      "labels": [
+        "資産の貸付け"
+      ]
+    },
+    {
+      "path": "05/05.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/05/05.htm",
+      "anchors": [],
+      "labels": [
+        "役務の提供"
+      ]
+    },
+    {
+      "path": "05/06.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/05/06.htm",
+      "anchors": [],
+      "labels": [
+        "保税地域からの引取り"
+      ]
+    },
+    {
+      "path": "05/07.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/05/07.htm",
+      "anchors": [],
+      "labels": [
+        "国内取引の判定"
+      ]
+    },
+    {
+      "path": "05/08.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/05/08.htm",
+      "anchors": [],
+      "labels": [
+        "特定資産の譲渡等及び特定プラットフォーム事業者を介して行う電気通信利用役務の提供"
+      ]
+    },
+    {
+      "path": "05/09.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/05/09.htm",
+      "anchors": [],
+      "labels": [
+        "軽減対象課税資産の譲渡等"
+      ]
+    },
+    {
+      "path": "06/01.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/06/01.htm",
+      "anchors": [],
+      "labels": [
+        "土地等の譲渡及び貸付け関係"
+      ]
+    },
+    {
+      "path": "06/02.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/06/02.htm",
+      "anchors": [],
+      "labels": [
+        "有価証券等及び支払手段の譲渡等関係"
+      ]
+    },
+    {
+      "path": "06/03.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/06/03.htm",
+      "anchors": [],
+      "labels": [
+        "利子を対価とする貸付金等関係"
+      ]
+    },
+    {
+      "path": "06/04.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/06/04.htm",
+      "anchors": [],
+      "labels": [
+        "郵便切手類等及び物品切手等の譲渡関係"
+      ]
+    },
+    {
+      "path": "06/05.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/06/05.htm",
+      "anchors": [],
+      "labels": [
+        "国等の手数料及び外国為替業務等関係"
+      ]
+    },
+    {
+      "path": "06/06.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/06/06.htm",
+      "anchors": [],
+      "labels": [
+        "医療の給付等関係"
+      ]
+    },
+    {
+      "path": "06/07.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/06/07.htm",
+      "anchors": [],
+      "labels": [
+        "社会福祉事業等関係"
+      ]
+    },
+    {
+      "path": "06/08.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/06/08.htm",
+      "anchors": [],
+      "labels": [
+        "助産に係る資産の譲渡等"
+      ]
+    },
+    {
+      "path": "06/09.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/06/09.htm",
+      "anchors": [],
+      "labels": [
+        "埋葬料又は火葬料を対価とする役務の提供関係"
+      ]
+    },
+    {
+      "path": "06/10.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/06/10.htm",
+      "anchors": [],
+      "labels": [
+        "身体障害者用物品の譲渡等関係"
+      ]
+    },
+    {
+      "path": "06/11.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/06/11.htm",
+      "anchors": [],
+      "labels": [
+        "学校教育関係"
+      ]
+    },
+    {
+      "path": "06/12.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/06/12.htm",
+      "anchors": [],
+      "labels": [
+        "教科用図書の譲渡関係"
+      ]
+    },
+    {
+      "path": "06/13.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/06/13.htm",
+      "anchors": [],
+      "labels": [
+        "住宅の貸付け関係"
+      ]
+    },
+    {
+      "path": "07/01.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/07/01.htm",
+      "anchors": [],
+      "labels": [
+        "通則"
+      ]
+    },
+    {
+      "path": "07/02.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/07/02.htm",
+      "anchors": [],
+      "labels": [
+        "輸出免税等の範囲"
+      ]
+    },
+    {
+      "path": "07/03.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/07/03.htm",
+      "anchors": [],
+      "labels": [
+        "租税特別措置法関係"
+      ]
+    },
+    {
+      "path": "08/01.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/08/01.htm",
+      "anchors": [],
+      "labels": [
+        "適用範囲等"
+      ]
+    },
+    {
+      "path": "08/02.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/08/02.htm",
+      "anchors": [],
+      "labels": [
+        "輸出物品販売場の許可等"
+      ]
+    },
+    {
+      "path": "08/03.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/08/03.htm",
+      "anchors": [],
+      "labels": [
+        "購入記録情報の提供等"
+      ]
+    },
+    {
+      "path": "09/01/01.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/09/01/01.htm",
+      "anchors": [],
+      "labels": [
+        "棚卸資産の譲渡の時期"
+      ]
+    },
+    {
+      "path": "09/01/02.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/09/01/02.htm",
+      "anchors": [],
+      "labels": [
+        "請負による譲渡等の時期"
+      ]
+    },
+    {
+      "path": "09/01/03.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/09/01/03.htm",
+      "anchors": [],
+      "labels": [
+        "固定資産の譲渡の時期"
+      ]
+    },
+    {
+      "path": "09/01/04.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/09/01/04.htm",
+      "anchors": [],
+      "labels": [
+        "有価証券の譲渡の時期"
+      ]
+    },
+    {
+      "path": "09/01/05.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/09/01/05.htm",
+      "anchors": [],
+      "labels": [
+        "利子、使用料等を対価とする資産の譲渡等の時期"
+      ]
+    },
+    {
+      "path": "09/01/06.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/09/01/06.htm",
+      "anchors": [],
+      "labels": [
+        "その他の資産の譲渡等の時期"
+      ]
+    },
+    {
+      "path": "09/03.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/09/03.htm",
+      "anchors": [],
+      "labels": [
+        "延払条件付譲渡に係る資産の譲渡等の時期の特例"
+      ]
+    },
+    {
+      "path": "09/04.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/09/04.htm",
+      "anchors": [],
+      "labels": [
+        "工事の請負に係る資産の譲渡等の時期の特例"
+      ]
+    },
+    {
+      "path": "09/05.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/09/05.htm",
+      "anchors": [],
+      "labels": [
+        "小規模事業者等に係る資産の譲渡等の時期の特例"
+      ]
+    },
+    {
+      "path": "09/06.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/09/06.htm",
+      "anchors": [],
+      "labels": [
+        "その他"
+      ]
+    },
+    {
+      "path": "10/01.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/10/01.htm",
+      "anchors": [],
+      "labels": [
+        "課税資産の譲渡等"
+      ]
+    },
+    {
+      "path": "10/02.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/10/02.htm",
+      "anchors": [],
+      "labels": [
+        "特定課税仕入れ"
+      ]
+    },
+    {
+      "path": "11/01.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/11/01.htm",
+      "anchors": [],
+      "labels": [
+        "通則"
+      ]
+    },
+    {
+      "path": "11/02.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/11/02.htm",
+      "anchors": [],
+      "labels": [
+        "課税仕入れ等の範囲"
+      ]
+    },
+    {
+      "path": "11/03.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/11/03.htm",
+      "anchors": [],
+      "labels": [
+        "課税仕入れ等の時期"
+      ]
+    },
+    {
+      "path": "11/04.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/11/04.htm",
+      "anchors": [],
+      "labels": [
+        "課税仕入れに係る支払対価の額"
+      ]
+    },
+    {
+      "path": "11/05.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/11/05.htm",
+      "anchors": [],
+      "labels": [
+        "課税売上割合の計算等"
+      ]
+    },
+    {
+      "path": "11/06.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/11/06.htm",
+      "anchors": [],
+      "labels": [
+        "仕入税額の控除に係る帳簿及び請求書等の記載事項の特例"
+      ]
+    },
+    {
+      "path": "11/08.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/11/08.htm",
+      "anchors": [],
+      "labels": [
+        "居住用賃貸建物"
+      ]
+    },
+    {
+      "path": "11/07.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/11/07.htm",
+      "anchors": [],
+      "labels": [
+        "非課税資産の輸出等を行った場合の仕入れに係る消費税額の控除の特例"
+      ]
+    },
+    {
+      "path": "12/01/01.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/12/01/01.htm",
+      "anchors": [],
+      "labels": [
+        "対価の返還等の範囲"
+      ]
+    },
+    {
+      "path": "12/01/02.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/12/01/02.htm",
+      "anchors": [],
+      "labels": [
+        "対価の返還等の時期"
+      ]
+    },
+    {
+      "path": "12/01/03.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/12/01/03.htm",
+      "anchors": [],
+      "labels": [
+        "課税貨物に係る消費税額の還付"
+      ]
+    },
+    {
+      "path": "12/02.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/12/02.htm",
+      "anchors": [],
+      "labels": [
+        "調整対象固定資産の範囲"
+      ]
+    },
+    {
+      "path": "12/03.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/12/03.htm",
+      "anchors": [],
+      "labels": [
+        "課税売上割合が著しく変動した場合の調整"
+      ]
+    },
+    {
+      "path": "12/04.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/12/04.htm",
+      "anchors": [],
+      "labels": [
+        "課税業務用から非課税業務用に転用した場合の調整"
+      ]
+    },
+    {
+      "path": "12/05.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/12/05.htm",
+      "anchors": [],
+      "labels": [
+        "非課税業務用から課税業務用に転用した場合の調整"
+      ]
+    },
+    {
+      "path": "12/07.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/12/07.htm",
+      "anchors": [],
+      "labels": [
+        "居住用賃貸建物を課税賃貸用に供した場合等の調整"
+      ]
+    },
+    {
+      "path": "12/06.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/12/06.htm",
+      "anchors": [],
+      "labels": [
+        "納税義務の免除を受けないこととなった場合等の調整"
+      ]
+    },
+    {
+      "path": "13/01.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/13/01.htm",
+      "anchors": [],
+      "labels": [
+        "通則"
+      ]
+    },
+    {
+      "path": "13/02.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/13/02.htm",
+      "anchors": [],
+      "labels": [
+        "事業区分の判定"
+      ]
+    },
+    {
+      "path": "13/03.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/13/03.htm",
+      "anchors": [],
+      "labels": [
+        "事業の区分及び区分記載の方法"
+      ]
+    },
+    {
+      "path": "13/04.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/13/04.htm",
+      "anchors": [],
+      "labels": [
+        "二以上の事業を営む場合のみなし仕入率の適用関係"
+      ]
+    },
+    {
+      "path": "14/01/01.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/14/01/01.htm",
+      "anchors": [],
+      "labels": [
+        "売上げに係る対価の返還等の範囲"
+      ]
+    },
+    {
+      "path": "14/01/02.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/14/01/02.htm",
+      "anchors": [],
+      "labels": [
+        "対価の返還等を行った時期"
+      ]
+    },
+    {
+      "path": "14/01/03.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/14/01/03.htm",
+      "anchors": [],
+      "labels": [
+        "特定課税仕入れに係る対価の返還等の範囲"
+      ]
+    },
+    {
+      "path": "14/02.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/14/02.htm",
+      "anchors": [],
+      "labels": [
+        "貸倒れに係る消費税額の控除"
+      ]
+    },
+    {
+      "path": "15/01.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/15/01.htm",
+      "anchors": [],
+      "labels": [
+        "中間申告"
+      ]
+    },
+    {
+      "path": "15/02.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/15/02.htm",
+      "anchors": [],
+      "labels": [
+        "確定申告"
+      ]
+    },
+    {
+      "path": "15/03.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/15/03.htm",
+      "anchors": [],
+      "labels": [
+        "還付を受けるための申告"
+      ]
+    },
+    {
+      "path": "15/04.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/15/04.htm",
+      "anchors": [],
+      "labels": [
+        "引取りに係る課税貨物についての申告及び納期限"
+      ]
+    },
+    {
+      "path": "15/05.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/15/05.htm",
+      "anchors": [],
+      "labels": [
+        "仕入控除不足額の還付"
+      ]
+    },
+    {
+      "path": "16/01.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/16/01.htm",
+      "anchors": [],
+      "labels": [
+        "通則"
+      ]
+    },
+    {
+      "path": "16/02.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/16/02.htm",
+      "anchors": [],
+      "labels": [
+        "特定収入の取扱い"
+      ]
+    },
+    {
+      "path": "16/03.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/16/03.htm",
+      "anchors": [],
+      "labels": [
+        "申告関係"
+      ]
+    },
+    {
+      "path": "17/01.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/17/01.htm",
+      "anchors": [],
+      "labels": [
+        "納税義務の免除が適用されなくなった場合等の届出"
+      ]
+    },
+    {
+      "path": "17/02.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/17/02.htm",
+      "anchors": [],
+      "labels": [
+        "申告義務の承継"
+      ]
+    },
+    {
+      "path": "17/03.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/17/03.htm",
+      "anchors": [],
+      "labels": [
+        "帳簿等"
+      ]
+    },
+    {
+      "path": "18/01.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/18/01.htm",
+      "anchors": [],
+      "labels": [
+        "事業者が消費者に対して価格を表示する場合の取扱い"
+      ]
+    },
+    {
+      "path": "19/01.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/19/01.htm",
+      "anchors": [],
+      "labels": [
+        "消費税と地方消費税との関係"
+      ]
+    },
+    {
+      "path": "20/01.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/20/01.htm",
+      "anchors": [],
+      "labels": [
+        "特定非常災害の被災事業者からの届出等に関する特例"
+      ]
+    },
+    {
+      "path": "21/01.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shohi/21/01.htm",
+      "anchors": [],
+      "labels": [
+        "経過措置"
+      ]
+    }
+  ]
+}

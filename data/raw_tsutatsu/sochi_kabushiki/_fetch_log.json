@@ -1,0 +1,154 @@
+{
+  "03.htm": {
+    "bytes": 23945,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T03:57:14+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/020624/sanrin/03.htm"
+  },
+  "1273/37_10-11/01.htm": {
+    "bytes": 47438,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T03:56:53+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/020624/sanrin/1273/37_10-11/01.htm"
+  },
+  "1273/37_10/01.htm": {
+    "bytes": 40669,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T03:56:54+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/020624/sanrin/1273/37_10/01.htm"
+  },
+  "1273/37_10_2/01.htm": {
+    "bytes": 7389,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T03:56:57+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/020624/sanrin/1273/37_10_2/01.htm"
+  },
+  "1273/37_11/01.htm": {
+    "bytes": 20709,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T03:56:55+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/020624/sanrin/1273/37_11/01.htm"
+  },
+  "1273/37_11_3/01.htm": {
+    "bytes": 16935,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T03:56:58+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/020624/sanrin/1273/37_11_3/01.htm"
+  },
+  "1273/37_11_4/01.htm": {
+    "bytes": 5304,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T03:56:59+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/020624/sanrin/1273/37_11_4/01.htm"
+  },
+  "1273/37_11_5/01.htm": {
+    "bytes": 6929,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T03:57:01+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/020624/sanrin/1273/37_11_5/01.htm"
+  },
+  "1273/37_11_6/01.htm": {
+    "bytes": 4973,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T03:57:02+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/020624/sanrin/1273/37_11_6/01.htm"
+  },
+  "1273/37_12/01.htm": {
+    "bytes": 4173,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T03:57:03+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/020624/sanrin/1273/37_12/01.htm"
+  },
+  "1273/37_12_2/01.htm": {
+    "bytes": 7023,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T03:57:05+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/020624/sanrin/1273/37_12_2/01.htm"
+  },
+  "1273/37_13/01.htm": {
+    "bytes": 26928,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T03:57:06+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/020624/sanrin/1273/37_13/01.htm"
+  },
+  "1273/37_13_2/01.htm": {
+    "bytes": 7905,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T03:57:07+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/020624/sanrin/1273/37_13_2/01.htm"
+  },
+  "1273/37_13_3/01.htm": {
+    "bytes": 3993,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T03:57:08+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/020624/sanrin/1273/37_13_3/01.htm"
+  },
+  "1273/37_13_4/01.htm": {
+    "bytes": 8050,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T03:57:10+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/020624/sanrin/1273/37_13_4/01.htm"
+  },
+  "1273/37_14/01.htm": {
+    "bytes": 36797,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T03:57:11+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/020624/sanrin/1273/37_14/01.htm"
+  },
+  "1273/37_14_2/01.htm": {
+    "bytes": 37437,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T03:57:12+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/020624/sanrin/1273/37_14_2/01.htm"
+  },
+  "1273/zenbun/01.htm": {
+    "bytes": 12144,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T03:56:52+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/020624/sanrin/1273/zenbun/01.htm"
+  },
+  "1273_1/01.htm": {
+    "bytes": 23046,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T03:57:15+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/020624/sanrin/1273_1/01.htm"
+  }
+}

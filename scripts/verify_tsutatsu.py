@@ -31,6 +31,12 @@ ROOT = Path(__file__).resolve().parent.parent
 RAW_DIR = ROOT / "data" / "raw_tsutatsu"
 OUT_DIR = ROOT / "docs" / "data"
 
+# 国税庁のHTMLは <p> の閉じ忘れが多い。標準の html.parser は閉じ忘れを補正しないため、
+# 評基通の目次では245本のリンクと30個の節見出しが1つの <p> に飲み込まれ、
+# 階層も順序も壊れた（最大の <p> が6,041字）。html5lib はブラウザと同じHTML5の
+# 解釈で構造を組み直すので、同じ <p> が56字になり、節見出しとリンクが正しく並ぶ。
+HTML_PARSER = "html5lib"
+
 WS_RE = re.compile(r"\s|　")
 
 
@@ -47,6 +53,7 @@ def node_text(n: dict) -> str:
     s = n.get("t", "")
     for b in n.get("blocks") or []:
         if b.get("kind") == "table":
+            s += b.get("title", "")   # <caption>（原文でも行より前に出る）
             for row in b.get("rows") or []:
                 for c in row:
                     s += c["t"]
@@ -74,8 +81,13 @@ def item_chunks(a: dict) -> list[str]:
 
 
 def raw_text(path: Path) -> str:
-    """原文HTMLの本文テキスト。字形画像は parse 側と同じ規則で文字に戻す。"""
-    soup = BeautifulSoup(path.read_bytes().decode("cp932", "replace"), "html.parser")
+    """原文HTMLの本文テキスト。<img> は alt の文字に置き換える。
+
+    図表（その通達のディレクトリ配下の画像）の alt は出力側でも本文として並べ、
+    字形画像（/shared/ /category/ /top_img/）の alt は本文に埋め込むので、
+    どちらも alt に揃えれば突合できる。
+    """
+    soup = BeautifulSoup(path.read_bytes().decode("cp932", "replace"), HTML_PARSER)
     area = soup.find(id="bodyArea") or soup
     for im in area.find_all("img"):
         src = im.get("src", "")

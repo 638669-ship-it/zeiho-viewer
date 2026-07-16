@@ -1,0 +1,50 @@
+{
+  "57/08/images/fusaisansiki.gif": {
+    "bytes": 2907,
+    "fetched_at": "2026-07-16T03:56:10+00:00",
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/801226/sinkoku/57/08/images/fusaisansiki.gif"
+  },
+  "57/10/img/kikai_shutoku.gif": {
+    "bytes": 59330,
+    "fetched_at": "2026-07-16T03:56:12+00:00",
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/801226/sinkoku/57/10/img/kikai_shutoku.gif"
+  },
+  "57/10/img/tatemono_shutoku.gif": {
+    "bytes": 55887,
+    "fetched_at": "2026-07-16T03:56:11+00:00",
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/801226/sinkoku/57/10/img/tatemono_shutoku.gif"
+  },
+  "57/41/images/shinchiku_kohu.gif": {
+    "bytes": 4390,
+    "fetched_at": "2026-07-16T03:56:14+00:00",
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/801226/sinkoku/57/41/images/shinchiku_kohu.gif"
+  },
+  "57/41/images/sikichi_kohu.gif": {
+    "bytes": 4227,
+    "fetched_at": "2026-07-16T03:56:15+00:00",
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/801226/sinkoku/57/41/images/sikichi_kohu.gif"
+  },
+  "57/41/images/teikishakuchisansiki.gif": {
+    "bytes": 3769,
+    "fetched_at": "2026-07-16T03:56:19+00:00",
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/801226/sinkoku/57/41/images/teikishakuchisansiki.gif"
+  },
+  "57/41/images/tenpoheiyosansiki1.gif": {
+    "bytes": 2337,
+    "fetched_at": "2026-07-16T03:56:16+00:00",
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/801226/sinkoku/57/41/images/tenpoheiyosansiki1.gif"
+  },
+  "57/41/images/tenpoheiyosansiki2.gif": {
+    "bytes": 2604,
+    "fetched_at": "2026-07-16T03:56:17+00:00",
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/shotoku/sochiho/801226/sinkoku/57/41/images/tenpoheiyosansiki2.gif"
+  }
+}

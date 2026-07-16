@@ -88,7 +88,10 @@ const colorOf = (key) => groupOf(key).color;
  * 通達の項目番号「36-1」は条ではないため joDisp を通さずそのまま出す。 */
 const isTsu = (key) => (lawOf(key) || {}).kind === 'tsutatsu';
 const numDisp = (key, label) => (isTsu(key) ? String(label) : joDisp(label));
-const tsuOf = (groupKey) => INDEX.laws.find((l) => l.group === groupKey && l.kind === 'tsutatsu');
+/* 1つの法令に通達が複数ぶら下がることがある（租税特別措置法は所得税・源泉・株式・
+ * 山林譲渡の4本）。tsuOf は代表（＝最初の1本）、tsusOf は全部。 */
+const tsusOf = (groupKey) => INDEX.laws.filter((l) => l.group === groupKey && l.kind === 'tsutatsu');
+const tsuOf = (groupKey) => tsusOf(groupKey)[0];
 
 /* ─────────────────────────────── 括弧書きの色分け（指示書9）
  *
@@ -194,6 +197,23 @@ function renderParas(paras) {
 
 /* ─────────────────────────────── 画面：初期メニュー */
 
+/* 財産評価基本通達だけは独立したカードを立てる。相続税法の下にぶら下がる通達だが、
+ * 実務では単独で引くことが多く、Phase 1 のトップにも専用カードが置かれていた。 */
+function hyokaCard() {
+  const h = INDEX.laws.find((l) => l.key === 'hyoka_tsutatsu');
+  if (!h) return '';
+  return `<div class="lawCard" style="--c:var(--tsu)">
+    <div class="cardTop">
+      <div class="medal tsu">${esc(h.abbr)}</div>
+      <div class="cardName">${esc(h.name)}<small>相続税・贈与税の財産評価／${h.articles}項目</small></div>
+    </div>
+    <div class="cardBtns">
+      <button class="cBtn tsu" data-open="${h.key}">通達<span class="p2">${esc(h.abbr)}</span></button>
+      <button class="cBtn" disabled>─</button><button class="cBtn" disabled>─</button><button class="cBtn" disabled>─</button>
+    </div>
+  </div>`;
+}
+
 function renderHome() {
   state = { law: null, art: null, view: 'home', sup: null };
   nav.style.display = 'none';
@@ -206,14 +226,17 @@ function renderHome() {
       : `<button class="cBtn" disabled>${label}</button>`;
     // 通達は条ではなく項目なので「本則○条」には数えない
     const total = laws.filter((l) => l.kind !== 'tsutatsu').reduce((s, l) => s + l.articles, 0);
-    const tsu = byKind('tsutatsu');
+    const tsus = tsusOf(g.key);
+    const tsu = tsus[0];
+    const tsuItems = tsus.reduce((s, l) => s + l.articles, 0);
     const tsuBtn = tsu
-      ? `<button class="cBtn tsu" data-open="${tsu.key}">通達<span class="p2">${esc(tsu.abbr)}</span></button>`
-      : '<button class="cBtn" disabled>通達<span class="p2">Phase 2</span></button>';
+      ? `<button class="cBtn tsu" data-open="${tsu.key}" title="${esc(tsus.map((t) => t.name).join('／'))}">通達<span class="p2">${
+        tsus.length > 1 ? `${esc(tsu.abbr)}ほか${tsus.length - 1}` : esc(tsu.abbr)}</span></button>`
+      : '<button class="cBtn" disabled>通達<span class="p2">未収録</span></button>';
     return `<div class="lawCard" style="--c:${g.color}">
       <div class="cardTop">
         <div class="medal">${esc(g.abbr)}</div>
-        <div class="cardName">${esc(g.name)}<small>施行令・施行規則つき／本則${total}条${tsu ? `／${esc(tsu.abbr)}${tsu.articles}項目` : ''}</small></div>
+        <div class="cardName">${esc(g.name)}<small>施行令・施行規則つき／本則${total}条${tsu ? `／通達${tsuItems}項目` : ''}</small></div>
       </div>
       <div class="cardBtns">
         ${btn(byKind('act'), 'main', '法律')}
@@ -230,18 +253,7 @@ function renderHome() {
         <span class="big">税務六法</span>
         <span class="sub">国税法令集 Web</span>
       </div>
-      <div class="cardGrid">${cards}
-        <div class="lawCard" style="--c:#B5342A">
-          <div class="cardTop">
-            <div class="medal">評基通</div>
-            <div class="cardName">財産評価基本通達<small>相続税・贈与税の財産評価</small></div>
-          </div>
-          <div class="cardBtns">
-            <button class="cBtn" disabled>通達<span class="p2">Phase 2</span></button>
-            <button class="cBtn" disabled>─</button><button class="cBtn" disabled>─</button><button class="cBtn" disabled>─</button>
-          </div>
-        </div>
-      </div>
+      <div class="cardGrid">${cards}${hyokaCard()}</div>
       <div class="homeFoot">
         カードの「法律」「施行令」「規則」「通達」を押すと目次ツリー＋本文画面が開きます。<br>
         ヘッダーの条番号ジャンプに <b>法法22</b> ／ <b>所法56</b> ／ <b>措法66の6</b> ／ <b>所基通36-1</b> のように入力すると直行します。<br>
@@ -345,10 +357,17 @@ async function renderNav() {
     ? `<button class="${state.view === v ? 'on' : ''}" data-sec="${v}">${label}</button>`
     : `<button disabled>${label}</button>`;
 
-  const tsu = tsuOf(g.key);
+  const tsus = tsusOf(g.key);
+  const tsu = tsus[0];
   const tsuTab = tsu
-    ? `<button class="${tsu.key === key ? 'on' : ''} tsuTab" data-open="${tsu.key}">通達</button>`
-    : '<button disabled title="Phase 2 で収録">通達</button>';
+    ? `<button class="${isTsu(key) ? 'on' : ''} tsuTab" data-open="${tsu.key}">通達</button>`
+    : '<button disabled title="未収録">通達</button>';
+  // 通達が複数ある法令（措置法は4本）は、通達を開いたときだけ切り替えの列を出す
+  const tsuRow = (tsus.length > 1 && isTsu(key))
+    ? `<div class="navTabs tsuRow" style="--c:${g.color};margin-top:6px;">
+        ${tsus.map((t) => `<button class="${t.key === key ? 'on' : ''} tsuTab" data-open="${t.key}"
+          title="${esc(t.name)}">${esc(t.abbr)}</button>`).join('')}
+      </div>` : '';
   const isT = isTsu(key);
 
   nav.style.display = '';
@@ -360,6 +379,7 @@ async function renderNav() {
         ${tab('act', '法律')}${tab('cabinet_order', '施行令')}${tab('ministerial_ordinance', '規則')}
         ${tsuTab}
       </div>
+      ${tsuRow}
       <div class="navSearch" style="--c:${g.color}">
         <input id="nq" placeholder="${isT ? 'この通達内を検索' : 'この法令内を検索'}" value="${esc(navSearchQ)}" aria-label="法令内検索"
                autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
@@ -495,16 +515,20 @@ async function refBarHtml(key, a) {
     }
   } else {
     chips.push(`<a class="refChip now" href="${egovUrl(key)}" target="_blank" rel="noopener">e-Gov原文で確認 ↗</a>`);
-    const tsu = tsuOf(lawOf(key).group);
-    // 通達が対応するのは法律本体だけ（施行令・規則には条番号の対応表が無い）
-    if (tsu && tsu.parent === key) {
+    // 通達が対応するのは法律本体だけ（施行令・規則には条番号の対応表が無い）。
+    // さらに、項目番号が条を表す通達に限る。法基通の 1-1-1 は章-節-連番で条ではないため、
+    // 条から通達を引く手がかりが無い（「該当項目なし」と出すと収録漏れに見えるので出さない）。
+    const linkable = tsusOf(lawOf(key).group).filter((t) => t.parent === key && t.numbering === 'article');
+    for (const tsu of linkable) {
       const ttoc = await getToc(tsu.key);
       const hits = (ttoc.rel || {})[a.id] || [];
       if (hits.length) {
-        chips.push(`<a class="refChip tsu" href="#/${tsu.key}/${hits[0]}">${esc(tsu.abbr)}${esc(a.label)}-1 ほか${hits.length}項目 →</a>`);
-      } else {
-        chips.push(`<span class="refChip tsu off">${esc(tsu.abbr)}に該当項目なし</span>`);
+        chips.push(`<a class="refChip tsu" href="#/${tsu.key}/${hits[0]}" title="${esc(tsu.name)}">${
+          esc(tsu.abbr)} ${hits.length}項目 →</a>`);
       }
+    }
+    if (linkable.length && !chips.some((c) => c.includes('refChip tsu'))) {
+      chips.push(`<span class="refChip tsu off">通達に該当項目なし</span>`);
     }
   }
   return chips.join('');
@@ -673,7 +697,7 @@ function kanjiNum(s) {
  * 混在させているので（－ - ― ー）、入力もその全部を受ける。 */
 function tsuItemId(rest) {
   let s = Z2H(rest).replace(/[－―ー−‐–—]/g, '-');
-  s = s.replace(/の/g, '_').replace(/から|～/g, 'r').replace(/・/g, 'n').replace(/共/g, 'c');
+  s = s.replace(/付表/g, 'f').replace(/の/g, '_').replace(/から|～/g, 'r').replace(/・/g, 'n').replace(/共/g, 'c');
   return /^[0-9A-Za-z_-]+$/.test(s) ? 't' + s : null;
 }
 

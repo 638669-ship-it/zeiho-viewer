@@ -36,6 +36,12 @@ from bs4 import BeautifulSoup
 ROOT = Path(__file__).resolve().parent.parent
 RAW_DIR = ROOT / "data" / "raw_tsutatsu"
 
+# 国税庁のHTMLは <p> の閉じ忘れが多い。標準の html.parser は閉じ忘れを補正しないため、
+# 評基通の目次では245本のリンクと30個の節見出しが1つの <p> に飲み込まれ、
+# 階層も順序も壊れた（最大の <p> が6,041字）。html5lib はブラウザと同じHTML5の
+# 解釈で構造を組み直すので、同じ <p> が56字になり、節見出しとリンクが正しく並ぶ。
+HTML_PARSER = "html5lib"
+
 ORIGIN = "https://www.nta.go.jp"
 UA = "zeiho-viewer/0.2 (personal tax-law reference tool; contact via https://github.com/638669-ship-it/zeiho-viewer)"
 
@@ -47,8 +53,17 @@ TIMEOUT = 120
 # 「（令和8年3月31日付通達まで掲載）」の掲載時点は目次ではなく menu.htm に載っている。
 MENU_URL = f"{ORIGIN}/law/tsutatsu/menu.htm"
 
-# 通達ごとのアダプタ。Phase 2 のパイロットは shotoku のみ。
-# 残り7通達は active を True にすれば同じ処理で取得できる。
+# 通達ごとのアダプタ。active を True にすれば同じ処理で取得できる。
+#
+# numbering … 項目番号の体系。関連条文リンクの作り方が変わる。
+#   "article" 条-枝番（所基通 36-1 ＝ 法第36条）。番号から関係法条を導ける。
+#   "chapter" 章-節-連番（法基通 1-1-1）。番号は条を表さないので導けない。
+#   "flat"    通し番号（評基通 1、4-2）。通達内で完結した番号で、条とは無関係。
+# 番号から条を導けるのは "article" だけ。他は法令側からの「関連通達」リンクを出さない。
+#
+# min_segments … 項目番号の最小セグメント数。少なく見積もると本文中の数字を項目と
+#   取り違えるので通達ごとに指定する。所基通 36-1＝2、法基通 1-1-1＝3だが最小は2、
+#   評基通は「1」という裸の番号があるので1。
 SOURCES = {
     "shotoku": {
         "name": "所得税基本通達",
@@ -56,6 +71,8 @@ SOURCES = {
         "parent": "shotoku_act",  # 親法令（docs/data/index.json の key）
         "toc_url": f"{ORIGIN}/law/tsutatsu/kihon/shotoku/01.htm",
         "base_path": "/law/tsutatsu/kihon/shotoku/",
+        "numbering": "article",
+        "min_segments": 2,
         "active": True,
     },
     "houjin": {
@@ -64,7 +81,9 @@ SOURCES = {
         "parent": "houjin_act",
         "toc_url": f"{ORIGIN}/law/tsutatsu/kihon/hojin/01.htm",
         "base_path": "/law/tsutatsu/kihon/hojin/",
-        "active": False,
+        "numbering": "chapter",
+        "min_segments": 2,
+        "active": True,
     },
     "hyoka": {
         "name": "財産評価基本通達",
@@ -72,7 +91,10 @@ SOURCES = {
         "parent": "souzoku_act",
         "toc_url": f"{ORIGIN}/law/tsutatsu/kihon/sisan/hyoka_new/01.htm",
         "base_path": "/law/tsutatsu/kihon/sisan/hyoka_new/",
-        "active": False,
+        # 評基通の 1・4-2 は通達内の通し番号。相続税法の条とは対応しない。
+        "numbering": "flat",
+        "min_segments": 1,
+        "active": True,
     },
     "souzoku": {
         "name": "相続税法基本通達",
@@ -80,7 +102,10 @@ SOURCES = {
         "parent": "souzoku_act",
         "toc_url": f"{ORIGIN}/law/tsutatsu/kihon/sisan/sozoku2/01.htm",
         "base_path": "/law/tsutatsu/kihon/sisan/sozoku2/",
-        "active": False,
+        # 相基通 9-1 ＝ 法第9条。所基通と同じ条-枝番。
+        "numbering": "article",
+        "min_segments": 2,
+        "active": True,
     },
     "shohi": {
         "name": "消費税法基本通達",
@@ -88,15 +113,76 @@ SOURCES = {
         "parent": "shohi_act",
         "toc_url": f"{ORIGIN}/law/tsutatsu/kihon/shohi/01.htm",
         "base_path": "/law/tsutatsu/kihon/shohi/",
-        "active": False,
+        # 消基通 1-1-1 は章-節-連番（法基通と同じ体系）。条とは対応しない。
+        "numbering": "chapter",
+        "min_segments": 2,
+        "active": True,
     },
     "tsusoku": {
         "name": "国税通則法基本通達",
         "abbr": "通基通",
         "parent": "tsusoku_act",
-        "toc_url": f"{ORIGIN}/law/tsutatsu/kihon/tsusoku/00.htm",
+        # 00.htm は前文で、目次は mokuji.htm という別ページ。
+        "toc_url": f"{ORIGIN}/law/tsutatsu/kihon/tsusoku/mokuji.htm",
+        # menu.htm が張っているのは 00.htm。掲載時点はそちらの行から拾う。
+        "menu_link": f"{ORIGIN}/law/tsutatsu/kihon/tsusoku/00.htm",
         "base_path": "/law/tsutatsu/kihon/tsusoku/",
-        "active": False,
+        # 通基通の番号は「第○条関係」ごとに1から振り直される（「1」が46か所にある）。
+        # 番号だけでは項目を特定できないので、条関係の条番号と合成して 2-1 とする。
+        "numbering": "article",
+        "min_segments": 1,
+        # 項目の置き場所が indent1・indent2・class無しに散らばっていて、深さでは
+        # 見分けられない（実測 253/42/12）。確実なのは「先頭の太字が数字だけ」の形。
+        "item_by_strong": True,
+        "compose_kankei": True,
+        "active": True,
+    },
+    # 措置法通達（所得税関係）は1本ではなく、入口の sotihou.htm に14本の通達が
+    # 並んだ一覧表になっている。実務で引く主要4本を別々の通達として収録する
+    # （残り10本は肉用牛の売却・社会保険診療報酬の範囲などの個別論点）。
+    "sochi": {
+        "name": "租税特別措置法関係通達（所得税）",
+        "abbr": "措通",
+        "parent": "sochi_act",
+        "toc_url": f"{ORIGIN}/law/tsutatsu/kobetsu/shotoku/sochiho/801226/sinkoku/01.htm",
+        "menu_link": f"{ORIGIN}/law/tsutatsu/kobetsu/shotoku/sochiho/sotihou.htm",
+        "base_path": "/law/tsutatsu/kobetsu/shotoku/sochiho/801226/sinkoku/",
+        "numbering": "article",
+        "min_segments": 2,
+        "active": True,
+    },
+    "sochi_gensen": {
+        "name": "租税特別措置法関係通達（源泉所得税）",
+        "abbr": "措通源泉",
+        "parent": "sochi_act",
+        "toc_url": f"{ORIGIN}/law/tsutatsu/kobetsu/shotoku/sochiho/880331/gensen/58/01.htm",
+        "menu_link": f"{ORIGIN}/law/tsutatsu/kobetsu/shotoku/sochiho/sotihou.htm",
+        "base_path": "/law/tsutatsu/kobetsu/shotoku/sochiho/880331/gensen/58/",
+        "numbering": "article",
+        "min_segments": 2,
+        "active": True,
+    },
+    "sochi_kabushiki": {
+        "name": "租税特別措置法関係通達（株式等に係る譲渡所得等）",
+        "abbr": "措通株式",
+        "parent": "sochi_act",
+        "toc_url": f"{ORIGIN}/law/tsutatsu/kobetsu/shotoku/sochiho/020624/sanrin/01.htm",
+        "menu_link": f"{ORIGIN}/law/tsutatsu/kobetsu/shotoku/sochiho/sotihou.htm",
+        "base_path": "/law/tsutatsu/kobetsu/shotoku/sochiho/020624/sanrin/",
+        "numbering": "article",
+        "min_segments": 2,
+        "active": True,
+    },
+    "sochi_jouto": {
+        "name": "租税特別措置法関係通達（山林所得・譲渡所得）",
+        "abbr": "措通譲渡",
+        "parent": "sochi_act",
+        "toc_url": f"{ORIGIN}/law/tsutatsu/kobetsu/shotoku/sochiho/710826/sanrin/sanjyou/01.htm",
+        "menu_link": f"{ORIGIN}/law/tsutatsu/kobetsu/shotoku/sochiho/sotihou.htm",
+        "base_path": "/law/tsutatsu/kobetsu/shotoku/sochiho/710826/sanrin/sanjyou/",
+        "numbering": "article",
+        "min_segments": 2,
+        "active": True,
     },
     "choshu": {
         "name": "国税徴収法基本通達",
@@ -104,12 +190,20 @@ SOURCES = {
         "parent": "choshu_act",
         "toc_url": f"{ORIGIN}/law/tsutatsu/kihon/chosyu/index.htm",
         "base_path": "/law/tsutatsu/kihon/chosyu/",
-        "active": False,
+        # 通基通と同じ作り。「第2条関係」の下に 1・2… と振り直される番号が並ぶ。
+        "numbering": "article",
+        "min_segments": 1,
+        "item_by_strong": True,
+        "compose_kankei": True,
+        "active": True,
     },
 }
 
-# 基本通達本体以外（指示書 Step1-4：取得しない）
-EXCLUDE_RE = re.compile(r"(/kaisei/|/joho/|shiryo|shushi|\.pdf$)", re.I)
+# 基本通達本体以外（指示書 Step1-4：取得しない）。
+# /20230930/ のような日付のディレクトリは旧版のアーカイブ（消基通の
+# 「令和5年9月30日以前の通達」）。現行の本体ではないので対象外。
+# 措通株式の 1273_1/ は「平成14年11月27日付改正以前のもの」の別冊＝旧版。
+EXCLUDE_RE = re.compile(r"(/kaisei/|/joho/|shiryo|shushi|/\d{8}/|/1273_1/|\.pdf$)", re.I)
 
 # /shared/ 配下の画像は図表ではなく、表外字や記号を字形画像で埋めたもの
 #   hoten.gif      alt="ほてん" … 本文中の「補塡」（塡が表外字のため画像）
@@ -169,25 +263,44 @@ def decode(body: bytes, enc: str) -> str:
 
 def body_area(html: str) -> BeautifulSoup:
     """本文領域（div#bodyArea）だけを対象にする。サイドバー等の共通リンクを拾わないため。"""
-    soup = BeautifulSoup(html, "html.parser")
+    soup = BeautifulSoup(html, HTML_PARSER)
     area = soup.find(id="bodyArea")
     return area if area is not None else soup
 
 
+# 掲載時点の言い回しは通達によって違う。
+#   所基通 「（令和8年3月31日付通達まで掲載）」
+#   他6本 「（令和8年1月30日付改正分まで更新）」
+PUBLISHED_RE = re.compile(r"[（(]([^（）()]*まで(?:掲載|更新))[）)]")
+
+
 def fetch_published_as_of(key: str, src: dict) -> str | None:
-    """menu.htm から「（令和8年3月31日付通達まで掲載）」の掲載時点を拾う。"""
-    body, enc, _ = fetch(MENU_URL)
-    html = decode(body, enc)
-    soup = BeautifulSoup(html, "html.parser")
+    """掲載時点（「令和8年3月31日付通達まで掲載」等）を拾う。
+
+    基本通達は menu.htm の行に併記されている。措置法通達は menu.htm には
+    まとめて1行しかなく、通達ごとの掲載時点は一覧表 sotihou.htm の行にある。
+    そこで menu_link に一覧表を指定し、そのページから自分の目次への
+    リンクを探して同じ行の文言を読む。
+    """
+    index_url = src.get("menu_link", MENU_URL)
     toc_path = urllib.parse.urlparse(src["toc_url"]).path
-    for a in soup.find_all("a", href=True):
-        if urllib.parse.urlparse(urllib.parse.urljoin(ORIGIN, a["href"])).path != toc_path:
-            continue
-        # リンクを含むセル（td）の文言に掲載時点が併記されている
-        cell = a.find_parent(["td", "li", "p"]) or a.parent
-        m = re.search(r"[（(]([^（）()]*まで掲載)[）)]", cell.get_text(" ", strip=True))
-        if m:
-            return m.group(1)
+
+    for page_url, want in ((index_url, toc_path), (MENU_URL, urllib.parse.urlparse(index_url).path)):
+        body, enc, _ = fetch(page_url)
+        soup = BeautifulSoup(decode(body, enc), HTML_PARSER)
+        for a in soup.find_all("a", href=True):
+            if urllib.parse.urlparse(urllib.parse.urljoin(ORIGIN, a["href"])).path != want:
+                continue
+            # リンクを含む行（tr）やセルの文言に掲載時点が併記されている
+            for scope in ("tr", "td", "li", "p"):
+                cell = a.find_parent(scope)
+                if cell is None:
+                    continue
+                m = PUBLISHED_RE.search(cell.get_text(" ", strip=True))
+                if m:
+                    return m.group(1)
+        if index_url == MENU_URL:
+            break
     return None
 
 
@@ -199,10 +312,14 @@ def collect_links(key: str, src: dict) -> tuple[list[dict], str]:
     """
     body, enc, _ = fetch(src["toc_url"])
     html = decode(body, enc)
-    save_raw(key, "01.htm", body)
+    # 目次のファイル名は通達ごとに違う（01.htm / mokuji.htm / index.htm）。
+    # 決め打ちすると本文と同じ名前で二重に保存され、ページ数が合わなくなる。
+    save_raw(key, src["toc_url"].rsplit("/", 1)[-1], body)
 
     area = body_area(html)
     base = src["base_path"]
+    # ここで外したいのは「目次が自分自身を指すリンク」だけ。menu_link（通基通では
+    # 前文の 00.htm）と取り違えると、前文が落ちて目次が本文として入る。
     toc_path = urllib.parse.urlparse(src["toc_url"]).path
 
     pages: dict[str, dict] = {}
@@ -322,6 +439,10 @@ def run(key: str, src: dict, args) -> int:
                 "abbr": src["abbr"],
                 "parent": src["parent"],
                 "toc_url": src["toc_url"],
+                "numbering": src["numbering"],
+                "min_segments": src.get("min_segments", 2),
+                "item_by_strong": src.get("item_by_strong", False),
+                "compose_kankei": src.get("compose_kankei", False),
                 "published_as_of": published,
                 "listed_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
                 "page_count": len(pages),
