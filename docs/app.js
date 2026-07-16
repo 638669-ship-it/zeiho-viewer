@@ -287,15 +287,13 @@ function filterToc(nodes, keep) {
   return out;
 }
 
-async function renderNav() {
-  const key = state.law, toc = await getToc(key), law = lawOf(key), g = groupOf(key);
-  const sibs = INDEX.laws.filter((l) => l.group === g.key);
-  const tab = (kind, label) => {
-    const l = sibs.find((s) => s.kind === kind);
-    if (!l) return `<button disabled>${label}</button>`;
-    return `<button class="${l.key === key ? 'on' : ''}" data-open="${l.key}">${label}</button>`;
-  };
-
+/* 検索結果の見出し＋目次ツリー。
+ *
+ * 検索のたびに nav 全体を作り直すと、検索窓の <input> そのものが作り直される。
+ * すると iPad（iOS Safari）では日本語入力が変換の途中で切られてしまい、
+ * そもそも日本語を打てない。ここだけを差し替えられるように切り出してある。 */
+function tocAreaHtml(key, toc) {
+  const g = groupOf(key);
   let tree, note = '';
   if (navSearchQ || fullTextHits) {
     const q = navSearchQ;
@@ -312,6 +310,36 @@ async function renderNav() {
   } else {
     tree = tocTreeHtml(toc.toc, state.art);
   }
+  return note + `<div class="toc" style="--c:${g.color}">${tree}</div>`;
+}
+
+function bindToc() {
+  nav.querySelectorAll('.jo').forEach((d) => {
+    d.onclick = () => { goto(state.law, d.dataset.id); closeDrawer(); };
+  });
+  nav.querySelectorAll('.grp > .lbl').forEach((l) => {
+    l.onclick = () => l.parentElement.classList.toggle('closed');
+  });
+}
+
+/* 検索窓・タブはそのままに、目次ツリーだけ描き直す。
+ * <input> に触らないので、入力中のカーソル位置も変換中の文字も保たれる。 */
+async function updateToc() {
+  const toc = await getToc(state.law);
+  const area = $('#tocArea');
+  if (!area) return renderNav();
+  area.innerHTML = tocAreaHtml(state.law, toc);
+  bindToc();
+}
+
+async function renderNav() {
+  const key = state.law, toc = await getToc(key), law = lawOf(key), g = groupOf(key);
+  const sibs = INDEX.laws.filter((l) => l.group === g.key);
+  const tab = (kind, label) => {
+    const l = sibs.find((s) => s.kind === kind);
+    if (!l) return `<button disabled>${label}</button>`;
+    return `<button class="${l.key === key ? 'on' : ''}" data-open="${l.key}">${label}</button>`;
+  };
 
   const secBtn = (v, label, on) => on
     ? `<button class="${state.view === v ? 'on' : ''}" data-sec="${v}">${label}</button>`
@@ -343,20 +371,14 @@ async function renderNav() {
         ${secBtn('appdx', `別表(${law.appdx})`, toc.has_appdx)}
       </div>`}
     </div>
-    ${note}
-    <div class="toc" style="--c:${g.color}">${tree}</div>
+    <div id="tocArea">${tocAreaHtml(key, toc)}</div>
     <button class="backHome">⌂ 法令メニューへ戻る</button>
     <div class="navNote">${isT
       ? `通達${law.articles}項目／附則${law.suppls}本。${esc(law.law_num)}。出典：国税庁ホームページ。`
       : `本則${law.articles}条／附則${law.suppls}本／別表${law.appdx}。
          施行日 ${esc(law.enforced || '－')}。出典：e-Gov法令検索。`}</div>`;
 
-  nav.querySelectorAll('.jo').forEach((d) => {
-    d.onclick = () => { goto(state.law, d.dataset.id); closeDrawer(); };
-  });
-  nav.querySelectorAll('.grp > .lbl').forEach((l) => {
-    l.onclick = () => l.parentElement.classList.toggle('closed');
-  });
+  bindToc();
   nav.querySelectorAll('[data-open]').forEach((b) => { b.onclick = () => openLaw(b.dataset.open); });
   nav.querySelectorAll('[data-sec]').forEach((b) => {
     b.onclick = () => {
@@ -367,18 +389,35 @@ async function renderNav() {
   });
   nav.querySelector('.backHome').onclick = () => { location.hash = '#/'; };
 
+  /* 検索窓。IME（日本語入力）の変換中は検索しない。
+   *
+   * iPad で日本語が打てなかった原因はここ。変換の途中でも input が飛ぶので、
+   * 素直に拾うと「にほんご」の1文字ごとに目次を描き直すことになり、
+   * iOS Safari では変換が中断されて入力そのものが成立しなかった。
+   * compositionstart〜compositionend の間は何もせず、変換が確定してから検索する。
+   * 描き直すのは目次ツリーだけ（updateToc）で、<input> には触らない。 */
   const nq = $('#nq');
-  let timer;
-  nq.oninput = () => {
+  let timer, composing = false;
+  const search = () => {
     clearTimeout(timer);
     timer = setTimeout(async () => {
-      navSearchQ = nq.value.trim();
+      const q = nq.value.trim();
+      if (q === navSearchQ) return;   // 変換確定で中身が変わっていなければ何もしない
+      navSearchQ = q;
       fullTextHits = null;
-      await renderNav();
-      const el = $('#nq'); el.focus();
-      el.setSelectionRange(el.value.length, el.value.length);
+      await updateToc();
     }, 200);
   };
+  nq.addEventListener('compositionstart', () => { composing = true; clearTimeout(timer); });
+  nq.addEventListener('compositionend', () => { composing = false; search(); });
+  nq.addEventListener('input', (e) => {
+    if (composing || e.isComposing) return;   // 変換中（未確定）は検索しない
+    search();
+  });
+  // 変換候補を確定するEnterでは検索が走らないよう、確定後のEnterだけ拾う
+  nq.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.isComposing && !composing) { clearTimeout(timer); search(); }
+  });
   $('#ftBtn').onclick = () => runFullText();
   // 現在の条を目次内に見えるところへ
   const now = nav.querySelector('.jo.now');
@@ -387,7 +426,9 @@ async function renderNav() {
 
 /* 法令内の本文検索。本則の全チャンクを読む（最大でも措法の約4.7MB）。 */
 async function runFullText() {
-  const q = navSearchQ;
+  // 変換確定を待たずに押されることがあるので、窓の中身を直に読む
+  const q = ($('#nq').value || '').trim();
+  navSearchQ = q;
   if (!q) { alert('検索語を入力してください。'); return; }
   const key = state.law, toc = await getToc(key);
   const btn = $('#ftBtn');
@@ -411,7 +452,8 @@ async function runFullText() {
     for (const a of await getChunk(key, f)) if (hay(a).includes(q)) hits.add(a.id);
   }
   fullTextHits = hits;
-  await renderNav();
+  await updateToc();          // 検索窓は作り直さない（入力途中の文字を消さない）
+  btn.textContent = '本文も'; btn.disabled = false;
 }
 
 /* ─────────────────────────────── 画面：条文 */
