@@ -7,12 +7,17 @@
 
   1. 目次リンク数（アンカー除去後）＝取得ページ数＝パース成功ページ数（欠落ゼロ）
   2. 文字化けゼロ（cp932変換もれ＝置換文字 U+FFFD が0件）
-  3. 各項目の本文が、原文HTMLのテキストに「文字列としてそのまま含まれる」こと
+  3. 目次ツリーの葉・番号ジャンプの索引・本文チャンクの項目が過不足なく一致すること
+  4. 各項目の本文が、原文HTMLのテキストに「文字列としてそのまま含まれる」こと
 
-3 は欠落と改変の両方を捕まえる。項目の本文を連結したものが原文の部分文字列に
+4 は欠落と改変の両方を捕まえる。項目の本文を連結したものが原文の部分文字列に
 ならなければ、段落を落としたか、順序を崩したか、文字を書き換えたかのいずれか。
 実際にこの検査で、番号判定用の全角→半角正規化が本文にまで及んで
 「令７課個2-10」を「令7課個2-10」に書き換えていた不具合（213項目）を検出した。
+
+3 は 4 では捕まらない穴を塞ぐ。落ちた項目は突合の対象にも入らないので
+「全項目一致」でも見逃せてしまう。消基通 16-2-2 は目次に出るのに本文が無い状態で
+検収を通っていた（重複除外が、残すはずの1つも巻き添えにしていた）。
 
 比較の前処理は最小限にとどめる（空白の無視と、字形画像→文字の復元のみ）。
 """
@@ -122,6 +127,37 @@ def verify(key: str) -> int:
     n_bad = sum(p.read_text(encoding="utf-8").count("�") for p in out_dir.rglob("*.json"))
     print(f"[{'OK' if not n_bad else '!!'}] 文字化け（置換文字）{n_bad}件")
     bad += 0 if not n_bad else 1
+
+    # --- 3. 目次ツリーと本文の整合
+    #
+    # 目次に出るのに開けない項目が無いこと。ビューアは目次ツリーの葉を押して
+    # 本文チャンクを引くので、片方にしか無いと「目次にあるのに本文が無い」ことになる。
+    # 実際に消基通 16-2-2 がこれで消えていた（重複除外が残すはずの1つも巻き添えにした）。
+    leaves: list[dict] = []
+    def walk(nodes: list) -> None:
+        for n in nodes:
+            if n.get("k") == "条":
+                leaves.append(n)
+            elif n.get("c"):
+                walk(n["c"])
+    walk(toc["toc"])
+    body_ids = {a["id"] for a in arts}
+    leaf_ids = {n["id"] for n in leaves}
+    index_ids = {a["id"] for a in toc["arts"]}
+
+    orphan = leaf_ids - body_ids            # 目次にあるのに本文が無い
+    unlisted = body_ids - leaf_ids          # 本文にあるのに目次に無い
+    lost_idx = index_ids - body_ids         # 番号ジャンプの索引にあるのに本文が無い
+    ok3 = not (orphan or unlisted or lost_idx)
+    print(
+        f"[{'OK' if ok3 else '!!'}] 目次と本文の整合：目次の葉 {len(leaf_ids)} / 本文 {len(body_ids)}"
+        f" / ジャンプ索引 {len(index_ids)}"
+    )
+    for label, s in (("目次にあるのに本文が無い", orphan), ("本文にあるのに目次に無い", unlisted),
+                     ("ジャンプ索引にあるのに本文が無い", lost_idx)):
+        if s:
+            print(f"     {label}: {len(s)}件 {sorted(s)[:8]}")
+    bad += 0 if ok3 else 1
 
     # --- 3. 原文との突合
     cache: dict[str, str] = {}

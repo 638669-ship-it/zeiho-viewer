@@ -692,7 +692,7 @@ function kanjiNum(s) {
   return total + cur;
 }
 
-/* 通達の項目番号「36-1」「36の2-1」「23～35共-1」→ DOM id。
+/* 通達の項目番号「36-1」「60の2-1」「23～35共-1」→ DOM id。
  * scripts/parse_tsutatsu.py の item_id() と同じ規則。原文はダッシュを4種類
  * 混在させているので（－ - ― ー）、入力もその全部を受ける。 */
 function tsuItemId(rest) {
@@ -840,7 +840,7 @@ async function doJump() {
       toc._flat.find((a) => a.id.includes('-') && inRange(a, p.num));
   if (!art) {
     alert(p.id
-      ? `${lawOf(p.key).name} に その通達番号は見当たりません。\n（例：所基通36-1／所基通2-47／所基通36の2-1）`
+      ? `${lawOf(p.key).name} に その通達番号は見当たりません。\n（例：所基通36-1／所基通2-47／所基通60の2-1）`
       : `${lawOf(p.key).name} に ${joDisp(p.num.replace(/_/g, 'の'))} は見当たりません。\n` +
         '（削除された条・附則の条は本則の一覧にありません）');
     return;

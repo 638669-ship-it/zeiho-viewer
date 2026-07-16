@@ -684,12 +684,17 @@ class PageParser:
                     self.new_item(num, body)
                     continue
 
-            # 項目が始まりうるのは indent1 か、class を持たない段落だけ。
-            # class="indent" の段落は前の項目の続きで、他項目への参照で始まることがある
-            # （「67の２－２に定める『おおむね全部』の判定…」）。ここを項目の始まりと
-            # 取り違えると、番号だけの幽霊項目ができる。
-            # 附則・前文も同様に既存項目を引用する（「50-5を次のように改め、」）ので対象外。
-            item_slot = (lv == 1 or (lv is None and not cls)) and not self.plain and not self.by_strong
+            # 項目が始まりうるのは indent1 か、class も style も持たない段落だけ。
+            #
+            # 前の項目の続きは他項目への参照で始まることがあり、そこを項目の始まりと
+            # 取り違えると番号だけの幽霊項目ができる。字下げの表し方が2通りあるので両方外す:
+            #   class="indent"                所基通「67の２－２に定める『おおむね全部』の判定…」
+            #   style="margin-left:2.5em;…"   消基通「16－2－2(2)ニに掲げる方法と同様の方法により…」
+            # class も style も無い段落には本物の項目がある（所基通「90－1 削除」など34件）
+            # ので、その分岐自体は残す。
+            # 附則・前文も既存項目を引用する（「50-5を次のように改め、」）ので対象外。
+            bare = lv is None and not cls and not el.get("style")
+            item_slot = (lv == 1 or bare) and not self.plain and not self.by_strong
 
             # 項目番号は段落の先頭にしか来ない。<br> で折り返した2行目以降を項目の
             # 始まりと見ると、評基通の「（2）…生産緑地<br>　100分の5」の「100分の5」を
@@ -1006,6 +1011,7 @@ def dedupe(items: list) -> tuple[list, list]:
         by_id.setdefault(a["id"], []).append(a)
 
     dropped = []
+    drop_ids: set[int] = set()   # 落とす項目そのもの（オブジェクトの同一性で持つ）
     for aid, group in by_id.items():
         if len(group) < 2:
             continue
@@ -1015,8 +1021,13 @@ def dedupe(items: list) -> tuple[list, list]:
         group.sort(key=score, reverse=True)
         for a in group[1:]:
             a["_holder"].remove(a["_leaf"])
+            drop_ids.add(id(a))
             dropped.append({"id": aid, "page": a["page"], "cap": a.get("cap")})
-    keep = [a for a in items if not any(d["page"] == a["page"] and d["id"] == a["id"] for d in dropped)]
+    # 残す項目は「落とす」と決めたオブジェクトそのものを除いて選ぶ。
+    # (ページ, 番号) で突き合わせると、同じページに同じ番号が2つある場合に
+    # 残すはずの1つも一緒に消え、目次には出るのに本文が無い項目ができる
+    # （消基通 16-2-2 がこれで丸ごと消えていた）。
+    keep = [a for a in items if id(a) not in drop_ids]
     return keep, dropped
 
 
