@@ -15,6 +15,10 @@ on:
         description: '掲載時点が変わっていなくても取り直す通達の key（空白区切り。例: shotoku houjin）'
         type: string
         default: ''
+      test_notify:
+        description: 'わざと失敗させて、通知が届くか試す'
+        type: boolean
+        default: false
 
 # 同時に走らせない（push が競合するため）
 concurrency:
@@ -27,6 +31,7 @@ jobs:
     timeout-minutes: 90
     permissions:
       contents: write
+      issues: write   # 失敗を Issue で知らせる（下記「通知のしくみ」を参照）
 
     steps:
       - uses: actions/checkout@v4
@@ -148,6 +153,13 @@ jobs:
           git push
           echo "push しました：${SUMMARY}" >> "$GITHUB_STEP_SUMMARY"
 
+      # 通知の動作確認用。わざと落として、Issue とメールが届くかを試す。
+      - name: 通知のテスト（わざと失敗させる）
+        if: inputs.test_notify
+        run: |
+          echo "通知のテストです。検収が落ちたときと同じ経路で知らせます。"
+          exit 1
+
       - name: 検知結果を成果物として残す
         if: always()
         uses: actions/upload-artifact@v4
@@ -157,3 +169,76 @@ jobs:
             check.txt
             check.json
           retention-days: 90
+
+      # ── 通知のしくみ ────────────────────────────────────────────
+      # 失敗したら Issue を立てる。GitHub がリポジトリのオーナー宛に通知メールを送るので、
+      # SMTPのパスワードのような秘密情報をリポジトリに置かずに済む（漏れる物も切れる物も無い）。
+      # 同じ Issue を使い回すので、毎月失敗しても Issue が増え続けることはない。
+      - name: 失敗したら Issue を立てて知らせる
+        if: failure()
+        uses: actions/github-script@v7
+        env:
+          SUMMARY: ${{ steps.check.outputs.summary }}
+        with:
+          script: |
+            const title = '月次更新チェックが失敗しています';
+            const url = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const body = [
+              `**${new Date().toISOString().slice(0, 16).replace('T', ' ')} UTC の実行が失敗しました。**`,
+              '',
+              `- 実行ログ： ${url}`,
+              `- 検知した変更： ${process.env.SUMMARY || '(検知の前に失敗)'}`,
+              '',
+              '国税庁側のページの作りが変わってパーサが追随できていない可能性があります。',
+              '**データは push されていません。** 公開中のサイトは前回の内容のままです。',
+              '',
+              '手元で原因を追うには：',
+              '```',
+              'python scripts/check_updates.py            # 何が変わったか',
+              'python scripts/fetch_tsutatsu.py --only <key> --force',
+              'python scripts/parse_tsutatsu.py --only <key>',
+              'python scripts/verify_tsutatsu.py --only <key>   # どの項目が原文と食い違うか',
+              '```',
+              '',
+              '次に成功した回で、この Issue は自動的に閉じます。',
+            ].join('\n');
+
+            const { data: found } = await github.rest.issues.listForRepo({
+              ...context.repo, state: 'open', labels: 'monthly-update',
+            });
+            if (found.length) {
+              await github.rest.issues.createComment({ ...context.repo, issue_number: found[0].number, body });
+              core.info(`既存の Issue #${found[0].number} に追記しました`);
+            } else {
+              // ラベルが無ければ作ってから（初回のため）
+              try {
+                await github.rest.issues.createLabel({
+                  ...context.repo, name: 'monthly-update', color: 'B5342A',
+                  description: '月次更新チェックの失敗通知',
+                });
+              } catch (e) { /* 既にある */ }
+              const { data: issue } = await github.rest.issues.create({
+                ...context.repo, title, body, labels: ['monthly-update'],
+                assignees: [context.repo.owner],
+              });
+              core.info(`Issue #${issue.number} を立てました`);
+            }
+
+      # 前に失敗して開いたままの Issue があれば、成功した回で閉じる。
+      - name: 直ったら Issue を閉じる
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: found } = await github.rest.issues.listForRepo({
+              ...context.repo, state: 'open', labels: 'monthly-update',
+            });
+            const url = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            for (const i of found) {
+              await github.rest.issues.createComment({
+                ...context.repo, issue_number: i.number,
+                body: `${new Date().toISOString().slice(0, 16).replace('T', ' ')} UTC の実行が通ったので閉じます。\n\n- 実行ログ： ${url}`,
+              });
+              await github.rest.issues.update({ ...context.repo, issue_number: i.number, state: 'closed' });
+              core.info(`Issue #${i.number} を閉じました`);
+            }
