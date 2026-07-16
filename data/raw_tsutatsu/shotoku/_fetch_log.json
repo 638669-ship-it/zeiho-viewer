@@ -1,0 +1,1074 @@
+{
+  "00/01.htm": {
+    "bytes": 5629,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:32:29+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/00/01.htm"
+  },
+  "01/01.htm": {
+    "bytes": 6682,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:32:30+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/01/01.htm"
+  },
+  "01/02.htm": {
+    "bytes": 6353,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:32:32+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/01/02.htm"
+  },
+  "01/03.htm": {
+    "bytes": 5722,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:32:33+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/01/03.htm"
+  },
+  "01/04.htm": {
+    "bytes": 9849,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:32:34+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/01/04.htm"
+  },
+  "01/05.htm": {
+    "bytes": 11035,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:32:36+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/01/05.htm"
+  },
+  "01/06.htm": {
+    "bytes": 7555,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:32:37+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/01/06.htm"
+  },
+  "01/07.htm": {
+    "bytes": 17890,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:32:38+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/01/07.htm"
+  },
+  "01/08.htm": {
+    "bytes": 4615,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:32:40+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/01/08.htm"
+  },
+  "02/01.htm": {
+    "bytes": 10921,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:32:41+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/02/01.htm"
+  },
+  "02/02.htm": {
+    "bytes": 12729,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:32:42+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/02/02.htm"
+  },
+  "02/03.htm": {
+    "bytes": 5969,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:32:43+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/02/03.htm"
+  },
+  "02/04.htm": {
+    "bytes": 12325,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:32:45+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/02/04.htm"
+  },
+  "02/06.htm": {
+    "bytes": 31835,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:32:46+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/02/06.htm"
+  },
+  "02/07.htm": {
+    "bytes": 8708,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:32:47+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/02/07.htm"
+  },
+  "03/01.htm": {
+    "bytes": 9229,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:32:49+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/03/01.htm"
+  },
+  "03/02.htm": {
+    "bytes": 8768,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:32:50+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/03/02.htm"
+  },
+  "04/01.htm": {
+    "bytes": 11747,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:32:51+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/04/01.htm"
+  },
+  "04/02.htm": {
+    "bytes": 12102,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:32:52+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/04/02.htm"
+  },
+  "04/03.htm": {
+    "bytes": 10685,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:32:54+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/04/03.htm"
+  },
+  "04/04.htm": {
+    "bytes": 17457,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:32:55+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/04/04.htm"
+  },
+  "04/05.htm": {
+    "bytes": 9780,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:32:56+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/04/05.htm"
+  },
+  "04/06.htm": {
+    "bytes": 4755,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:32:58+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/04/06.htm"
+  },
+  "04/07.htm": {
+    "bytes": 40195,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:32:59+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/04/07.htm"
+  },
+  "04/08.htm": {
+    "bytes": 9552,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:00+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/04/08.htm"
+  },
+  "04/09.htm": {
+    "bytes": 12566,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:01+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/04/09.htm"
+  },
+  "04/10.htm": {
+    "bytes": 27969,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:03+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/04/10.htm"
+  },
+  "05/01.htm": {
+    "bytes": 27416,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:04+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/05/01.htm"
+  },
+  "05/02.htm": {
+    "bytes": 7355,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:05+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/05/02.htm"
+  },
+  "05/03.htm": {
+    "bytes": 27393,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:07+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/05/03.htm"
+  },
+  "05/04.htm": {
+    "bytes": 15782,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:08+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/05/04.htm"
+  },
+  "05/05.htm": {
+    "bytes": 6117,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:09+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/05/05.htm"
+  },
+  "05/06.htm": {
+    "bytes": 12178,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:10+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/05/06.htm"
+  },
+  "05/07.htm": {
+    "bytes": 16721,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:12+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/05/07.htm"
+  },
+  "05/08.htm": {
+    "bytes": 8503,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:13+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/05/08.htm"
+  },
+  "05/09.htm": {
+    "bytes": 11661,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:14+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/05/09.htm"
+  },
+  "05/10.htm": {
+    "bytes": 6256,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:16+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/05/10.htm"
+  },
+  "05/11.htm": {
+    "bytes": 9037,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:17+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/05/11.htm"
+  },
+  "05/12.htm": {
+    "bytes": 11178,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:18+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/05/12.htm"
+  },
+  "05/13.htm": {
+    "bytes": 7445,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:21+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/05/13.htm"
+  },
+  "05/14.htm": {
+    "bytes": 10131,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:22+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/05/14.htm"
+  },
+  "05/15.htm": {
+    "bytes": 8987,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:23+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/05/15.htm"
+  },
+  "05/16.htm": {
+    "bytes": 13315,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:25+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/05/16.htm"
+  },
+  "05/18.htm": {
+    "bytes": 30062,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:26+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/05/18.htm"
+  },
+  "05/19.htm": {
+    "bytes": 10593,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:20+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/05/19.htm"
+  },
+  "06/01.htm": {
+    "bytes": 10655,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:27+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/06/01.htm"
+  },
+  "07/01.htm": {
+    "bytes": 16232,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:29+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/07/01.htm"
+  },
+  "08/01.htm": {
+    "bytes": 9883,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:30+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/08/01.htm"
+  },
+  "08/02.htm": {
+    "bytes": 12097,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:31+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/08/02.htm"
+  },
+  "08/03.htm": {
+    "bytes": 5381,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:32+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/08/03.htm"
+  },
+  "08/04-2.htm": {
+    "bytes": 6014,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:35+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/08/04-2.htm"
+  },
+  "08/04.htm": {
+    "bytes": 9192,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:34+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/08/04.htm"
+  },
+  "08/05.htm": {
+    "bytes": 9909,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:36+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/08/05.htm"
+  },
+  "08/06.htm": {
+    "bytes": 13713,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:38+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/08/06.htm"
+  },
+  "08/07.htm": {
+    "bytes": 10466,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:39+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/08/07.htm"
+  },
+  "08/08.htm": {
+    "bytes": 13964,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:40+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/08/08.htm"
+  },
+  "08/09.htm": {
+    "bytes": 25752,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:42+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/08/09.htm"
+  },
+  "08/10.htm": {
+    "bytes": 8517,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:43+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/08/10.htm"
+  },
+  "08/12.htm": {
+    "bytes": 15526,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:44+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/08/12.htm"
+  },
+  "08/13.htm": {
+    "bytes": 11115,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:45+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/08/13.htm"
+  },
+  "08/14.htm": {
+    "bytes": 14747,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:47+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/08/14.htm"
+  },
+  "09/01.htm": {
+    "bytes": 9920,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:48+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/09/01.htm"
+  },
+  "09/02.htm": {
+    "bytes": 9357,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:49+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/09/02.htm"
+  },
+  "09/03.htm": {
+    "bytes": 7343,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:51+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/09/03.htm"
+  },
+  "10/01.htm": {
+    "bytes": 17364,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:52+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/10/01.htm"
+  },
+  "10/02.htm": {
+    "bytes": 9179,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:53+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/10/02.htm"
+  },
+  "10/04.htm": {
+    "bytes": 12386,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:54+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/10/04.htm"
+  },
+  "11/01.htm": {
+    "bytes": 5436,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:56+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/11/01.htm"
+  },
+  "11a/01.htm": {
+    "bytes": 10168,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:57+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/11a/01.htm"
+  },
+  "11a/02.htm": {
+    "bytes": 7340,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:33:58+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/11a/02.htm"
+  },
+  "12/01.htm": {
+    "bytes": 11813,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:00+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/12/01.htm"
+  },
+  "12/02.htm": {
+    "bytes": 8682,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:01+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/12/02.htm"
+  },
+  "12/03-2.htm": {
+    "bytes": 14246,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:04+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/12/03-2.htm"
+  },
+  "12/03-3.htm": {
+    "bytes": 6660,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:05+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/12/03-3.htm"
+  },
+  "12/03-4.htm": {
+    "bytes": 4163,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:06+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/12/03-4.htm"
+  },
+  "12/03.htm": {
+    "bytes": 11278,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:02+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/12/03.htm"
+  },
+  "12/04.htm": {
+    "bytes": 4045,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:07+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/12/04.htm"
+  },
+  "13/01.htm": {
+    "bytes": 18589,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:09+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/13/01.htm"
+  },
+  "14/02.htm": {
+    "bytes": 31110,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:10+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/14/02.htm"
+  },
+  "15/01.htm": {
+    "bytes": 15465,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:11+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/15/01.htm"
+  },
+  "16/01.htm": {
+    "bytes": 15735,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:13+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/16/01.htm"
+  },
+  "16/02.htm": {
+    "bytes": 7846,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:14+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/16/02.htm"
+  },
+  "16/03.htm": {
+    "bytes": 12217,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:15+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/16/03.htm"
+  },
+  "16/04.htm": {
+    "bytes": 8182,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:16+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/16/04.htm"
+  },
+  "16/05.htm": {
+    "bytes": 8258,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:18+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/16/05.htm"
+  },
+  "16/06.htm": {
+    "bytes": 9685,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:19+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/16/06.htm"
+  },
+  "17/01.htm": {
+    "bytes": 8052,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:20+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/17/01.htm"
+  },
+  "17/02-2.htm": {
+    "bytes": 4754,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:24+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/17/02-2.htm"
+  },
+  "17/02.htm": {
+    "bytes": 20338,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:23+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/17/02.htm"
+  },
+  "17/03.htm": {
+    "bytes": 4075,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:22+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/17/03.htm"
+  },
+  "18/01.htm": {
+    "bytes": 9975,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:26+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/18/01.htm"
+  },
+  "18/02.htm": {
+    "bytes": 8998,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:27+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/18/02.htm"
+  },
+  "19/01.htm": {
+    "bytes": 15638,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:28+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/19/01.htm"
+  },
+  "19/02-2.htm": {
+    "bytes": 12765,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:31+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/19/02-2.htm"
+  },
+  "19/02-3.htm": {
+    "bytes": 5218,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:32+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/19/02-3.htm"
+  },
+  "19/02.htm": {
+    "bytes": 12685,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:29+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/19/02.htm"
+  },
+  "20/01.htm": {
+    "bytes": 5955,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:33+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/20/01.htm"
+  },
+  "20/02.htm": {
+    "bytes": 5334,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:35+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/20/02.htm"
+  },
+  "21/01.htm": {
+    "bytes": 4290,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:36+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/21/01.htm"
+  },
+  "21/02.htm": {
+    "bytes": 5111,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:37+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/21/02.htm"
+  },
+  "22/01.htm": {
+    "bytes": 18042,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:39+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/22/01.htm"
+  },
+  "22/02.htm": {
+    "bytes": 8723,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:40+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/22/02.htm"
+  },
+  "22/03.htm": {
+    "bytes": 7766,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:41+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/22/03.htm"
+  },
+  "22/04.htm": {
+    "bytes": 10140,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:42+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/22/04.htm"
+  },
+  "22/05.htm": {
+    "bytes": 9990,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:44+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/22/05.htm"
+  },
+  "23/01.htm": {
+    "bytes": 6860,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:45+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/23/01.htm"
+  },
+  "24/01.htm": {
+    "bytes": 23513,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:46+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/24/01.htm"
+  },
+  "26/01.htm": {
+    "bytes": 12146,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:48+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/26/01.htm"
+  },
+  "27/01.htm": {
+    "bytes": 6835,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:49+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/27/01.htm"
+  },
+  "28/01.htm": {
+    "bytes": 8008,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:50+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/28/01.htm"
+  },
+  "29/01.htm": {
+    "bytes": 6095,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:51+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/29/01.htm"
+  },
+  "30/01.htm": {
+    "bytes": 7347,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:53+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/30/01.htm"
+  },
+  "31/01.htm": {
+    "bytes": 12647,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:54+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/31/01.htm"
+  },
+  "31/02.htm": {
+    "bytes": 6073,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:55+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/31/02.htm"
+  },
+  "32/01.htm": {
+    "bytes": 14399,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:57+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/32/01.htm"
+  },
+  "32/02.htm": {
+    "bytes": 5015,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:58+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/32/02.htm"
+  },
+  "33/01.htm": {
+    "bytes": 12553,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:34:59+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/33/01.htm"
+  },
+  "33/02.htm": {
+    "bytes": 5835,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:35:01+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/33/02.htm"
+  },
+  "33/03.htm": {
+    "bytes": 11001,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:35:02+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/33/03.htm"
+  },
+  "34/01.htm": {
+    "bytes": 6749,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:35:03+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/34/01.htm"
+  },
+  "35/01.htm": {
+    "bytes": 10712,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:35:04+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/35/01.htm"
+  },
+  "36/01.htm": {
+    "bytes": 6475,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:35:06+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/36/01.htm"
+  },
+  "36/02.htm": {
+    "bytes": 11821,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:35:07+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/36/02.htm"
+  },
+  "36/03.htm": {
+    "bytes": 8252,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:35:08+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/36/03.htm"
+  },
+  "36/04.htm": {
+    "bytes": 8723,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:35:10+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/36/04.htm"
+  },
+  "36/05.htm": {
+    "bytes": 11842,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:35:11+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/36/05.htm"
+  },
+  "36/06.htm": {
+    "bytes": 6711,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:35:12+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/36/06.htm"
+  },
+  "36/07.htm": {
+    "bytes": 12611,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:35:13+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/36/07.htm"
+  },
+  "36/08.htm": {
+    "bytes": 10543,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:35:15+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/36/08.htm"
+  },
+  "37/01.htm": {
+    "bytes": 12880,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:35:16+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/37/01.htm"
+  },
+  "38/01.htm": {
+    "bytes": 5668,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:35:17+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/38/01.htm"
+  },
+  "39/01.htm": {
+    "bytes": 4767,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:35:19+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/39/01.htm"
+  },
+  "40/01.htm": {
+    "bytes": 51481,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:35:21+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/40/01.htm"
+  },
+  "40/02.htm": {
+    "bytes": 3978,
+    "encoding": "cp932",
+    "fetched_at": "2026-07-16T00:35:20+00:00",
+    "replacement_chars": 0,
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/shotoku/40/02.htm"
+  }
+}

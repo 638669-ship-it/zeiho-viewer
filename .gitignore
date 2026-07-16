@@ -4,12 +4,21 @@
 data/raw/*
 !data/raw/_fetch_log.json
 
+# 国税庁サイトから取得した通達の生HTML・図表画像（再取得可能）
+# 取得ログ・リンク一覧・図表の一覧だけ拾い直す。
+data/raw_tsutatsu/*/*
+!data/raw_tsutatsu/*/_fetch_log.json
+!data/raw_tsutatsu/*/_img_log.json
+!data/raw_tsutatsu/*/_links.json
+!data/raw_tsutatsu/*/_figures.json
+
 # ビルド生成物
 dist/
 *.zip
 
 # 発注者の内部文書（公開リポジトリには含めない）
 税法条文ビューア_着手指示書_v2.md
+税務六法_Phase2_着手指示書_v1.md
 
 # Claude Code のローカル設定（この端末固有）
 .claude/settings.local.json

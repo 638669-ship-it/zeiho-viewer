@@ -84,6 +84,12 @@ const lawOf = (key) => INDEX.laws.find((l) => l.key === key);
 const groupOf = (key) => INDEX.groups.find((g) => g.key === lawOf(key).group);
 const colorOf = (key) => groupOf(key).color;
 
+/* 通達は法令ではない。番号の見せ方も出典も違うので、ここで一度だけ分岐する。
+ * 通達の項目番号「36-1」は条ではないため joDisp を通さずそのまま出す。 */
+const isTsu = (key) => (lawOf(key) || {}).kind === 'tsutatsu';
+const numDisp = (key, label) => (isTsu(key) ? String(label) : joDisp(label));
+const tsuOf = (groupKey) => INDEX.laws.find((l) => l.group === groupKey && l.kind === 'tsutatsu');
+
 /* ─────────────────────────────── 括弧書きの色分け（指示書9）
  *
  * 「（」「）」の対応から入れ子の深さを判定し、((depth-1)%5)+1 の階層色で包む。
@@ -153,6 +159,13 @@ function renderItems(items, level) {
 function renderBlocks(blocks) {
   return blocks.map((b) => {
     if (b.kind === 'list') return `<p class="go l1">${colorize(b.t)}</p>`;
+    // 通達の算式・図表（国税庁が画像で提供しているもの）。法令側は fig を出さない。
+    // alt には算式が文章で書かれているので、画像が出ないときの代わりにも検索にも使える。
+    if (b.kind === 'fig') {
+      if (!b.src) return `<p class="figAlt">${esc(b.alt || '（図表）')}</p>`;
+      return `<figure class="fig"><img src="${DATA}/${state.law}/${esc(b.src)}" alt="${esc(b.alt)}" loading="lazy">
+        <figcaption>${esc(b.alt)}</figcaption></figure>`;
+    }
     if (b.kind !== 'table') return '';
     let h = '<div class="tbl">';
     if (b.title) h = `<p class="tblTitle">${esc(b.title)}</p>` + h;
@@ -191,17 +204,22 @@ function renderHome() {
     const btn = (l, cls, label) => l
       ? `<button class="cBtn ${cls}" data-open="${l.key}">${label}</button>`
       : `<button class="cBtn" disabled>${label}</button>`;
-    const total = laws.reduce((s, l) => s + l.articles, 0);
+    // 通達は条ではなく項目なので「本則○条」には数えない
+    const total = laws.filter((l) => l.kind !== 'tsutatsu').reduce((s, l) => s + l.articles, 0);
+    const tsu = byKind('tsutatsu');
+    const tsuBtn = tsu
+      ? `<button class="cBtn tsu" data-open="${tsu.key}">通達<span class="p2">${esc(tsu.abbr)}</span></button>`
+      : '<button class="cBtn" disabled>通達<span class="p2">Phase 2</span></button>';
     return `<div class="lawCard" style="--c:${g.color}">
       <div class="cardTop">
         <div class="medal">${esc(g.abbr)}</div>
-        <div class="cardName">${esc(g.name)}<small>施行令・施行規則つき／本則${total}条</small></div>
+        <div class="cardName">${esc(g.name)}<small>施行令・施行規則つき／本則${total}条${tsu ? `／${esc(tsu.abbr)}${tsu.articles}項目` : ''}</small></div>
       </div>
       <div class="cardBtns">
         ${btn(byKind('act'), 'main', '法律')}
         ${btn(byKind('cabinet_order'), '', '施行令')}
         ${btn(byKind('ministerial_ordinance'), '', '規則')}
-        <button class="cBtn" disabled>通達<span class="p2">Phase 2</span></button>
+        ${tsuBtn}
       </div>
     </div>`;
   }).join('');
@@ -225,9 +243,10 @@ function renderHome() {
         </div>
       </div>
       <div class="homeFoot">
-        カードの「法律」「施行令」「規則」を押すと目次ツリー＋条文画面が開きます。<br>
-        ヘッダーの条番号ジャンプに <b>法法22</b> ／ <b>所法56</b> ／ <b>措法66の6</b> のように入力すると直行します。<br>
-        出典：e-Gov法令検索（デジタル庁）　法令データは加工して表示しています。正確な法令は原文・官報で確認してください。
+        カードの「法律」「施行令」「規則」「通達」を押すと目次ツリー＋本文画面が開きます。<br>
+        ヘッダーの条番号ジャンプに <b>法法22</b> ／ <b>所法56</b> ／ <b>措法66の6</b> ／ <b>所基通36-1</b> のように入力すると直行します。<br>
+        出典：e-Gov法令検索（デジタル庁）　法令データは加工して表示しています。正確な法令は原文・官報で確認してください。<br>
+        ${tsuOf('shotoku') ? '出典：国税庁ホームページ 法令解釈通達を加工して表示。正確な内容は原文を確認してください。' : ''}
       </div>
     </div>`;
 
@@ -242,12 +261,12 @@ let navSearchQ = '';
 let fullTextHits = null;   // 本文検索の結果（条id の Set）。null = 未実行
 
 function tocTreeHtml(nodes, cur) {
-  const KIND = { '編': 'hen', '章': 'sho', '節': 'setsu', '款': 'kan', '目': 'moku' };
+  const KIND = { '編': 'hen', '章': 'sho', '節': 'setsu', '款': 'kan', '目': 'moku', '関係': 'kankei', '群': 'gun' };
   return nodes.map((n) => {
     if (n.k === '条') {
       const cap = n.cap ? `<span class="cap${n.capd ? ' d' : ''}">${hl(n.cap, navSearchQ)}</span>` : '';
       return `<div class="jo${n.id === cur ? ' now' : ''}" data-id="${n.id}">
-        <span class="num">${esc(joDisp(n.l))}</span>${cap}</div>`;
+        <span class="num">${esc(numDisp(state.law, n.l))}</span>${cap}</div>`;
     }
     const cls = KIND[n.k] || 'setsu';
     return `<div class="grp"><div class="lbl ${cls}">${esc(n.t)}</div>
@@ -282,13 +301,14 @@ async function renderNav() {
     const q = navSearchQ;
     const keep = new Set();
     for (const a of toc._flat) {
-      const inMidashi = q && ((a.cap || '').includes(q) || joDisp(a.l).includes(q) || a.l === q);
+      const inMidashi = q && ((a.cap || '').includes(q) || numDisp(key, a.l).includes(q) || a.l === q);
       if (inMidashi || (fullTextHits && fullTextHits.has(a.id))) keep.add(a.id);
     }
+    const unit = isTsu(key) ? '項目' : '条';
     tree = tocTreeHtml(filterToc(toc.toc, keep), state.art);
-    note = `<div class="srchHit">「${esc(q)}」に一致：${keep.size}条` +
-      (fullTextHits ? '（本文を含む）' : '（条番号・見出し）') + '</div>';
-    if (!keep.size) tree = '<div class="none">一致する条がありません。</div>';
+    note = `<div class="srchHit">「${esc(q)}」に一致：${keep.size}${unit}` +
+      (fullTextHits ? '（本文を含む）' : `（${isTsu(key) ? '項目番号' : '条番号'}・見出し）`) + '</div>';
+    if (!keep.size) tree = `<div class="none">一致する${unit}がありません。</div>`;
   } else {
     tree = tocTreeHtml(toc.toc, state.art);
   }
@@ -297,31 +317,39 @@ async function renderNav() {
     ? `<button class="${state.view === v ? 'on' : ''}" data-sec="${v}">${label}</button>`
     : `<button disabled>${label}</button>`;
 
+  const tsu = tsuOf(g.key);
+  const tsuTab = tsu
+    ? `<button class="${tsu.key === key ? 'on' : ''} tsuTab" data-open="${tsu.key}">通達</button>`
+    : '<button disabled title="Phase 2 で収録">通達</button>';
+  const isT = isTsu(key);
+
   nav.style.display = '';
   nav.innerHTML = `
     <div class="navHead" style="--c:${g.color}">
-      <div class="navHeadRow"><div class="medal">${esc(law.abbr)}</div>
-        <div class="nm">${esc(law.name)}<small>${esc(law.law_num)}</small></div></div>
+      <div class="navHeadRow"><div class="medal${isT ? ' tsu' : ''}">${esc(law.abbr)}</div>
+        <div class="nm">${esc(law.name)}<small>${esc(isT ? law.law_num : law.law_num)}</small></div></div>
       <div class="navTabs" style="--c:${g.color}">
         ${tab('act', '法律')}${tab('cabinet_order', '施行令')}${tab('ministerial_ordinance', '規則')}
-        <button disabled title="Phase 2 で収録">通達</button>
+        ${tsuTab}
       </div>
       <div class="navSearch" style="--c:${g.color}">
-        <input id="nq" placeholder="この法令内を検索" value="${esc(navSearchQ)}" aria-label="法令内検索"
+        <input id="nq" placeholder="${isT ? 'この通達内を検索' : 'この法令内を検索'}" value="${esc(navSearchQ)}" aria-label="法令内検索"
                autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-        <button id="ftBtn" title="本文（条文の全文）も検索します">本文も</button>
+        <button id="ftBtn" title="本文の全文も検索します">本文も</button>
       </div>
-      <div class="navTabs" style="--c:${g.color};margin-top:6px;">
+      ${isT ? '' : `<div class="navTabs" style="--c:${g.color};margin-top:6px;">
         ${secBtn('art', '本則', true)}
         ${secBtn('suppl', `附則(${law.suppls})`, toc.has_suppl)}
         ${secBtn('appdx', `別表(${law.appdx})`, toc.has_appdx)}
-      </div>
+      </div>`}
     </div>
     ${note}
     <div class="toc" style="--c:${g.color}">${tree}</div>
     <button class="backHome">⌂ 法令メニューへ戻る</button>
-    <div class="navNote">本則${law.articles}条／附則${law.suppls}本／別表${law.appdx}。
-      施行日 ${esc(law.enforced || '－')}。出典：e-Gov法令検索。</div>`;
+    <div class="navNote">${isT
+      ? `通達${law.articles}項目／附則${law.suppls}本。${esc(law.law_num)}。出典：国税庁ホームページ。`
+      : `本則${law.articles}条／附則${law.suppls}本／別表${law.appdx}。
+         施行日 ${esc(law.enforced || '－')}。出典：e-Gov法令検索。`}</div>`;
 
   nav.querySelectorAll('.jo').forEach((d) => {
     d.onclick = () => { goto(state.law, d.dataset.id); closeDrawer(); };
@@ -373,6 +401,7 @@ async function runFullText() {
       if (p.items) walk(p.items);
       if (p.blocks) for (const b of p.blocks) {
         if (b.kind === 'list') s += b.t;
+        if (b.kind === 'fig') s += b.alt || '';   // 算式は alt に文章で入っている
         if (b.kind === 'table') for (const r of b.rows || []) for (const c of r) s += c.t;
       }
     }
@@ -391,6 +420,54 @@ function egovUrl(key) {
   return `https://laws.e-gov.go.jp/law/${lawOf(key).law_id}`;
 }
 
+/* 通達の原文URL。ページ単位でしか辿れないので、その項目が載っているページへ送る。 */
+function ntaUrl(key, art) {
+  const base = (lawOf(key).source_url || '').replace(/\/[^/]*$/, '/');
+  return art && art.page ? base + art.page : lawOf(key).source_url;
+}
+
+/* 通達の項目 → 関係する法令の条（36-1 → 所法36条）。逆は toc.rel が持つ。 */
+function relLaw(key) {
+  const parent = lawOf(key).parent;
+  return parent ? lawOf(parent) : null;
+}
+
+/* 条文↔通達の相互リンク（指示書 Step3-4）。
+ *
+ * 対応表は通達側の toc.json が持つ（法条id → 項目idの配列）。項目番号そのものから
+ * 作っているので、国税庁の目次のリンク誤りの影響を受けない。
+ * 法令側から見るときだけ通達の toc.json を余分に読むが、開いた条にだけ効く。 */
+async function refBarHtml(key, a) {
+  const chips = [];
+  if (isTsu(key)) {
+    chips.push(`<a class="refChip now" href="${ntaUrl(key, a)}" target="_blank" rel="noopener">国税庁の原文で確認 ↗</a>`);
+    const parent = relLaw(key);
+    if (parent && a.ja) {
+      const ptoc = await getToc(parent.key);
+      for (const jo of a.ja) {
+        const id = 'a' + jo.replace(/の/g, '_');
+        if (ptoc._byId.has(id)) {
+          chips.push(`<a class="refChip law" href="#/${parent.key}/${id}">${esc(parent.abbr)}${esc(joDisp(jo))} へ</a>`);
+        }
+      }
+    }
+  } else {
+    chips.push(`<a class="refChip now" href="${egovUrl(key)}" target="_blank" rel="noopener">e-Gov原文で確認 ↗</a>`);
+    const tsu = tsuOf(lawOf(key).group);
+    // 通達が対応するのは法律本体だけ（施行令・規則には条番号の対応表が無い）
+    if (tsu && tsu.parent === key) {
+      const ttoc = await getToc(tsu.key);
+      const hits = (ttoc.rel || {})[a.id] || [];
+      if (hits.length) {
+        chips.push(`<a class="refChip tsu" href="#/${tsu.key}/${hits[0]}">${esc(tsu.abbr)}${esc(a.label)}-1 ほか${hits.length}項目 →</a>`);
+      } else {
+        chips.push(`<span class="refChip tsu off">${esc(tsu.abbr)}に該当項目なし</span>`);
+      }
+    }
+  }
+  return chips.join('');
+}
+
 async function renderArticle() {
   const key = state.law, law = lawOf(key), g = groupOf(key);
   const toc = await getToc(key);
@@ -406,12 +483,13 @@ async function renderArticle() {
     : '';
   const isDeleted = a.paras.length === 1 && /^削除$/.test(a.paras[0].t.trim());
 
+  const isT = isTsu(key);
   main.innerHTML = `
     <article style="--c:${g.color}">
-      <div class="pankuzu"><span class="lawChip">${esc(law.name)}</span>${a.path.map(esc).join('　›　')}</div>
+      <div class="pankuzu"><span class="lawChip${isT ? ' tsu' : ''}">${esc(law.name)}</span>${a.path.map(esc).join('　›　')}</div>
       <div class="joHead">
-        <div class="stamp">${esc(law.abbr)}<br>${esc(a.label)}</div>
-        <div class="joTitle">${midashi}<span class="jonum">${esc(a.title)}</span></div>
+        <div class="stamp${isT ? ' tsu' : ''}">${esc(law.abbr)}<br>${esc(a.label)}</div>
+        <div class="joTitle">${midashi}<span class="jonum">${esc(isT ? a.title : a.title)}</span></div>
       </div>
       <div class="modeBar">
         <span class="lbl">カッコ書き：</span>
@@ -424,21 +502,22 @@ async function renderArticle() {
       </div>
       <div class="honbun ${kakkoMode === 'mplain' ? '' : kakkoMode}${isDeleted ? ' deleted' : ''}"
            style="font-size:${fontSize}px">${renderParas(a.paras)}</div>
-      <div class="refBar">
-        <a class="refChip now" href="${egovUrl(key)}" target="_blank" rel="noopener">e-Gov原文で確認 ↗</a>
-        <span class="refChip tsu">関連通達（Phase 2）</span>
-      </div>
+      <div class="refBar">${await refBarHtml(key, a)}</div>
       <div class="navi">
-        <button data-go="${prev ? prev.id : ''}" ${prev ? '' : 'disabled'}>‹ ${prev ? esc(joDisp(prev.l)) : ''}</button>
-        <button data-go="${next ? next.id : ''}" ${next ? '' : 'disabled'}>${next ? esc(joDisp(next.l)) : ''} ›</button>
+        <button data-go="${prev ? prev.id : ''}" ${prev ? '' : 'disabled'}>‹ ${prev ? esc(numDisp(key, prev.l)) : ''}</button>
+        <button data-go="${next ? next.id : ''}" ${next ? '' : 'disabled'}>${next ? esc(numDisp(key, next.l)) : ''} ›</button>
       </div>
       <div class="srcNote">
         カッコ色分け：${['青', '赤', '緑', '黄', '紫']
       .map((nm, i) => `<span class="sw sw${i + 1}">第${i + 1}階層・${nm}</span>`).join('／')}（6階層目からは循環）。
-        括弧の外＝条文の骨格は太字で表示します。「薄字」は括弧書きを淡色化して骨格だけを追う読み方用です。<br>
-        出典：<a href="${egovUrl(key)}" target="_blank" rel="noopener">e-Gov法令検索（${esc(law.name)}）</a>を加工して作成。
-        ${esc(law.law_num)}／施行日 ${esc(law.enforced || '－')}／データ取得 ${esc((INDEX.built_at || '').slice(0, 10))}。
-        正確な法令は原文・官報で確認してください。
+        括弧の外＝${isT ? '本文' : '条文'}の骨格は太字で表示します。「薄字」は括弧書きを淡色化して骨格だけを追う読み方用です。<br>
+        ${isT
+      ? `出典：<a href="${ntaUrl(key, a)}" target="_blank" rel="noopener">国税庁ホームページ 法令解釈通達（${esc(law.name)}）</a>を加工して表示。
+         ${esc(law.law_num)}／データ取得 ${esc((INDEX.built_at || '').slice(0, 10))}。
+         正確な内容は原文を確認してください。`
+      : `出典：<a href="${egovUrl(key)}" target="_blank" rel="noopener">e-Gov法令検索（${esc(law.name)}）</a>を加工して作成。
+         ${esc(law.law_num)}／施行日 ${esc(law.enforced || '－')}／データ取得 ${esc((INDEX.built_at || '').slice(0, 10))}。
+         正確な法令は原文・官報で確認してください。`}
       </div>
     </article>`;
 
@@ -458,6 +537,9 @@ async function renderArticle() {
   });
   main.scrollTop = 0;
   document.title = `${law.abbr}${a.label} ${a.cap || ''}｜税務六法 Web`;
+  main.querySelectorAll('.refChip[href^="#/"]').forEach((el) => {
+    el.onclick = () => closeDrawer();
+  });
 }
 
 /* ─────────────────────────────── 画面：附則・別表 */
@@ -544,18 +626,33 @@ function kanjiNum(s) {
   return total + cur;
 }
 
-/* 「法法22の2」「法人税法第22条の2」「所法56」→ {key, num} */
+/* 通達の項目番号「36-1」「36の2-1」「23～35共-1」→ DOM id。
+ * scripts/parse_tsutatsu.py の item_id() と同じ規則。原文はダッシュを4種類
+ * 混在させているので（－ - ― ー）、入力もその全部を受ける。 */
+function tsuItemId(rest) {
+  let s = Z2H(rest).replace(/[－―ー−‐–—]/g, '-');
+  s = s.replace(/の/g, '_').replace(/から|～/g, 'r').replace(/・/g, 'n').replace(/共/g, 'c');
+  return /^[0-9A-Za-z_-]+$/.test(s) ? 't' + s : null;
+}
+
+/* 「法法22の2」「法人税法第22条の2」「所法56」→ {key, num}
+ * 「所基通36-1」→ {key, id} */
 function parseJump(raw) {
   let q = Z2H(raw.trim()).replace(/\s|　/g, '');
   if (!q) return null;
 
-  // 略称 or 正式名称の長い順に前方一致
+  // 略称 or 正式名称の長い順に前方一致（「所基通」が「所法」より先に当たるように）
   const cands = [];
   for (const l of INDEX.laws) { cands.push([l.abbr, l.key]); cands.push([l.name, l.key]); }
   cands.sort((a, b) => b[0].length - a[0].length);
   const hit = cands.find(([nm]) => q.startsWith(nm));
   if (!hit) return null;
   let rest = q.slice(hit[0].length);
+
+  if (isTsu(hit[1])) {
+    const id = tsuItemId(rest);
+    return id ? { key: hit[1], id } : null;
+  }
 
   rest = rest.replace(/^第/, '').replace(/条$/, '');
   // 「22条の2」「22の2」「二十二の二」いずれも受ける
@@ -571,17 +668,21 @@ async function doJump() {
   if (!raw.trim()) return;
   const p = parseJump(raw);
   if (!p) {
-    alert('「法法22」「所法56」「措法66の6」のように、略称＋条番号で入力してください。\n' +
+    alert('「法法22」「所法56」「措法66の6」「所基通36-1」のように、略称＋番号で入力してください。\n' +
       '略称：' + INDEX.laws.map((l) => l.abbr).join('・'));
     return;
   }
   const toc = await getToc(p.key);
-  const art = toc._flat.find((a) => a.id === 'a' + p.num) ||
-    // 「第四条から第七条まで」のような範囲条：範囲に含まれていれば拾う
-    toc._flat.find((a) => a.id.includes('-') && inRange(a, p.num));
+  const art = p.id
+    ? toc._flat.find((a) => a.id === p.id)
+    : toc._flat.find((a) => a.id === 'a' + p.num) ||
+      // 「第四条から第七条まで」のような範囲条：範囲に含まれていれば拾う
+      toc._flat.find((a) => a.id.includes('-') && inRange(a, p.num));
   if (!art) {
-    alert(`${lawOf(p.key).name} に ${joDisp(p.num.replace(/_/g, 'の'))} は見当たりません。\n` +
-      '（削除された条・附則の条は本則の一覧にありません）');
+    alert(p.id
+      ? `${lawOf(p.key).name} に その通達番号は見当たりません。\n（例：所基通36-1／所基通2-47／所基通36の2-1）`
+      : `${lawOf(p.key).name} に ${joDisp(p.num.replace(/_/g, 'の'))} は見当たりません。\n` +
+        '（削除された条・附則の条は本則の一覧にありません）');
     return;
   }
   navSearchQ = ''; fullTextHits = null;

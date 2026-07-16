@@ -26,6 +26,11 @@
   --k3:#06541D; --kb3:#93E5A7;   /* 第3階層＝緑 */
   --k4:#5E4300; --kb4:#FFDF3D;   /* 第4階層＝黄 */
   --k5:#4E0E73; --kb5:#DFAAF7;   /* 第5階層＝紫（6階層目からは循環／実データでは未出現） */
+
+  /* 通達の色（指示書 4-4：法令ではないと一目で分かるようにする）。
+     法令8色（緑・青・紫・橙・桃・水・茶・青緑）のどれとも当たらない臙脂に寄せた。
+     白背景に対して 5.9:1（WCAG AA）。 */
+  --tsu:#8A1A3C; --tsuBg:#FBF0F3;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 /* ページ自体はスクロールさせず、目次(nav)と条文(main)だけが独立してスクロールする。
@@ -137,6 +142,9 @@ main:focus{outline:none;}
 .toc .setsu{padding:5px 16px 3px 30px;font-size:12.5px;color:var(--ink);font-weight:600;}
 .toc .kan{padding:4px 16px 3px 36px;font-size:12px;color:var(--usuzumi);font-weight:600;}
 .toc .moku{padding:4px 16px 3px 42px;font-size:12px;color:var(--usuzumi);font-weight:600;}
+/* 通達の階層：「法第○条《…》関係」→〔小群〕→ 項目 */
+.toc .kankei{padding:6px 16px 4px 24px;font-size:12.5px;color:var(--tsu);font-weight:700;}
+.toc .gun{padding:4px 16px 3px 34px;font-size:12px;color:var(--usuzumi);font-weight:600;}
 .toc .jo{padding:8px 14px 8px 40px;font-size:14px;cursor:pointer;color:var(--ink);display:flex;gap:8px;align-items:baseline;border-radius:0 18px 18px 0;margin-right:10px;}
 .toc .jo:hover{background:color-mix(in srgb, var(--c) 8%, #fff);}
 .toc .jo.now{background:color-mix(in srgb, var(--c) 14%, #fff);color:var(--c);font-weight:700;border-left:4px solid var(--c);padding-left:36px;}
@@ -224,8 +232,26 @@ article{max-width:780px;margin:0 auto;padding:30px 34px 90px;}
 .refBar{margin-top:22px;display:flex;gap:10px;flex-wrap:wrap;}
 .refChip{font-size:12px;padding:6px 13px;border-radius:20px;border:1.5px solid var(--line);background:#fff;color:var(--usuzumi);text-decoration:none;display:inline-block;}
 a.refChip:hover{background:var(--shade);}
-.refChip.tsu{border-color:#C93B6E;color:#C93B6E;background:#FDF3F6;}
+.refChip.tsu{border-color:var(--tsu);color:var(--tsu);background:var(--tsuBg);}
+.refChip.tsu.off{opacity:.5;border-style:dashed;}
+.refChip.law{border-color:var(--c);color:var(--c);background:color-mix(in srgb, var(--c) 7%, #fff);}
 .refChip.now{border-color:var(--c);color:var(--c);}
+
+/* ── 通達（法令ではない）
+ * 指示書 4-4：法令と混同しない見た目にする。カード・タブの配色は法令の
+ * グループ色（--c）のままにし、「通達である」ことを示すバッジだけ別色にする。 */
+.medal.tsu, .stamp.tsu, .pankuzu .lawChip.tsu{background:var(--tsu);}
+.stamp.tsu{box-shadow:0 2px 6px color-mix(in srgb, var(--tsu) 40%, transparent);}
+.cBtn.tsu{background:var(--tsuBg);color:var(--tsu);}
+.cBtn.tsu:hover{background:color-mix(in srgb, var(--tsu) 18%, #fff);}
+.cBtn.tsu .p2{color:var(--tsu);opacity:.85;}
+.navTabs .tsuTab.on{background:var(--tsu);border-color:var(--tsu);color:#fff;}
+
+/* 通達の算式・図表（国税庁が画像で提供しているもの） */
+.fig{margin:12px 0 14px;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.fig img{max-width:100%;height:auto;display:block;}
+.fig figcaption{font-size:11px;color:var(--usuzumi);line-height:1.7;margin-top:5px;}
+.figAlt{font-size:13px;color:var(--usuzumi);border-left:3px solid var(--line);padding-left:10px;margin:10px 0;}
 .srcNote{margin-top:24px;font-size:11.5px;color:var(--usuzumi);line-height:1.85;}
 .srcNote .sw{border-radius:3px;padding:0 4px;font-weight:600;}
 .srcNote .sw1{color:var(--k1);background:var(--kb1);}
