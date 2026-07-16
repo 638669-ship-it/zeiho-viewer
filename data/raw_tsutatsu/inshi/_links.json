@@ -1,0 +1,249 @@
+{
+  "key": "inshi",
+  "name": "印紙税法基本通達",
+  "abbr": "印基通",
+  "parent": "inshi_act",
+  "toc_url": "https://www.nta.go.jp/law/tsutatsu/kihon/inshi/mokuji.htm",
+  "numbering": "jo",
+  "min_segments": 1,
+  "item_by_strong": false,
+  "compose_kankei": false,
+  "item_by_jo": true,
+  "published_as_of": "令和8年6月30日付改正分まで更新",
+  "listed_at": "2026-07-16T08:23:32+00:00",
+  "page_count": 29,
+  "pages": [
+    {
+      "path": "inshi01/01.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/inshi/inshi01/01.htm",
+      "anchors": [],
+      "labels": [
+        "用語の意義（第1条）"
+      ]
+    },
+    {
+      "path": "inshi01/02.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/inshi/inshi01/02.htm",
+      "anchors": [],
+      "labels": [
+        "文書の意義等（第2条～第8条）"
+      ]
+    },
+    {
+      "path": "inshi01/03.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/inshi/inshi01/03.htm",
+      "anchors": [],
+      "labels": [
+        "文書の所属の決定等（第9条～第11条）"
+      ]
+    },
+    {
+      "path": "inshi01/04.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/inshi/inshi01/04.htm",
+      "anchors": [],
+      "labels": [
+        "契約書の取扱い（第12条～第22条）"
+      ]
+    },
+    {
+      "path": "inshi01/05.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/inshi/inshi01/05.htm",
+      "anchors": [],
+      "labels": [
+        "記載金額（第23条～第35条）"
+      ]
+    },
+    {
+      "path": "inshi01/06.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/inshi/inshi01/06.htm",
+      "anchors": [],
+      "labels": [
+        "追記又は付け込みに係るみなし作成（第36条～第41条）"
+      ]
+    },
+    {
+      "path": "inshi01/07.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/inshi/inshi01/07.htm",
+      "anchors": [],
+      "labels": [
+        "作成者等（第42条～第48条）"
+      ]
+    },
+    {
+      "path": "inshi01/08.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/inshi/inshi01/08.htm",
+      "anchors": [],
+      "labels": [
+        "納税地（第49条～第52条）"
+      ]
+    },
+    {
+      "path": "inshi01/09.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/inshi/inshi01/09.htm",
+      "anchors": [],
+      "labels": [
+        "非課税文書（第53条～第57条）"
+      ]
+    },
+    {
+      "path": "inshi01/10.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/inshi/inshi01/10.htm",
+      "anchors": [],
+      "labels": [
+        "その他の共通事項（第58条～第60条）"
+      ]
+    },
+    {
+      "path": "inshi02/01.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/inshi/inshi02/01.htm",
+      "anchors": [],
+      "labels": [
+        "課税物件、課税標準及び税率（第61条～第62条）"
+      ]
+    },
+    {
+      "path": "inshi03/01.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/inshi/inshi03/01.htm",
+      "anchors": [],
+      "labels": [
+        "印紙による納付（第63条～第65条）"
+      ]
+    },
+    {
+      "path": "inshi03/02.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/inshi/inshi03/02.htm",
+      "anchors": [],
+      "labels": [
+        "税印による納付の特例（第66条～第68条）"
+      ]
+    },
+    {
+      "path": "inshi03/03.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/inshi/inshi03/03.htm",
+      "anchors": [],
+      "labels": [
+        "印紙税納付計器の使用による納付の特例（第69条～第77条）"
+      ]
+    },
+    {
+      "path": "inshi03/04.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/inshi/inshi03/04.htm",
+      "anchors": [],
+      "labels": [
+        "書式表示による申告及び納付の特例（第78条～第90条）"
+      ]
+    },
+    {
+      "path": "inshi03/05.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/inshi/inshi03/05.htm",
+      "anchors": [],
+      "labels": [
+        "預貯金通帳等に係る申告及び納付の特例（第91条～第106条）"
+      ]
+    },
+    {
+      "path": "inshi03/06.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/inshi/inshi03/06.htm",
+      "anchors": [],
+      "labels": [
+        "過誤納の確認等（第115条～第119条）"
+      ]
+    },
+    {
+      "path": "inshi04/01.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/inshi/inshi04/01.htm",
+      "anchors": [],
+      "labels": [
+        "保全担保（第120条）"
+      ]
+    },
+    {
+      "path": "inshi04/02.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/inshi/inshi04/02.htm",
+      "anchors": [],
+      "labels": [
+        "納付印等の製造等（第121条～第127条）"
+      ]
+    },
+    {
+      "path": "inshi04/03.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/inshi/inshi04/03.htm",
+      "anchors": [],
+      "labels": [
+        "模造印紙（第128条）"
+      ]
+    },
+    {
+      "path": "betsu01/01.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/inshi/betsu01/01.htm",
+      "anchors": [],
+      "labels": [
+        "第1号の1文書"
+      ]
+    },
+    {
+      "path": "betsu01/02.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/inshi/betsu01/02.htm",
+      "anchors": [],
+      "labels": [
+        "第1号の2文書～第1号の4文書"
+      ]
+    },
+    {
+      "path": "betsu01/03.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/inshi/betsu01/03.htm",
+      "anchors": [],
+      "labels": [
+        "第2号文書"
+      ]
+    },
+    {
+      "path": "betsu01/04.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/inshi/betsu01/04.htm",
+      "anchors": [],
+      "labels": [
+        "第3号～4号文書"
+      ]
+    },
+    {
+      "path": "betsu01/05.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/inshi/betsu01/05.htm",
+      "anchors": [],
+      "labels": [
+        "第5号～8号文書"
+      ]
+    },
+    {
+      "path": "betsu01/06.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/inshi/betsu01/06.htm",
+      "anchors": [],
+      "labels": [
+        "第9号～15号文書"
+      ]
+    },
+    {
+      "path": "betsu01/07.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/inshi/betsu01/07.htm",
+      "anchors": [],
+      "labels": [
+        "第16号～17号文書"
+      ]
+    },
+    {
+      "path": "betsu01/08.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/inshi/betsu01/08.htm",
+      "anchors": [],
+      "labels": [
+        "第18号～非課税文書"
+      ]
+    },
+    {
+      "path": "betsu02/01.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/inshi/betsu02/01.htm",
+      "anchors": [],
+      "labels": [
+        "重要な事項の一覧表"
+      ]
+    }
+  ]
+}

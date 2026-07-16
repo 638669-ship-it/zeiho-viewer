@@ -158,6 +158,21 @@ BETSU_RE = re.compile(r"^(別表|〔参考〕)")
 # それ自体では中身の分からないリンク文字列。この場合だけ直前の見出しを頼る。
 GENERIC_LABEL_RE = re.compile(r"^(詳細はこちら|こちら|目次)$")
 
+# 印基通の本文は逐条（第1〜128条）。項目は段落先頭の「第N条」で切る。
+# strong の境界が不安定で「第49」だけ太字＝「条」が太字外のページがあるので、
+# 太字ではなく地の文の先頭で判定する。条番号は通達自身の連番で、印紙税法の条
+# （24条まで）とは対応しない（numbering="jo"＝相互リンクは出さない）。
+JO_ITEM_RE = re.compile(r"^第(\d+)\s*条(?:の(\d+))?")
+# 逐条の項（2・3…）。本文の数字始まり（「10日以内」等）を項と誤らないよう、
+# 番号の直後に区切り（空白）が続くものだけを項とみなす。
+KO_LEAD_RE = re.compile(r"^(\d+)(?:の(\d+))?(?=[　\s])")
+# 印基通 別表第一の号文書見出し（「第1号の1文書」「第18号文書」）。号文書ごとに
+# 項目が 1 から振り直されるので、号文書を接頭辞にして一意な番号に合成する。
+# 「文書」を残すのは、合成しない裸番号（本文の条番号 2〜128）と id が衝突しないため。
+GO_BUNSHO_RE = re.compile(r"第(\d+)号(?:の(\d+))?文書")
+# 別表第一の裸番号項目（1・2・3の2…）。号文書の下で振り直される。
+BETSU_ITEM_RE = re.compile(r"^(\d+)(?:の(\d+))?(?=[　\s])")
+
 # plain モード（項目番号を持たないページ）で、どの見出しを項目の切れ目にするか
 PLAIN_BOUNDARY = {"fusoku": FUSOKU_HEAD_RE, "betsu": BETSU_RE}
 
@@ -401,7 +416,8 @@ class PageParser:
     """
 
     def __init__(self, rel: str, mode: str | None = None, min_seg: int = 2, label: str = "",
-                 by_strong: bool = False, compose: bool = False, toc_name: str = ""):
+                 by_strong: bool = False, compose: bool = False, toc_name: str = "",
+                 by_jo: bool = False, jo_betsu: bool = False):
         self.rel = rel
         self.toc_name = toc_name
         self.label = label
@@ -409,7 +425,16 @@ class PageParser:
         # 1から振り直される。条番号と合成して 2-1 という一意な番号にする。
         self.by_strong = by_strong
         self.compose = compose
+        # 印基通の逐条モード。本文（by_jo）は段落先頭の「第N条」で項目を切り、
+        # 別表第一（jo_betsu）は号文書を接頭辞に裸番号を合成する。
+        self.by_jo = by_jo
+        self.jo_betsu = jo_betsu
         self.cur_jo: str | None = None
+        # 別表第一：号文書は「課税物件の定義（1.売上代金… 2.以外）」を先頭に持ち、
+        # そのあとキャプション付きの解説が 1・2・3… と番号を振り直す（第17号文書ほか）。
+        # 最初のキャプションが出るまで（jo_capped=False）の番号付き定義は号文書 intro の
+        # 項として持ち、キャプション以降を合成番号の解説項目にする。振り直しの衝突を防ぐ。
+        self.jo_capped = False
         self.min_seg = min_seg  # 項目番号の最小セグメント数（通達ごとに違う）
         self.mode = mode  # None＝本文 / "fusoku"＝附則 / "preface"＝前文・説明文
         self.fusoku = mode == "fusoku"
@@ -428,6 +453,18 @@ class PageParser:
             m = KANKEI_JO_RE.match(norm(clean(title)))
             if m:
                 self.cur_jo = m.group(1) + (f"の{m.group(2)}" if m.group(2) else "")
+        if self.jo_betsu:
+            # 別表第一の号文書見出し（「第1号の1文書」）を番号の接頭辞にする。
+            # 「文書」を残して本文の条番号（2〜128）と id が衝突しないようにする。
+            t = norm(clean(title))
+            gm = GO_BUNSHO_RE.search(t)
+            if gm:
+                self.cur_jo = gm.group(1) + (f"の{gm.group(2)}" if gm.group(2) else "") + "号文書"
+            elif "非課税" in t:
+                self.cur_jo = "非課税"
+            elif not GO_BUNSHO_RE.search(t) and "別表" in t:
+                self.cur_jo = None  # 「別表第1 …の取扱い」の総題。項目は持たない
+            self.jo_capped = False  # 号文書が変わったら定義／解説の切り分けをやり直す
         self.cur = {"anchor": anchor, "title": clean(title), "items": []}
         self.groups.append(self.cur)
         self.item = None
@@ -622,6 +659,9 @@ class PageParser:
                     # （「納税者」「国税」「相続人が2人以上ある場合の承継税額」）。
                     self.new_group(find_anchor(el), text)
                 elif el.name == "h2":
+                    if self.jo_betsu:
+                        # 号文書のキャプションが出た＝ここから先は解説項目（振り直し番号を合成）。
+                        self.jo_capped = True
                     if self.item is not None and not self.item["paras"] and not self.item["cap"]:
                         # 評基通の付表は「<p><strong>付表7</strong></p><h2>奥行長大補正率表</h2>」の順で、
                         # 見出しが番号の後に来る。次の項目の見出しにしてしまわないよう、
@@ -683,6 +723,82 @@ class PageParser:
                     num = f"{self.cur_jo}-{raw_num}" if (self.compose and self.cur_jo) else raw_num
                     self.new_item(num, body)
                     continue
+
+            if self.by_jo and not self.plain:
+                # 印基通。本文は逐条（第N条）、別表第一（jo_betsu）は号文書＋裸番号。
+                whole = clean(el.get_text("", strip=False))
+                strongs = el.find_all("strong")
+                bold = clean("".join(x.get_text("", strip=False) for x in strongs))
+                # 段落まるごと太字で「第N条」でないもの＝見出し。
+                if whole and bold == whole and not JO_ITEM_RE.match(norm(whole)):
+                    if CAP_ONLY_RE.match(whole):
+                        # 太字のかっこ書きは項目の見出し（h2 の代わりの <p><strong>（…）</strong>）。
+                        # 例：inshi04/03「（模造印紙の範囲）」。群にすると目次が崩れる。
+                        self.cap = whole
+                        if self.jo_betsu:
+                            self.jo_capped = True
+                    else:
+                        # 章（第1章 総則）・号文書（第10号文書）の見出し。目次の階層は
+                        # build() がページ内の見出しから組む（mokuji は印基通では不正確）。
+                        self.new_group(find_anchor(el), whole)
+                    continue
+
+                first = [True]
+
+                def on_text_jo(t: str, lv=lv) -> None:
+                    isf = first[0]
+                    first[0] = False
+                    nt = norm(t)
+                    if isf:
+                        if not self.jo_betsu:
+                            m = JO_ITEM_RE.match(nt)
+                            if m:  # 「第49条 …」＝逐条の項目
+                                num = m.group(1) + (f"の{m.group(2)}" if m.group(2) else "")
+                                self.new_item(num, clean(t[m.end():]))
+                                return
+                            if self.item is not None and lv in (None, 1):
+                                km = KO_LEAD_RE.match(nt)
+                                if km:  # 「2 前項における…」＝項
+                                    n_ko = km.group(1) + (f"の{km.group(2)}" if km.group(2) else "")
+                                    self.item["paras"].append({"n": n_ko, "t": clean(t[km.end():])})
+                                    self.item["_stack"].clear()
+                                    return
+                        else:
+                            bm = BETSU_ITEM_RE.match(nt)
+                            # 号文書内で振り直される番号。原文は項目を indent1 か素の <p> に
+                            # 置くが、稀に indent2 に置く（第3号文書17）。直前にキャプションが
+                            # あれば（self.cap が残っていれば）字下げに関わらず項目とみなす。
+                            if bm and (lv in (None, 1) or self.cap is not None):
+                                raw = bm.group(1) + (f"の{bm.group(2)}" if bm.group(2) else "")
+                                if not self.jo_capped and self.cur_jo:
+                                    # キャプション前の番号付き定義（「1 売上代金…」「2 …以外」）は
+                                    # 号文書 intro の項として持つ。解説側の 1・2 と id が衝突しない。
+                                    if self.item is None or self.item["num"] != self.cur_jo:
+                                        self.new_item(self.cur_jo, "")
+                                    self.item["paras"].append({"n": raw, "t": clean(t[bm.end():])})
+                                    self.item["_stack"].clear()
+                                    return
+                                num = f"{self.cur_jo}-{raw}" if self.cur_jo else raw
+                                self.new_item(num, clean(t[bm.end():]))
+                                return
+                            if self.item is None and self.cur_jo:
+                                # 号文書の導入文（番号を持たない「不動産、鉱業権…」）。
+                                # 号文書そのものを番号にして1項目立てる（cap は付けない）。
+                                self.new_item(self.cur_jo, t)
+                                return
+                    if lv is not None and lv >= 2:
+                        self.add_sub(lv, t)
+                    elif self.cap and self.item is not None:
+                        self.item["paras"].append({"n": "1", "t": self.cap})
+                        self.cap = None
+                        self.item["paras"].append({"n": "1", "t": t})
+                        self.item["_stack"].clear()
+                    elif self.item is not None:
+                        self.item["paras"].append({"n": "1", "t": t})
+                        self.item["_stack"].clear()
+
+                self.emit(el, on_text_jo)
+                continue
 
             # 項目が始まりうるのは indent1 か、class も style も持たない段落だけ。
             #
@@ -938,35 +1054,83 @@ def ensure_node(children: list, k: str, t: str) -> dict:
     return node
 
 
+def place_jo(toc: list, ctx: dict, page: str, title: str) -> tuple[list, list]:
+    """印基通：ページ内の見出しから 章>節>条／別表>号文書>項 の階層を組む。
+
+    印基通の mokuji は見出しが疎ら（第2章が無い・別表が編章節款目でない）で、
+    そのまま階層にすると第2章が第1章の下・別表が第4章の下に入ってしまう。
+    そこで目次の階層はページ内の章・節・号文書の見出しから組み直す。
+    """
+    d = div_of(title)
+    if page.startswith("betsu"):
+        which = "別表第一　課税物件表" if page.startswith("betsu01") else "別表第二　重要な事項の一覧表"
+        if ctx.get("betsu_t") != which:
+            ctx["betsu"] = ensure_node(toc, "編", which)["c"]
+            ctx["betsu_t"] = which
+            ctx["gob"] = ctx["gob_t"] = None
+        # 号文書見出し（別表の総題「別表第1 …の取扱い」は親そのものなので群にしない）
+        if title and "別表" not in title:
+            ctx["gob"] = ensure_node(ctx["betsu"], "群", title)["c"]
+            ctx["gob_t"] = title
+            return ctx["gob"], [which, title]
+        here = ctx.get("gob") or ctx["betsu"]
+        return here, [which] + ([ctx["gob_t"]] if ctx.get("gob_t") else [])
+    if d and d[0] == "章":
+        ctx["chap"] = ensure_node(toc, "章", title)["c"]
+        ctx["chap_t"] = title
+        ctx["sec"] = ctx["sec_t"] = None
+        return ctx["chap"], [title]
+    if d:  # 節・款・目は現在の章の下へ
+        parent = ctx["chap"] if ctx.get("chap") is not None else toc
+        ctx["sec"] = ensure_node(parent, d[0], title)["c"]
+        ctx["sec_t"] = title
+        return ctx["sec"], [x for x in (ctx.get("chap_t"), title) if x]
+    # 章・節・号文書のどれでもない群（無題・キャプション由来）→ 現在の節／章の下へ
+    here = ctx.get("sec") or ctx.get("chap") or toc
+    return here, [x for x in (ctx.get("chap_t"), ctx.get("sec_t")) if x]
+
+
 def build(order: list, pages: dict, numbering: str) -> tuple[list, list]:
     """目次の配置情報＋各ページの解析結果 → 目次ツリーと項目の一覧。"""
     toc: list = []
     items: list = []
+    jo = numbering == "jo"
+    ctx: dict = {}
     for o in order:
         node_children = toc
         crumbs: list[str] = []
-        for kind, title in o["path"]:
-            node_children = ensure_node(node_children, kind, title)["c"]
-            crumbs.append(title)
+        # jo（印基通）は目次の階層をページ内の見出しから組む（place_jo）ので、
+        # mokuji 由来の o["path"] は使わない（疎らで不正確。空の章ノードが増える）。
+        if not jo:
+            for kind, title in o["path"]:
+                node_children = ensure_node(node_children, kind, title)["c"]
+                crumbs.append(title)
 
         for g in pages[o["page"]]:
-            here, path = node_children, list(crumbs)
             title = g["title"]
-            if KANKEI_RE.match(title) or title == "附則":
-                here = ensure_node(here, "関係", title)["c"]
-                path.append(title)
+            if jo:
+                here, path = place_jo(toc, ctx, o["page"], title)
             else:
-                if o["rel"]:
-                    here = ensure_node(here, "関係", o["rel"])["c"]
-                    path.append(o["rel"])
-                if title:
-                    here = ensure_node(here, "群", title)["c"]
+                here, path = node_children, list(crumbs)
+                if KANKEI_RE.match(title) or title == "附則":
+                    here = ensure_node(here, "関係", title)["c"]
                     path.append(title)
+                else:
+                    if o["rel"]:
+                        here = ensure_node(here, "関係", o["rel"])["c"]
+                        path.append(o["rel"])
+                    if title:
+                        here = ensure_node(here, "群", title)["c"]
+                        path.append(title)
 
             for it in g["items"]:
                 num, label = it["num"], it["label"]
                 if num:
                     aid, disp = item_id(num), num
+                    if jo and o["page"].startswith("betsu01"):
+                        # 号文書の下では末尾の連番だけを見せる（群が号文書名を持つ）。
+                        # 番号なしの号文書 intro（「1の1号文書」）は課税物件の定義。
+                        disp = num.rsplit("-", 1)[1] if "-" in num else "（定義）"
                 else:
                     aid, disp = f"f{len(items):02d}", label or "附則"
                 art = {
@@ -1140,6 +1304,7 @@ def parse_one(key: str) -> dict:
     min_seg = links.get("min_segments", 2)
     by_strong = links.get("item_by_strong", False)
     compose = links.get("compose_kankei", False)
+    by_jo = links.get("item_by_jo", False)
 
     # --- 各ページ
     pages: dict[str, list] = {}
@@ -1147,11 +1312,24 @@ def parse_one(key: str) -> dict:
     for o in order:
         rel = o["page"]
         html = (RAW_DIR / key / rel).read_bytes().decode("cp932", "replace")
+        mode = o["kind"]
+        page_by_jo = by_jo
+        jo_betsu = False
+        if by_jo:
+            # 印基通は1本の中で作りが3通り。ページの置き場所で切り替える。
+            #   本文（inshi0X）      … 逐条（第N条）
+            #   別表第一（betsu01）  … 号文書ごとに裸番号を振り直し（jo_betsu）
+            #   別表第二（betsu02）  … 重要な事項の一覧表。番号を持たないので plain（betsu）
+            if rel.startswith("betsu02"):
+                page_by_jo, mode = False, "betsu"
+            elif rel.startswith("betsu01"):
+                jo_betsu = True
         # 前文・附則は目次のリンク文字列から判定する（parse_toc が kind を付けている）。
         # 「rel が無ければ前文」とはできない。法基通は全ページが rel を持たない。
-        pp = PageParser(rel, mode=o["kind"], min_seg=min_seg, label=o.get("label", ""),
+        pp = PageParser(rel, mode=mode, min_seg=min_seg, label=o.get("label", ""),
                         by_strong=by_strong, compose=compose,
-                        toc_name=toc_name if by_strong else "")
+                        toc_name=toc_name if by_strong else "",
+                        by_jo=page_by_jo, jo_betsu=jo_betsu)
         pages[rel] = pp.parse(html)
         figs_all.extend(pp.figs)
 

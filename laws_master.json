@@ -30,7 +30,8 @@
     { "key": "souzoku", "name": "相続税法", "abbr": "相法", "color": "#7A3FA8", "order": 5 },
     { "key": "shohi", "name": "消費税法", "abbr": "消法", "color": "#E07514", "order": 6 },
     { "key": "sochi", "name": "租税特別措置法", "abbr": "措法", "color": "#C93B6E", "order": 7 },
-    { "key": "chihou", "name": "地方税法", "abbr": "地法", "color": "#148FB4", "order": 8 }
+    { "key": "inshi", "name": "印紙税法", "abbr": "印法", "color": "#B23124", "order": 8 },
+    { "key": "chihou", "name": "地方税法", "abbr": "地法", "color": "#148FB4", "order": 9 }
   ],
   "laws": [
     {
@@ -222,6 +223,33 @@
       "abbr": "措規",
       "law_id": "332M50000040015",
       "law_num": "昭和三十二年大蔵省令第十五号"
+    },
+    {
+      "key": "inshi_act",
+      "group": "inshi",
+      "kind": "act",
+      "name": "印紙税法",
+      "abbr": "印法",
+      "law_id": "342AC0000000023",
+      "law_num": "昭和四十二年法律第二十三号"
+    },
+    {
+      "key": "inshi_co",
+      "group": "inshi",
+      "kind": "cabinet_order",
+      "name": "印紙税法施行令",
+      "abbr": "印令",
+      "law_id": "342CO0000000108",
+      "law_num": "昭和四十二年政令第百八号"
+    },
+    {
+      "key": "inshi_mo",
+      "group": "inshi",
+      "kind": "ministerial_ordinance",
+      "name": "印紙税法施行規則",
+      "abbr": "印規",
+      "law_id": "342M50000040019",
+      "law_num": "昭和四十二年大蔵省令第十九号"
     },
     {
       "key": "chihou_act",

@@ -69,8 +69,19 @@ def node_text(n: dict) -> str:
     return s
 
 
+def para_text(p: dict) -> str:
+    """1項（Paragraph）の突合用テキスト。項番号（2・3…）は原文にも出るので前に付ける。
+
+    第1項の項番号は原文でも空（印刷六法と同じ）なので n="1" のときは付けない。
+    印基通の逐条項目は「第3条 …する。2 前項における…」のように条内に項2以降を持ち、
+    項番号を落とすと項1と項2の連結が原文とずれる（実測20項目）。
+    """
+    n = p.get("n", "")
+    return (n if n and n != "1" else "") + node_text(p)
+
+
 def item_text(a: dict) -> str:
-    return squeeze("".join(node_text(p) for p in a["paras"]))
+    return squeeze("".join(para_text(p) for p in a["paras"]))
 
 
 def item_chunks(a: dict) -> list[str]:
@@ -81,7 +92,7 @@ def item_chunks(a: dict) -> list[str]:
     label・cap に分けて持つため1本にはつながらない。段落ごとに照合する。
     """
     if a.get("fusoku"):
-        return [squeeze(node_text(p)) for p in a["paras"]]
+        return [squeeze(para_text(p)) for p in a["paras"]]
     return [item_text(a)]
 
 

@@ -197,6 +197,23 @@ SOURCES = {
         "compose_kankei": True,
         "active": True,
     },
+    # 印紙税法基本通達は他通達と作りが違う（実地調査 2026-07-16）。
+    #   本文（inshi01〜04）… 逐条。各項目が <strong>第N条</strong> で始まり、
+    #       項（2・3…）を strong の裸数字で持つ＝印紙税法の条とそのまま対応（印基通↔印法）。
+    #   別表第一 課税物件表（betsu01）… 号文書ごと（第1号の1文書…）に 1・2… が振り直される。
+    #   別表第二 重要な事項の一覧表（betsu02）… 一覧。
+    # 目次は 00.htm ではなく mokuji.htm。逐条なので numbering="jo" の専用モードで解釈する。
+    "inshi": {
+        "name": "印紙税法基本通達",
+        "abbr": "印基通",
+        "parent": "inshi_act",
+        "toc_url": f"{ORIGIN}/law/tsutatsu/kihon/inshi/mokuji.htm",
+        "base_path": "/law/tsutatsu/kihon/inshi/",
+        "numbering": "jo",
+        "min_segments": 1,
+        "item_by_jo": True,
+        "active": True,
+    },
 }
 
 # 基本通達本体以外（指示書 Step1-4：取得しない）。
@@ -443,6 +460,7 @@ def run(key: str, src: dict, args) -> int:
                 "min_segments": src.get("min_segments", 2),
                 "item_by_strong": src.get("item_by_strong", False),
                 "compose_kankei": src.get("compose_kankei", False),
+                "item_by_jo": src.get("item_by_jo", False),
                 "published_as_of": published,
                 "listed_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
                 "page_count": len(pages),

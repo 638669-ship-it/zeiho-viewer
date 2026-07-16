@@ -1,0 +1,38 @@
+{
+  "images/hyo.gif": {
+    "bytes": 2975,
+    "fetched_at": "2026-07-16T08:24:10+00:00",
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/inshi/images/hyo.gif"
+  },
+  "images/kouza_1.gif": {
+    "bytes": 1494,
+    "fetched_at": "2026-07-16T08:24:12+00:00",
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/inshi/images/kouza_1.gif"
+  },
+  "images/kouza_2.gif": {
+    "bytes": 1052,
+    "fetched_at": "2026-07-16T08:24:13+00:00",
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/inshi/images/kouza_2.gif"
+  },
+  "images/kouza_3.gif": {
+    "bytes": 1125,
+    "fetched_at": "2026-07-16T08:24:14+00:00",
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/inshi/images/kouza_3.gif"
+  },
+  "images/kouza_4.gif": {
+    "bytes": 1509,
+    "fetched_at": "2026-07-16T08:24:16+00:00",
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/inshi/images/kouza_4.gif"
+  },
+  "inshi01/images/rei1.gif": {
+    "bytes": 2708,
+    "fetched_at": "2026-07-16T08:24:09+00:00",
+    "status": 200,
+    "url": "https://www.nta.go.jp/law/tsutatsu/kihon/inshi/inshi01/images/rei1.gif"
+  }
+}

@@ -31,6 +31,7 @@ LANDMARKS = {
     "souzoku_act": ["22"],
     "tsusoku_act": ["23"],
     "choshu_act": ["8"],
+    "inshi_act": ["2", "8"],
 }
 
 
@@ -169,7 +170,7 @@ def main() -> int:
         for p in problems:
             print("   -", p)
         return 1
-    print("検収OK：24本すべて取得済み・ランドマーク条文すべて実在")
+    print(f"検収OK：{len(master['laws'])}本すべて取得済み・ランドマーク条文すべて実在")
     return 0
 
 
