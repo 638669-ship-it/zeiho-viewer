@@ -19,8 +19,11 @@
     <button id="menuBtn" aria-label="目次を開く" aria-expanded="false">☰</button>
     <h1>税務六法<small>国税法令集 Web</small></h1>
     <div id="jumpWrap">
-      <input id="jump" placeholder="条番号ジャンプ：法法22 ／ 所法56 ／ 所基通36-1" aria-label="条番号ジャンプ"
-             autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+      <input id="jump" placeholder="法法22 ／ 所基通36-1 ／ 通基通2-1" aria-label="条番号ジャンプ（法令・通達）"
+             autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+             role="combobox" aria-expanded="false" aria-controls="jumpHelp">
+      <!-- 打てる略称の一覧。入力欄をタップすると app.js が中身を入れて開く。 -->
+      <div id="jumpHelp" hidden></div>
       <button id="jumpBtn">直行</button>
       <button id="homeBtnHdr">⌂ メニュー</button>
     </div>

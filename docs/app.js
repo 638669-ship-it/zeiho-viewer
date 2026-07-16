@@ -729,7 +729,101 @@ function parseJump(raw) {
   return { key: hit[1], num: nums.join('_') };
 }
 
+/* ─────────────────────────────── 打てる略称の一覧
+ *
+ * 略称は全部で35個あり、覚えていないと条番号ジャンプが使えない。入力欄をタップしたら
+ * 一覧を出し、押すとその略称が入った状態にする（続けて番号を打てばよい）。
+ * 一覧は INDEX から組み立てるので、通達を足しても手直しは要らない。 */
+function jumpHelpHtml() {
+  const chip = (l, ex) =>
+    `<button class="jhChip" data-abbr="${esc(l.abbr)}" title="${esc(l.name)}">${esc(l.abbr)}` +
+    `<small>${esc(ex)}</small></button>`;
+
+  // 法令はグループごとに（法律・施行令・規則）、通達は最後にまとめる
+  const rows = INDEX.groups.map((g) => {
+    const laws = INDEX.laws.filter((l) => l.group === g.key && l.kind !== 'tsutatsu');
+    if (!laws.length) return '';
+    return `<div class="jhRow"><span class="jhName">${esc(g.name)}</span>
+      <span class="jhChips">${laws.map((l) => chip(l, l.kind === 'act' ? '22' : '1')).join('')}</span></div>`;
+  }).join('');
+
+  const tsus = INDEX.laws.filter((l) => l.kind === 'tsutatsu');
+  const tsuRow = tsus.length
+    ? `<div class="jhRow tsu"><span class="jhName">通達</span>
+        <span class="jhChips">${tsus.map((t) => chip(t, exampleOf(t))).join('')}</span></div>`
+    : '';
+
+  return `<div class="jhHead">押すとその略称が入ります。続けて番号を打って Enter。</div>
+    ${rows}${tsuRow}
+    <div class="jhFoot">漢数字・全角数字・「第22条の2」の形でも通ります。
+      通達の番号は原文のダッシュ（－ - ー ―）のどれでも構いません。</div>`;
+}
+
+/* 一覧に添える番号の例。通達は体系ごとに書き方が違うので実物から採る。 */
+function exampleOf(t) {
+  const toc = tocCache.get(t.key);
+  if (toc && toc._flat) {
+    const a = toc._flat.find((x) => /^t\d/.test(x.id));
+    if (a) return a.l;
+  }
+  return { article: '36-1', chapter: '1-1-1', flat: '1' }[t.numbering] || '1';
+}
+
+function bindJumpHelp() {
+  const nq = $('#jump'), help = $('#jumpHelp');
+  let over = false;
+  // 例に実物の番号を出したいので、通達の目次を一度だけ先に読んでおく
+  let warmed = false;
+  const warm = async () => {
+    if (warmed) return;
+    warmed = true;
+    await Promise.all(INDEX.laws.filter((l) => l.kind === 'tsutatsu')
+      .map((t) => getToc(t.key).catch(() => null)));
+    if (!help.hidden) help.innerHTML = jumpHelpHtml(), bindChips();
+  };
+  // 略称を選んだ直後は入力欄に focus を戻す（続けて番号を打てるように）。
+  // その focus で一覧が開き直さないよう、1回だけ開くのを見送る。
+  let skipOpen = false;
+  const bindChips = () => help.querySelectorAll('.jhChip').forEach((b) => {
+    b.onclick = () => {
+      nq.value = b.dataset.abbr;
+      close();
+      skipOpen = true;
+      nq.focus();
+    };
+  });
+  const open = () => {
+    if (!help.hidden) return;
+    help.innerHTML = jumpHelpHtml();
+    help.hidden = false;
+    nq.setAttribute('aria-expanded', 'true');
+    bindChips();
+    warm();
+  };
+  const close = () => {
+    help.hidden = true;
+    nq.setAttribute('aria-expanded', 'false');
+  };
+  nq.addEventListener('focus', () => {
+    if (skipOpen) { skipOpen = false; return; }
+    open();
+  });
+  nq.addEventListener('click', open);
+  // 一覧の上を押している間は閉じない（blur が先に来るため）
+  help.addEventListener('pointerdown', () => { over = true; });
+  help.addEventListener('pointerup', () => { over = false; });
+  nq.addEventListener('blur', () => { if (!over) setTimeout(close, 120); });
+  nq.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { close(); nq.blur(); }
+    if (e.key === 'Enter') close();
+  });
+  document.addEventListener('pointerdown', (e) => {
+    if (!$('#jumpWrap').contains(e.target)) close();
+  });
+}
+
 async function doJump() {
+  $('#jumpHelp').hidden = true;
   const raw = $('#jump').value;
   if (!raw.trim()) return;
   const p = parseJump(raw);
@@ -832,7 +926,8 @@ function toggleDrawer() {
   $('#footBuild').textContent = `データ生成 ${(INDEX.built_at || '').slice(0, 10)}｜法令データは e-Gov API v${INDEX.source.api_version} から取得`;
 
   $('#jumpBtn').onclick = doJump;
-  $('#jump').addEventListener('keydown', (e) => { if (e.key === 'Enter') doJump(); });
+  $('#jump').addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.isComposing) doJump(); });
+  bindJumpHelp();
   $('#menuBtn').onclick = toggleDrawer;
   scrim.onclick = closeDrawer;
   $('#homeBtnHdr').onclick = () => { location.hash = '#/'; };

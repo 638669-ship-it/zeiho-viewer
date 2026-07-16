@@ -63,6 +63,35 @@ h1 small{font-family:var(--gothic);font-size:11px;color:var(--usuzumi);letter-sp
 #jump{width:225px;max-width:40vw;padding:8px 12px;font-size:16px;border:1.5px solid var(--line);border-radius:20px;background:var(--paper);color:var(--ink);}
 /* font-size:16px は iOS Safari の入力時ズーム防止（16px未満だと拡大される） */
 #jump:focus{outline:none;border-color:#2456B0;box-shadow:0 0 0 3px rgba(36,86,176,.15);}
+
+/* ── 打てる略称の一覧（入力欄をタップすると出る）
+ * 略称は35個あり、覚えていないとジャンプが使えないので、その場で選べるようにする。 */
+#jumpWrap{position:relative;}
+#jumpHelp{
+  position:absolute; top:calc(100% + 8px); right:0; z-index:30;
+  width:min(560px, calc(100vw - 24px)); max-height:min(60vh, 460px); overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  background:#fff; border:1px solid var(--line); border-radius:12px;
+  box-shadow:0 8px 28px rgba(40,40,60,.18); padding:10px 12px 12px;
+}
+#jumpHelp[hidden]{display:none;}
+.jhHead{font-size:11.5px; color:var(--usuzumi); padding:2px 2px 8px; border-bottom:1px solid var(--line); margin-bottom:6px;}
+.jhFoot{font-size:11px; color:var(--usuzumi); line-height:1.7; padding-top:8px; margin-top:4px; border-top:1px solid var(--line);}
+.jhRow{display:flex; align-items:baseline; gap:8px; padding:3px 0;}
+.jhName{font-size:11px; color:var(--usuzumi); min-width:6.5em; flex:none; text-align:right;}
+.jhChips{display:flex; flex-wrap:wrap; gap:5px;}
+.jhChip{
+  display:flex; align-items:baseline; gap:4px; cursor:pointer;
+  border:1px solid var(--line); border-radius:14px; padding:4px 10px;
+  background:var(--paper); color:var(--ink); font-size:13px; font-weight:600; letter-spacing:.03em;
+}
+.jhChip small{font-size:10px; color:var(--usuzumi); font-weight:400; font-variant-numeric:tabular-nums;}
+.jhChip:hover{background:var(--shade); border-color:var(--usuzumi);}
+.jhRow.tsu{margin-top:4px; padding-top:7px; border-top:1px dashed var(--line);}
+.jhRow.tsu .jhName{color:var(--tsu); font-weight:600;}
+.jhRow.tsu .jhChip{border-color:color-mix(in srgb, var(--tsu) 35%, #fff); color:var(--tsu); background:var(--tsuBg);}
+.jhRow.tsu .jhChip:hover{background:color-mix(in srgb, var(--tsu) 12%, #fff); border-color:var(--tsu);}
+.jhRow.tsu .jhChip small{color:color-mix(in srgb, var(--tsu) 70%, #fff);}
 #jumpBtn{padding:8px 15px;font-size:13px;border:none;border-radius:20px;color:#fff;cursor:pointer;letter-spacing:.1em;white-space:nowrap;
   background:linear-gradient(120deg,#2456B0,#0E8A83);}
 #homeBtnHdr{border:1.5px solid var(--line);background:#fff;border-radius:20px;padding:7px 13px;font-size:13px;color:var(--ink);cursor:pointer;letter-spacing:.08em;white-space:nowrap;}
@@ -299,6 +328,9 @@ footer{border-top:1px solid var(--line);padding:10px 16px;font-size:11px;color:v
   #homeBtnHdr{padding:7px 9px;}
   #jumpBtn{padding:8px 11px;}
   footer{flex-direction:column;gap:2px;}
+  /* 幅が無いので略称名は上に置き、チップを全幅で並べる */
+  .jhRow{flex-direction:column; align-items:stretch; gap:3px;}
+  .jhName{text-align:left; min-width:0;}
 }
 @media (prefers-reduced-motion: reduce){ nav,.lawCard{transition:none;} }
 
