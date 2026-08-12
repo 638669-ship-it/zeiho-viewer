@@ -924,11 +924,21 @@ def parse_toc(html: str, base_path: str, allowed: set[str] | None = None) -> lis
         )
 
     def set_div(title: str) -> bool:
+        """編/章/節/款/目 の見出しで、いまの階層位置を更新する。
+
+        DIV_ORDER 上の**絶対位置**で切ると、上位の区分を持たない通達で先頭が残る。
+        法基通・消基通・徴基通は「編」が無く章が最上位なので、章（絶対位置1）を
+        `del path[1:]` で切っても path[0] の第1章が残り続け、第2章以降がすべて
+        第1章の子になっていた（目次ツリーで全章が「第1章 総則」にぶら下がる）。
+        絶対位置ではなく、いま積んである区分と見比べて
+        「同じ区分か、それより下位の区分」から先を捨てる。
+        """
         d = div_of(title)
         if not d:
             return False
-        kind, level = d
-        del path[level:]
+        kind, rank = d
+        cut = next((i for i, (k, _) in enumerate(path) if DIV_ORDER.index(k) >= rank), len(path))
+        del path[cut:]
         path.append((kind, title))
         state["rel"] = None
         return True
@@ -1002,6 +1012,18 @@ def parse_toc(html: str, base_path: str, allowed: set[str] | None = None) -> lis
             # 評基通は章を h2、節を <p align="center"><strong>第6節　…</strong></p> で書く。
             # 見出しタグだけ見ていると節が丸ごと落ちるので、リンクの無い <p> も階層として見る。
             if not links and set_div(title):
+                continue
+            # 区分そのものが1ページで完結するとき、目次は見出しとリンクを同じ <p> に
+            # まとめる（消基通 第18章〜第20章。第17章の節と同じ書き方で章が並ぶ）。
+            # 階層として解釈しないと、その章が直前の章の子になってしまう（実測21項目）。
+            # ページ自身は1つ上に置く。ページの見出しが区分名を持つので二重にしない
+            # （消基通の節が「第1章 > 第1節」で出ているのと同じ形に揃える）。
+            if links and div_of(title):
+                set_div(title)
+                here = path.pop()
+                for a in links:
+                    add(a["href"], title, [])
+                path.append(here)
                 continue
             if KANKEI_RE.match(title) or FUSOKU_RE.match(title):
                 state["rel"] = title
@@ -1127,7 +1149,18 @@ def build(order: list, pages: dict, numbering: str) -> tuple[list, list]:
                 here, path = place_jo(toc, ctx, o["page"], title)
             else:
                 here, path = node_children, list(crumbs)
-                if KANKEI_RE.match(title) or title == "附則":
+                # ページ自身の見出しが区分（章・節…）で、しかも上位に区分が無いとき。
+                # 消基通 第18〜21章のように、章がまるごと1ページで、目次が見出しと
+                # リンクを同じ行に書いている場合にこうなる。既定の「群」で置くと
+                # 兄弟の章（字下げ20px・太字）より深く（34px・灰色）表示され、
+                # 前の章の子のように見えてしまうので、区分そのものとして置く。
+                # 「第19章　消費税と地方消費税との関係」は KANKEI_RE にも当たるため、
+                # 条関係の判定より先に見る。
+                div = div_of(title) if (title and not crumbs) else None
+                if div:
+                    here = ensure_node(here, div[0], title)["c"]
+                    path.append(title)
+                elif KANKEI_RE.match(title) or title == "附則":
                     here = ensure_node(here, "関係", title)["c"]
                     path.append(title)
                 else:
