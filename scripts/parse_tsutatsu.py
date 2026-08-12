@@ -934,8 +934,21 @@ def parse_toc(html: str, base_path: str, allowed: set[str] | None = None) -> lis
         return True
 
     def walk_list(lst: Tag, extra: list) -> None:
-        """<ul>/<ol> を降りる。リンクを持たない <li> は階層の見出し。"""
-        for li in [x for x in lst.find_all("li", recursive=False)]:
+        """<ul>/<ol> を降りる。リンクを持たない <li> は階層の見出し。
+
+        下位の一覧が <li> の中ではなく、その外側（一覧の直下）に置かれることがある。
+        法基通 第17章第3節「関連者間取引に係る書類の整理保存の特例」の第1款・第2款が
+        この形で、<li> だけを見ると2ページ（11項目）が丸ごと落ちる。本文側で対処済みの
+        「<ol> の直下に <ol>」（措通 41の4の3-1）と同じ崩れ方。
+        直前の <li> が示した階層に属するものとして降りる。
+        """
+        last_here = extra
+        for el in lst.find_all(["li", "ul", "ol"], recursive=False):
+            if el.name != "li":
+                # <li> の外に出ている下位の一覧。直前の見出しの下として扱う。
+                walk_list(el, last_here)
+                continue
+            li = el
             subs = li.find_all(["ul", "ol"], recursive=False)
             own = "".join(t for t in li.find_all(string=True, recursive=False)).strip()
             a = li.find("a", href=True)
@@ -943,7 +956,8 @@ def parse_toc(html: str, base_path: str, allowed: set[str] | None = None) -> lis
                 label = a.get_text(" ", strip=True)
                 d = div_of(label)
                 # 法基通はリーフのリンク自身が階層（第1款 …）。ツリーに階層として出す。
-                add(a["href"], label, extra + [(d[0], label)] if d else extra)
+                last_here = extra + [(d[0], label)] if d else extra
+                add(a["href"], label, last_here)
                 continue
             d = div_of(own) if own else None
             here = extra + [(d[0], own)] if d else extra
@@ -951,6 +965,7 @@ def parse_toc(html: str, base_path: str, allowed: set[str] | None = None) -> lis
                 add(a["href"], a.get_text(" ", strip=True), here)
             for s in subs:
                 walk_list(s, here)
+            last_here = here
 
     for el in area.find_all(["h1", "h2", "h3", "h4", "h5", "h6", "p", "ul", "ol", "a"]):
         if el.find_parent(["li", "ul", "ol"]) is not None and el.name in ("ul", "ol"):

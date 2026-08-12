@@ -4,9 +4,14 @@
   "abbr": "法基通",
   "parent": "houjin_act",
   "toc_url": "https://www.nta.go.jp/law/tsutatsu/kihon/hojin/01.htm",
-  "published_as_of": "令和8年1月30日付改正分まで更新",
-  "listed_at": "2026-07-16T02:26:51+00:00",
-  "page_count": 255,
+  "numbering": "chapter",
+  "min_segments": 2,
+  "item_by_strong": false,
+  "compose_kankei": false,
+  "item_by_jo": false,
+  "published_as_of": "令和8年6月30日付改正分まで更新",
+  "listed_at": "2026-08-12T20:51:29+00:00",
+  "page_count": 257,
   "pages": [
     {
       "path": "zenbun/01.htm",
@@ -501,7 +506,7 @@
       "url": "https://www.nta.go.jp/law/tsutatsu/kihon/hojin/07/07_06_01.htm",
       "anchors": [],
       "labels": [
-        "第1款　鉱業用減価償却資産の償却"
+        "第1款　鉱業用減価償却資産等の償却"
       ]
     },
     {
@@ -1590,6 +1595,22 @@
       "anchors": [],
       "labels": [
         "第2節　還付"
+      ]
+    },
+    {
+      "path": "17/17_03_01.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/hojin/17/17_03_01.htm",
+      "anchors": [],
+      "labels": [
+        "第1款　特殊の関係"
+      ]
+    },
+    {
+      "path": "17/17_03_02.htm",
+      "url": "https://www.nta.go.jp/law/tsutatsu/kihon/hojin/17/17_03_02.htm",
+      "anchors": [],
+      "labels": [
+        "第2款　特定事項記載書類"
       ]
     },
     {
